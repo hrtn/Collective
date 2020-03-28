@@ -34,12 +34,24 @@ const cards = [
 ];
 
 export default class HomeScreen extends React.Component {
-  state = { isVisible: false };
-  modalClose = () => {
+  state = {
+    currentBeanWeightNumber: "",
+    isModalVisible: false,
+    isVisible: false
+  };
+  toggleModal = () => {
+    this.setState({ isModalVisible: !this.state.isModalVisible });
+  };
+
+  halfModalClose = () => {
     this.setState({ isVisible: false });
   };
-  modalOpen = () => {
+  halfModalOpen = () => {
     this.setState({ isVisible: true });
+  };
+  handleCreate = () => {
+    console.log(this.state.currentBeanWeightNumber);
+    this.setState({ isVisible: false, modalVisible: true });
   };
   render() {
     return (
@@ -95,9 +107,7 @@ export default class HomeScreen extends React.Component {
         <FAB
           buttonColor="#252525"
           iconTextColor="#FFFFFF"
-          onClickAction={() => {
-            this.setState({ isVisible: true });
-          }}
+          onClickAction={this.halfModalOpen}
           visible={true}
           iconTextComponent={<Text>+</Text>}
         />
@@ -109,7 +119,7 @@ export default class HomeScreen extends React.Component {
         >
           <SemiModal
             isVisible={this.state.isVisible}
-            onModalClose={this.modalClose}
+            onModalClose={this.harfModalClose}
             style={styles.SemiModal}
             disableTopScroll
           >
@@ -119,25 +129,30 @@ export default class HomeScreen extends React.Component {
                 <View style={[styles.bar, styles.rightBar]} />
               </View>
               <View style={{ marginBottom: 4 }}>
-                <Text style={[styles.modalText, { marginBottom: 16 }]}>
-                  Remove
-                </Text>
-                <Text style={[styles.modalText, { marginBottom: 16 }]}>
-                  Mute
-                </Text>
-                <Text style={[styles.modalText, { marginBottom: 16 }]}>
-                  Block
-                </Text>
-                <Text style={[styles.modalText, { marginBottom: 16 }]}>
-                  Report
+                <Text style={[styles.modalTitle, { marginBottom: 16 }]}>
+                  レシピを作成しましょう
                 </Text>
               </View>
+              <View style={{ marginBottom: 4 }}>
+                <Text style={[styles.modalText, { marginBottom: 16 }]}>
+                  豆の重さ
+                </Text>
+                <View style={styles.inputBlock}>
+                  <TextInput
+                    onChangeText={currentBeanWeightNumber =>
+                      this.setState({ currentBeanWeightNumber })
+                    }
+                    value={this.state.currentBeanWeightNumber}
+                  />
+                  <Text style={[styles.inputText]}>g</Text>
+                </View>
+              </View>
               <TouchableOpacity
-                onPress={this.modalClose}
+                onPress={this.handleCreate}
                 style={styles.modalCancelArea}
               >
                 <View style={styles.modalCancelButton}>
-                  <Text style={[styles.modalText]}>Cancel</Text>
+                  <Text style={[styles.modalText]}>レシピを作成する</Text>
                 </View>
               </TouchableOpacity>
             </View>
@@ -159,6 +174,7 @@ const Container = styled.View`
   background: #ffffff;
   max-width: 375px;
   padding: 20px;
+  height: 100%;
 `;
 
 const DateContainer = styled.View`
@@ -182,6 +198,17 @@ const RightBlock = styled.View`
   align-items: center;
 `;
 
+const TextInput = styled.TextInput`
+  border: 1px solid #dbdfea;
+  width: 100px;
+  height: 44px;
+  border-radius: 10px;
+  font-size: 17px;
+  color: #fff;
+  padding-left: 44px;
+  margin-bottom: 20px;
+`;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1
@@ -189,6 +216,23 @@ const styles = StyleSheet.create({
   open: {
     textAlign: "center",
     marginTop: 64
+  },
+  inputText: {
+    color: "#FFF",
+    display: "inline-block",
+    marginLeft: 10,
+    width: 20
+  },
+  inputBlock: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center"
+  },
+  modalTitle: {
+    fontSize: 18,
+    textAlign: "center",
+    color: "#FFF",
+    fontWeight: "bold"
   },
   modalText: {
     color: "#FFF"
