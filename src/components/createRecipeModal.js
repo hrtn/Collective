@@ -33,7 +33,7 @@ const CreateRecipeModal = props => (
           </View>
         </View>
         <TouchableOpacity
-          onPress={props.handleCreate}
+          onPress={props.onPress}
           style={styles.modalCancelArea}
         >
           <View style={styles.modalCancelButton}>

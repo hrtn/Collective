@@ -1,9 +1,9 @@
 import React from "react";
-import { Text, StyleSheet } from "react-native";
+import { Text, StyleSheet, Button } from "react-native";
 import styled from "styled-components/native";
-
-import { withNavigation } from "@react-navigation/native";
 import FAB from "react-native-fab";
+import Modal from "react-native-modalbox";
+// import Slider from "@react-native-community/slider";
 
 import CreateRecipeModal from "../components/CreateRecipeModal";
 import Card from "../components/Card";
@@ -31,8 +31,11 @@ export default class HomeScreen extends React.Component {
     super(props);
     this.state = {
       currentBeanWeightNumber: "",
-      isModalVisible: false,
-      isVisible: false
+      isVisible: false,
+      isOpen: false,
+      isDisabled: false,
+      swipeToClose: true,
+      sliderValue: 0.3
     };
   }
   toggleModal = () => {
@@ -45,9 +48,21 @@ export default class HomeScreen extends React.Component {
     currentBeanWeightNumber => this.setState({ currentBeanWeightNumber });
   };
   handleCreate = () => {
-    console.log(this.state.currentBeanWeightNumber);
     this.setState({ isVisible: !this.state.isVisible });
+    this.setState({ currentBeanWeightNumber: e.target.value });
   };
+  onClose() {
+    console.log("Modal just closed");
+  }
+
+  onOpen() {
+    console.log("Modal just open");
+  }
+
+  onClosingState(state) {
+    console.log("the open/close of the swipeToClose just changed");
+  }
+
   render() {
     return (
       <Container>
@@ -111,8 +126,28 @@ export default class HomeScreen extends React.Component {
           onModalClose={() => this.toggleSemiModal()}
           onChangeText={() => this.changeTextInput()}
           value={this.state.currentBeanWeightNumber}
-          onPress={() => this.handleCreate()}
+          onPress={(e => this.handleCreate(e), () => this.refs.modal1.open())}
         />
+        <Modal
+          style={[styles.modal, styles.modal1]}
+          ref={"modal1"}
+          swipeToClose={this.state.swipeToClose}
+          onClosed={this.onClose}
+          onOpened={this.onOpen}
+          onClosingState={this.onClosingState}
+        >
+          <Text style={styles.text}>レシピ</Text>
+          <Text style={styles.text}>a</Text>
+          <Button
+            title={`Disable swipeToClose(${
+              this.state.swipeToClose ? "true" : "false"
+            })`}
+            onPress={() =>
+              this.setState({ swipeToClose: !this.state.swipeToClose })
+            }
+            style={styles.btn}
+          />
+        </Modal>
       </Container>
     );
   }
@@ -153,5 +188,12 @@ const styles = StyleSheet.create({
   open: {
     textAlign: "center",
     marginTop: 64
+  },
+  modal: {
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  none: {
+    display: "none"
   }
 });
