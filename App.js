@@ -1,7 +1,7 @@
 import { createStore } from "redux";
 import React from "react";
 import { Provider } from "react-redux";
-import HomeScreen from "./screens/HomeScreen";
+import HomeScreen from "./src/screens/HomeScreen";
 
 const initialState = {
   action: ""
