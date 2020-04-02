@@ -26,10 +26,11 @@ const CreateRecipeModal = props => (
           <Text style={[styles.modalText, { marginBottom: 16 }]}>豆の重さ</Text>
           <View style={styles.inputBlock}>
             <TextInput
-              onChangeText={props.changeTextInput}
+              onChangeText={props.onChangeText}
               value={props.currentBeanWeightNumber}
             />
             <Text style={[styles.inputText]}>g</Text>
+            <Text>{props.currentBeanWeightNumber}1</Text>
           </View>
         </View>
         <TouchableOpacity
