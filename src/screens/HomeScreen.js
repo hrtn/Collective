@@ -10,7 +10,6 @@ import Card from "../components/Card";
 import DateNumber from "../components/DateNumber";
 
 const today = new Date();
-
 const cards = [
   {
     title: "パナマゲイシャパナマゲイシャパナマゲイシャパナマゲイシャ",
@@ -25,7 +24,6 @@ const cards = [
     BeanWeightNumber: 13
   }
 ];
-
 export default class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -51,19 +49,15 @@ export default class HomeScreen extends React.Component {
   onClose = () => {
     console.log("Modal just closed");
   };
-
   changeTextInput = e => {
     this.setState({ currentBeanWeightNumber: e });
   };
-
   onOpen = () => {
     console.log(this.state.currentBeanWeightNumber);
   };
-
   onClosingState(state) {
     console.log("the open/close of the swipeToClose just changed");
   }
-
   render() {
     return (
       <Container>
