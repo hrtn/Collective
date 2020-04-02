@@ -14,8 +14,8 @@ const today = new Date();
 const cards = [
   {
     title: "パナマゲイシャパナマゲイシャパナマゲイシャパナマゲイシャ",
-    faceID: 1,
-    grindTextID: 0,
+    faceID: 2,
+    grindTextID: 1,
     BeanWeightNumber: 13
   },
   {
@@ -30,9 +30,9 @@ export default class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentBeanWeightNumber: "",
       isVisible: false,
       isOpen: false,
+      currentBeanWeightNumber: "",
       isDisabled: false,
       swipeToClose: true,
       sliderValue: 0.3
@@ -44,20 +44,21 @@ export default class HomeScreen extends React.Component {
   toggleSemiModal = () => {
     this.setState({ isVisible: !this.state.isVisible });
   };
-  changeTextInput = () => {
-    currentBeanWeightNumber => this.setState({ currentBeanWeightNumber });
-  };
   handleCreate = () => {
     this.setState({ isVisible: !this.state.isVisible });
-    this.setState({ currentBeanWeightNumber: e.target.value });
+    console.log(this.state.currentBeanWeightNumber);
   };
-  onClose() {
+  onClose = () => {
     console.log("Modal just closed");
-  }
+  };
 
-  onOpen() {
-    console.log("Modal just open");
-  }
+  changeTextInput = e => {
+    this.setState({ currentBeanWeightNumber: e });
+  };
+
+  onOpen = () => {
+    console.log(this.state.currentBeanWeightNumber);
+  };
 
   onClosingState(state) {
     console.log("the open/close of the swipeToClose just changed");
@@ -124,9 +125,9 @@ export default class HomeScreen extends React.Component {
         <CreateRecipeModal
           isVisible={this.state.isVisible}
           onModalClose={() => this.toggleSemiModal()}
-          onChangeText={() => this.changeTextInput()}
+          onChangeText={e => this.changeTextInput(e)}
           value={this.state.currentBeanWeightNumber}
-          onPress={(e => this.handleCreate(e), () => this.refs.modal1.open())}
+          onPress={(() => this.handleCreate(), () => this.refs.modal1.open())}
         />
         <Modal
           style={[styles.modal, styles.modal1]}
@@ -137,7 +138,7 @@ export default class HomeScreen extends React.Component {
           onClosingState={this.onClosingState}
         >
           <Text style={styles.text}>レシピ</Text>
-          <Text style={styles.text}>a</Text>
+          <Text style={styles.text}>{this.state.currentBeanWeightNumber}</Text>
           <Button
             title={`Disable swipeToClose(${
               this.state.swipeToClose ? "true" : "false"
