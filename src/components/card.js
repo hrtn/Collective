@@ -85,15 +85,13 @@ const Container = styled.View`
 
 const Title = styled.Text`
   font-size: 20px;
-  width: 100%;
   font-weight: bold;
-  display: inline-block;
+  display: inline;
 `;
 
 const SubText = styled.Text`
   font-size: 14px;
-  width: 100%;
-  display: inline-block;
+  display: inline;
 `;
 
 const InnnerFlex = styled.View`

@@ -64,12 +64,13 @@ const styles = StyleSheet.create({
     flex: 1
   },
   open: {
-    textAlign: "center",
+    alignItems: "center",
     marginTop: 64
   },
   inputText: {
     color: "#FFF",
-    display: "inline-block",
+    flexDirection: "row",
+    flexWrap: "wrap",
     marginLeft: 10,
     width: 20
   },
@@ -80,7 +81,7 @@ const styles = StyleSheet.create({
   },
   modalTitle: {
     fontSize: 18,
-    textAlign: "center",
+    alignItems: "center",
     color: "#FFF",
     fontWeight: "bold"
   },
