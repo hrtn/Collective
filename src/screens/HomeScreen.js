@@ -36,6 +36,7 @@ export default class HomeScreen extends React.Component {
       currentBeanWeightNumber: 0,
       isDisabled: false,
       swipeToClose: true,
+      recipeCheck: true,
       sliderValue: 0.3
     };
   }
@@ -59,7 +60,6 @@ export default class HomeScreen extends React.Component {
 
   onOpen = () => {
     console.log(this.state.currentBeanWeightNumber);
-    this.setState({ tableData: this.state.currentBeanWeightNumber });
   };
 
   onClosingState(state) {
@@ -67,13 +67,21 @@ export default class HomeScreen extends React.Component {
   }
 
   render() {
-    const tableData = [
+    const defaultRecipe = [
       ["蒸らし", "30秒", this.state.currentBeanWeightNumber * 2.5],
       ["", "1分", this.state.currentBeanWeightNumber * 5.25],
       ["", "1分30秒", this.state.currentBeanWeightNumber * 8],
       ["", "2分", this.state.currentBeanWeightNumber * 12],
       ["", "2分30秒", this.state.currentBeanWeightNumber * 16],
-      ["おちきり", "3分30秒", this.state.currentBeanWeightNumber * 16]
+      ["落ち切り", "3分30秒", this.state.currentBeanWeightNumber * 16]
+    ];
+    const unlimitedRecipe = [
+      ["蒸らし", "30秒", this.state.currentBeanWeightNumber * 2.5],
+      ["", "45秒", this.state.currentBeanWeightNumber * 5.25],
+      ["", "1分", this.state.currentBeanWeightNumber * 8],
+      ["", "1分30秒", this.state.currentBeanWeightNumber * 12],
+      ["", "2分", this.state.currentBeanWeightNumber * 16],
+      ["落ち切り", "3分", this.state.currentBeanWeightNumber * 16]
     ];
     return (
       <Container>
@@ -147,14 +155,38 @@ export default class HomeScreen extends React.Component {
           onOpened={this.onOpen}
           onClosingState={this.onClosingState}
         >
-          <Text style={styles.text}>レシピ</Text>
+          <Text style={styles.text}>
+            {this.state.recipeCheck ? "普通のレシピ" : "深めのコーヒー"}
+            のレシピ
+          </Text>
           <Text style={styles.text}>
             豆の重さ : {this.state.currentBeanWeightNumber}
           </Text>
           <Table borderStyle={{ borderWidth: 2, borderColor: "#c8e1ff" }}>
-            <Rows data={tableData} textStyle={styles.text} />
+            <Rows
+              data={this.state.recipeCheck ? defaultRecipe : unlimitedRecipe}
+              textStyle={styles.text}
+            />
           </Table>
           <Button
+            title={"普通のレシピ"}
+            onPress={() =>
+              this.setState({ recipeCheck: !this.state.recipeCheck })
+            }
+            style={
+              this.state.recipeCheck ? styles.activeBtn : styles.defaultBtn
+            }
+          />
+          <Button
+            title={"深めのコーヒー"}
+            onPress={() =>
+              this.setState({ recipeCheck: !this.state.recipeCheck })
+            }
+            style={
+              this.state.recipeCheck ? styles.defaultBtn : styles.activeBtn
+            }
+          />
+          {/* <Button
             title={`Disable swipeToClose(${
               this.state.swipeToClose ? "true" : "false"
             })`}
@@ -162,7 +194,7 @@ export default class HomeScreen extends React.Component {
               this.setState({ swipeToClose: !this.state.swipeToClose })
             }
             style={styles.btn}
-          />
+          /> */}
         </Modal>
       </Container>
     );
@@ -211,5 +243,13 @@ const styles = StyleSheet.create({
   },
   none: {
     display: "none"
+  },
+  defaultBtn: {
+    color: "#fff",
+    backgroundColor: "#000"
+  },
+  activeBtn: {
+    color: "#000",
+    backgroundColor: "#fff"
   }
 });
