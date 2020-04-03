@@ -32,7 +32,8 @@
     "react-navigation": "^4.3.5",
     "react-redux": "^6.0.0",
     "redux": "^4.0.1",
-    "styled-components": "^5.0.1"
+    "styled-components": "^5.0.1",
+    "undefined": "react-native-community/masked-view"
   },
   "devDependencies": {
     "@babel/core": "~7.6.0",

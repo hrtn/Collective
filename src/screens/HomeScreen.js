@@ -1,10 +1,15 @@
 import React from "react";
-import { Text, StyleSheet, Button } from "react-native";
+import {
+  Text,
+  StyleSheet,
+  View,
+  TouchableWithoutFeedback,
+  TouchableOpacity,
+} from "react-native";
 import styled from "styled-components/native";
 import FAB from "react-native-fab";
 import Modal from "react-native-modalbox";
-import { Table, Row, Rows } from "react-native-table-component";
-// import Slider from "@react-native-community/slider";
+import { Table, Rows } from "react-native-table-component";
 
 import CreateRecipeModal from "../components/CreateRecipeModal";
 import Card from "../components/Card";
@@ -17,14 +22,14 @@ const cards = [
     title: "パナマゲイシャパナマゲイシャパナマゲイシャパナマゲイシャ",
     faceID: 2,
     grindTextID: 1,
-    BeanWeightNumber: 13
+    BeanWeightNumber: 13,
   },
   {
     title: "パナマゲイシャパナマゲイシャパナマゲイシャパナマゲイシャ",
     faceID: 1,
     grindTextID: 0,
-    BeanWeightNumber: 13
-  }
+    BeanWeightNumber: 13,
+  },
 ];
 
 export default class HomeScreen extends React.Component {
@@ -37,7 +42,8 @@ export default class HomeScreen extends React.Component {
       isDisabled: false,
       swipeToClose: true,
       recipeCheck: true,
-      sliderValue: 0.3
+      sliderValue: 0.3,
+      recipeCheck: true,
     };
   }
   toggleModal = () => {
@@ -54,7 +60,7 @@ export default class HomeScreen extends React.Component {
     console.log("Modal just closed");
   };
 
-  changeTextInput = e => {
+  changeTextInput = (e) => {
     this.setState({ currentBeanWeightNumber: e });
   };
 
@@ -73,7 +79,7 @@ export default class HomeScreen extends React.Component {
       ["", "1分30秒", this.state.currentBeanWeightNumber * 8],
       ["", "2分", this.state.currentBeanWeightNumber * 12],
       ["", "2分30秒", this.state.currentBeanWeightNumber * 16],
-      ["落ち切り", "3分30秒", this.state.currentBeanWeightNumber * 16]
+      ["落ち切り", "3分30秒", this.state.currentBeanWeightNumber * 16],
     ];
     const unlimitedRecipe = [
       ["蒸らし", "30秒", this.state.currentBeanWeightNumber * 2.5],
@@ -81,7 +87,7 @@ export default class HomeScreen extends React.Component {
       ["", "1分", this.state.currentBeanWeightNumber * 8],
       ["", "1分30秒", this.state.currentBeanWeightNumber * 12],
       ["", "2分", this.state.currentBeanWeightNumber * 16],
-      ["落ち切り", "3分", this.state.currentBeanWeightNumber * 16]
+      ["落ち切り", "3分", this.state.currentBeanWeightNumber * 16],
     ];
     return (
       <Container>
@@ -143,9 +149,9 @@ export default class HomeScreen extends React.Component {
         <CreateRecipeModal
           isVisible={this.state.isVisible}
           onModalClose={() => this.toggleSemiModal()}
-          onChangeText={e => this.changeTextInput(e)}
+          onChangeText={(e) => this.changeTextInput(e)}
           value={this.state.currentBeanWeightNumber}
-          onPress={(() => this.handleCreate(), () => this.refs.modal1.open())}
+          onPress={() => this.refs.modal1.open()}
         />
         <Modal
           style={[styles.modal, styles.modal1]}
@@ -155,46 +161,80 @@ export default class HomeScreen extends React.Component {
           onOpened={this.onOpen}
           onClosingState={this.onClosingState}
         >
-          <Text style={styles.text}>
-            {this.state.recipeCheck ? "普通のレシピ" : "深めのコーヒー"}
-            のレシピ
+          <Text style={[styles.recipeTitle, { marginBottom: 16 }]}>
+            レシピを作成しました
           </Text>
-          <Text style={styles.text}>
-            豆の重さ : {this.state.currentBeanWeightNumber}
+          <Text style={styles.beanWeightText}>
+            豆の重さ : {this.state.currentBeanWeightNumber}g
           </Text>
-          <Table borderStyle={{ borderWidth: 2, borderColor: "#c8e1ff" }}>
+          <RecipieChangeBox style={{ marginBottom: 36 }}>
+            <TouchableWithoutFeedback
+              onPress={() =>
+                this.setState({ recipeCheck: !this.state.recipeCheck })
+              }
+            >
+              <View
+                style={
+                  this.state.recipeCheck ? styles.activeBtn : styles.defaultBtn
+                }
+              >
+                <Text
+                  style={
+                    this.state.recipeCheck
+                      ? styles.activeText
+                      : styles.defaultText
+                  }
+                >
+                  浅煎りコーヒー
+                </Text>
+              </View>
+            </TouchableWithoutFeedback>
+            <TouchableWithoutFeedback
+              onPress={() =>
+                this.setState({ recipeCheck: !this.state.recipeCheck })
+              }
+            >
+              <View
+                style={[
+                  styles.margin8,
+                  this.state.recipeCheck ? styles.defaultBtn : styles.activeBtn,
+                ]}
+              >
+                <Text
+                  style={
+                    this.state.recipeCheck
+                      ? styles.defaultText
+                      : styles.activeText
+                  }
+                >
+                  深煎りコーヒー
+                </Text>
+              </View>
+            </TouchableWithoutFeedback>
+          </RecipieChangeBox>
+          <Table
+            borderStyle={{
+              borderWidth: 1,
+              borderColor: "#e8e8e8",
+            }}
+            style={{ marginBottom: 48 }}
+          >
             <Rows
               data={this.state.recipeCheck ? defaultRecipe : unlimitedRecipe}
-              textStyle={styles.text}
+              textStyle={styles.rowText}
+              style={{ width: 300, backgroundColor: "#F6F6F6" }}
             />
           </Table>
-          <Button
-            title={"普通のレシピ"}
-            onPress={() =>
-              this.setState({ recipeCheck: !this.state.recipeCheck })
-            }
-            style={
-              this.state.recipeCheck ? styles.activeBtn : styles.defaultBtn
-            }
-          />
-          <Button
-            title={"深めのコーヒー"}
-            onPress={() =>
-              this.setState({ recipeCheck: !this.state.recipeCheck })
-            }
-            style={
-              this.state.recipeCheck ? styles.defaultBtn : styles.activeBtn
-            }
-          />
-          {/* <Button
-            title={`Disable swipeToClose(${
-              this.state.swipeToClose ? "true" : "false"
-            })`}
-            onPress={() =>
-              this.setState({ swipeToClose: !this.state.swipeToClose })
-            }
-            style={styles.btn}
-          /> */}
+          <TouchableOpacity>
+            <View style={[styles.goToRecipeButton, { marginBottom: 16 }]}>
+              <Text style={styles.goToRecipeText}>レシピを作成する</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.refs.modal1.close()}>
+            <View style={styles.goBackTopButton}>
+              <Text style={styles.goBackTopText}>TOPへ戻る</Text>
+            </View>
+          </TouchableOpacity>
         </Modal>
       </Container>
     );
@@ -229,27 +269,80 @@ const RightBlock = styled.View`
   align-items: center;
 `;
 
+const RecipieChangeBox = styled.View`
+  display: flex;
+  flex-direction: row;
+`;
+
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
   },
   open: {
     textAlign: "center",
-    marginTop: 64
+    marginTop: 64,
   },
   modal: {
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   none: {
-    display: "none"
+    display: "none",
   },
   defaultBtn: {
-    color: "#fff",
-    backgroundColor: "#000"
+    padding: 12,
+    backgroundColor: "#f2f2f2",
   },
   activeBtn: {
-    color: "#000",
-    backgroundColor: "#fff"
-  }
+    padding: 12,
+    backgroundColor: "#F2994A",
+  },
+  defaultText: {
+    color: "#000000",
+  },
+  activeText: {
+    color: "#ffffff",
+    fontWeight: "600",
+  },
+  margin8: {
+    marginLeft: 8,
+  },
+  recipeTitle: {
+    fontSize: 24,
+    textAlign: "center",
+    color: "#000000",
+    fontWeight: "bold",
+  },
+  goToRecipeButton: {
+    width: 300,
+    backgroundColor: "#252525",
+    borderRadius: 8,
+    padding: 12,
+    textAlign: "center",
+  },
+  goBackTopButton: {
+    width: 300,
+    backgroundColor: "#ffffff",
+    borderWidth: 2,
+    borderColor: "#252525",
+    borderStyle: "solid",
+    borderRadius: 8,
+    padding: 12,
+    textAlign: "center",
+  },
+  goToRecipeText: {
+    color: "#ffffff",
+  },
+  goBackTopText: {
+    color: "#252525",
+  },
+  rowText: {
+    padding: 8,
+  },
+  beanWeightText: {
+    fontSize: 16,
+    fontWeight: 600,
+    color: "#252525",
+    marginBottom: 16,
+  },
 });
