@@ -3,6 +3,7 @@ import { Text, StyleSheet, Button } from "react-native";
 import styled from "styled-components/native";
 import FAB from "react-native-fab";
 import Modal from "react-native-modalbox";
+import { Table, Row, Rows } from "react-native-table-component";
 // import Slider from "@react-native-community/slider";
 
 import CreateRecipeModal from "../components/CreateRecipeModal";
@@ -32,7 +33,7 @@ export default class HomeScreen extends React.Component {
     this.state = {
       isVisible: false,
       isOpen: false,
-      currentBeanWeightNumber: "",
+      currentBeanWeightNumber: 0,
       isDisabled: false,
       swipeToClose: true,
       sliderValue: 0.3
@@ -58,6 +59,7 @@ export default class HomeScreen extends React.Component {
 
   onOpen = () => {
     console.log(this.state.currentBeanWeightNumber);
+    this.setState({ tableData: this.state.currentBeanWeightNumber });
   };
 
   onClosingState(state) {
@@ -65,6 +67,14 @@ export default class HomeScreen extends React.Component {
   }
 
   render() {
+    const tableData = [
+      ["蒸らし", "30秒", this.state.currentBeanWeightNumber * 2.5],
+      ["", "1分", this.state.currentBeanWeightNumber * 5.25],
+      ["", "1分30秒", this.state.currentBeanWeightNumber * 8],
+      ["", "2分", this.state.currentBeanWeightNumber * 12],
+      ["", "2分30秒", this.state.currentBeanWeightNumber * 16],
+      ["おちきり", "3分30秒", this.state.currentBeanWeightNumber * 16]
+    ];
     return (
       <Container>
         <DateContainer>
@@ -138,7 +148,12 @@ export default class HomeScreen extends React.Component {
           onClosingState={this.onClosingState}
         >
           <Text style={styles.text}>レシピ</Text>
-          <Text style={styles.text}>{this.state.currentBeanWeightNumber}</Text>
+          <Text style={styles.text}>
+            豆の重さ : {this.state.currentBeanWeightNumber}
+          </Text>
+          <Table borderStyle={{ borderWidth: 2, borderColor: "#c8e1ff" }}>
+            <Rows data={tableData} textStyle={styles.text} />
+          </Table>
           <Button
             title={`Disable swipeToClose(${
               this.state.swipeToClose ? "true" : "false"
