@@ -1,29 +1,24 @@
-import { createStore } from "redux";
 import React from "react";
-import { Provider } from "react-redux";
 import HomeScreen from "./src/screens/HomeScreen";
+import RecipeScreen from "./src/screens/RecipeScreen";
+import { createAppContainer } from "react-navigation";
+import { createStackNavigator } from "react-navigation-stack";
 
-const initialState = {
-  action: ""
-};
-
-const reducer = (state = initialState, action) => {
-  switch (action.type) {
-    case "OPEN_MODAL":
-      return { ...state, action: "openModal" };
-    case "CLOSE_MODAL":
-      return { ...state, action: "closeModal" };
-    default:
-      return state;
+const Stack = createStackNavigator(
+  {
+    Home: { screen: HomeScreen },
+    Recipes: { screen: RecipeScreen },
+  },
+  {
+    initialRouteName: "Home",
   }
-};
-
-const store = createStore(reducer);
-
-const App = () => (
-  <Provider store={store}>
-    <HomeScreen />
-  </Provider>
 );
 
-export default App;
+export default class App extends React.Component {
+  render() {
+    //AppContainerでラップ
+    const Layout = createAppContainer(Stack);
+
+    return <Layout />;
+  }
+}

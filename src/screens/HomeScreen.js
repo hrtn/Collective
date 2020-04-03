@@ -89,6 +89,7 @@ export default class HomeScreen extends React.Component {
       ["", "2分", this.state.currentBeanWeightNumber * 16],
       ["落ち切り", "3分", this.state.currentBeanWeightNumber * 16],
     ];
+    const BeanWeightNumber = this.state.currentBeanWeightNumber;
     return (
       <Container>
         <DateContainer>
@@ -228,9 +229,17 @@ export default class HomeScreen extends React.Component {
               style={{ width: 300, backgroundColor: "#F6F6F6" }}
             />
           </Table>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() =>
+              this.props.navigation.navigate("Recipes", {
+                createdRecipe: this.state.recipeCheck
+                  ? defaultRecipe
+                  : unlimitedRecipe,
+              })
+            }
+          >
             <View style={[styles.goToRecipeButton, { marginBottom: 16 }]}>
-              <Text style={styles.goToRecipeText}>レシピを作成する</Text>
+              <Text style={styles.goToRecipeText}>日記を書く</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => this.refs.modal1.close()}>
@@ -365,8 +374,8 @@ const styles = StyleSheet.create({
     fontWeight: 600,
     color: "#252525",
     marginBottom: 16,
-    paddingTop: 12,
-    paddingBottom: 12,
+    paddingTop: 20,
+    paddingBottom: 20,
     paddingLeft: 80,
     paddingRight: 80,
     backgroundColor: "#e8e8e8",
