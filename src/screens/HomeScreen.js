@@ -167,6 +167,9 @@ export default class HomeScreen extends React.Component {
           <Text style={styles.beanWeightText}>
             豆の重さ : {this.state.currentBeanWeightNumber}g
           </Text>
+          <Text style={[styles.modalText, { marginBottom: 16 }]}>
+            レシピを選択してください
+          </Text>
           <RecipieChangeBox style={{ marginBottom: 36 }}>
             <TouchableWithoutFeedback
               onPress={() =>
@@ -286,19 +289,37 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  modalText: {
+    justifyContent: "start",
+    alignItems: "start",
+  },
   none: {
     display: "none",
   },
   defaultBtn: {
+    paddingTop: 12,
+    paddingBottom: 12,
+    paddingLeft: 24,
+    paddingRight: 24,
+    borderWidth: 2,
+    borderColor: "#F2994A",
+    borderStyle: "solid",
     padding: 12,
-    backgroundColor: "#f2f2f2",
+    textAlign: "center",
   },
   activeBtn: {
-    padding: 12,
+    paddingTop: 12,
+    paddingBottom: 12,
+    paddingLeft: 24,
+    paddingRight: 24,
+    borderWidth: 2,
+    borderColor: "#F2994A",
+    borderStyle: "solid",
     backgroundColor: "#F2994A",
   },
   defaultText: {
-    color: "#000000",
+    color: "#F2994A",
+    fontWeight: "600",
   },
   activeText: {
     color: "#ffffff",
@@ -344,5 +365,11 @@ const styles = StyleSheet.create({
     fontWeight: 600,
     color: "#252525",
     marginBottom: 16,
+    paddingTop: 12,
+    paddingBottom: 12,
+    paddingLeft: 80,
+    paddingRight: 80,
+    backgroundColor: "#e8e8e8",
+    borderRadius: 8,
   },
 });
