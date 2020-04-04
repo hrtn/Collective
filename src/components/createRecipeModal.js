@@ -4,7 +4,7 @@ import { View, Text, StyleSheet } from "react-native";
 import styled from "styled-components/native";
 import { TouchableOpacity } from "react-native";
 
-const CreateRecipeModal = props => (
+const CreateRecipeModal = (props) => (
   <SemiModal isVisible={props.isVisible} onModalClose={props.onModalClose}>
     <SemiModal
       isVisible={props.isVisible}
@@ -30,7 +30,7 @@ const CreateRecipeModal = props => (
               value={props.currentBeanWeightNumber}
             />
             <Text style={[styles.inputText]}>g</Text>
-            <Text>{props.currentBeanWeightNumber}1</Text>
+            <Text>{props.currentBeanWeightNumber}</Text>
           </View>
         </View>
         <TouchableOpacity
@@ -61,64 +61,64 @@ const TextInput = styled.TextInput`
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
   },
   open: {
     textAlign: "center",
-    marginTop: 64
+    marginTop: 64,
   },
   inputText: {
     color: "#FFF",
     display: "inline-block",
     marginLeft: 10,
-    width: 20
+    width: 20,
   },
   inputBlock: {
     display: "flex",
     flexDirection: "row",
-    alignItems: "center"
+    alignItems: "center",
   },
   modalTitle: {
     fontSize: 18,
     textAlign: "center",
     color: "#FFF",
-    fontWeight: "bold"
+    fontWeight: "bold",
   },
   modalText: {
-    color: "#FFF"
+    color: "#FFF",
   },
   modalCancelButton: {
     borderRadius: 32,
     height: 40,
     backgroundColor: "#243347",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   bar: {
     width: 16,
     borderBottomWidth: 4,
-    borderColor: "#FFFFFF44"
+    borderColor: "#FFFFFF44",
   },
   leftBar: {
     borderRadius: 16,
     borderTopRightRadius: 0,
-    borderBottomRightRadius: 0
+    borderBottomRightRadius: 0,
   },
   rightBar: {
     borderRadius: 16,
     borderTopLeftRadius: 0,
-    borderBottomLeftRadius: 0
+    borderBottomLeftRadius: 0,
   },
   SemiModal: {
     paddingVertical: 24,
     paddingHorizontal: 24,
     paddingTop: 8,
-    backgroundColor: "#151F2B"
+    backgroundColor: "#151F2B",
   },
   modalInner: {
     flex: 1,
     flexDirection: "row",
     marginBottom: 24,
-    justifyContent: "center"
-  }
+    justifyContent: "center",
+  },
 });

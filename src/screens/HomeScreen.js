@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, StyleSheet } from "react-native";
+import { Text, ScrollView } from "react-native";
 import styled from "styled-components/native";
 import FAB from "react-native-fab";
 
@@ -22,6 +22,42 @@ const cards = [
     grindTextID: 0,
     BeanWeightNumber: 13,
   },
+  {
+    title: "パナマゲイシャパナマゲイシャパナマゲイシャパナマゲイシャ",
+    faceID: 2,
+    grindTextID: 1,
+    BeanWeightNumber: 13,
+  },
+  {
+    title: "パナマゲイシャパナマゲイシャパナマゲイシャパナマゲイシャ",
+    faceID: 1,
+    grindTextID: 0,
+    BeanWeightNumber: 13,
+  },
+  {
+    title: "パナマゲイシャパナマゲイシャパナマゲイシャパナマゲイシャ",
+    faceID: 2,
+    grindTextID: 1,
+    BeanWeightNumber: 13,
+  },
+  {
+    title: "パナマゲイシャパナマゲイシャパナマゲイシャパナマゲイシャ",
+    faceID: 1,
+    grindTextID: 0,
+    BeanWeightNumber: 13,
+  },
+  {
+    title: "パナマゲイシャパナマゲイシャパナマゲイシャパナマゲイシャ",
+    faceID: 2,
+    grindTextID: 1,
+    BeanWeightNumber: 13,
+  },
+  {
+    title: "パナマゲイシャパナマゲイシャパナマゲイシャパナマゲイシャ",
+    faceID: 1,
+    grindTextID: 0,
+    BeanWeightNumber: 13,
+  },
 ];
 
 export default class HomeScreen extends React.Component {
@@ -29,73 +65,72 @@ export default class HomeScreen extends React.Component {
     super(props);
     this.state = {
       isVisible: false,
+      visible: false,
       currentBeanWeightNumber: 0,
     };
   }
   toggleSemiModal = () => {
     this.setState({ isVisible: !this.state.isVisible });
   };
-  handleCreate = () => {
-    this.setState({ isVisible: !this.state.isVisible });
-    console.log(this.state.currentBeanWeightNumber);
-  };
-
   changeTextInput = (e) => {
     this.setState({ currentBeanWeightNumber: e });
   };
+  onToggleSnackBar = () =>
+    this.setState((state) => ({ visible: !state.visible }));
 
   render() {
-    const BeanWeightNumber = this.state.currentBeanWeightNumber;
     return (
       <Container>
-        <DateContainer>
-          <LeftBlock>
-            <DateNumber DateNumber={today.getDate() - 2} />
-          </LeftBlock>
-          <RightBlock>
-            {cards.map((card, index) => (
-              <Card
-                key={index}
-                title={card.title}
-                faceID={card.faceID}
-                grindTextID={card.grindTextID}
-                BeanWeightNumber={card.BeanWeightNumber}
-              />
-            ))}
-          </RightBlock>
-        </DateContainer>
-        <DateContainer>
-          <LeftBlock>
-            <DateNumber DateNumber={today.getDate() - 1} />
-          </LeftBlock>
-          <RightBlock>
-            {cards.map((card, index) => (
-              <Card
-                key={index}
-                title={card.title}
-                faceID={card.faceID}
-                grindTextID={card.grindTextID}
-                BeanWeightNumber={card.BeanWeightNumber}
-              />
-            ))}
-          </RightBlock>
-        </DateContainer>
-        <DateContainer>
-          <LeftBlock>
-            <DateNumber DateNumber={today.getDate()} />
-          </LeftBlock>
-          <RightBlock>
-            {cards.map((card, index) => (
-              <Card
-                key={index}
-                title={card.title}
-                faceID={card.faceID}
-                grindTextID={card.grindTextID}
-                BeanWeightNumber={card.BeanWeightNumber}
-              />
-            ))}
-          </RightBlock>
-        </DateContainer>
+        <ScrollView>
+          <DateContainer>
+            <LeftBlock>
+              <DateNumber DateNumber={today.getDate() - 2} />
+            </LeftBlock>
+            <RightBlock>
+              {cards.map((card, index) => (
+                <Card
+                  key={index}
+                  title={card.title}
+                  faceID={card.faceID}
+                  grindTextID={card.grindTextID}
+                  BeanWeightNumber={card.BeanWeightNumber}
+                />
+              ))}
+            </RightBlock>
+          </DateContainer>
+          <DateContainer>
+            <LeftBlock>
+              <DateNumber DateNumber={today.getDate() - 1} />
+            </LeftBlock>
+            <RightBlock>
+              {cards.map((card, index) => (
+                <Card
+                  key={index}
+                  title={card.title}
+                  faceID={card.faceID}
+                  grindTextID={card.grindTextID}
+                  BeanWeightNumber={card.BeanWeightNumber}
+                />
+              ))}
+            </RightBlock>
+          </DateContainer>
+          <DateContainer>
+            <LeftBlock>
+              <DateNumber DateNumber={today.getDate()} />
+            </LeftBlock>
+            <RightBlock>
+              {cards.map((card, index) => (
+                <Card
+                  key={index}
+                  title={card.title}
+                  faceID={card.faceID}
+                  grindTextID={card.grindTextID}
+                  BeanWeightNumber={card.BeanWeightNumber}
+                />
+              ))}
+            </RightBlock>
+          </DateContainer>
+        </ScrollView>
         <FAB
           buttonColor="#252525"
           iconTextColor="#FFFFFF"
@@ -122,11 +157,11 @@ export default class HomeScreen extends React.Component {
 const Container = styled.View`
   background: #ffffff;
   max-width: 375px;
-  padding: 20px;
   height: 100%;
 `;
 
 const DateContainer = styled.View`
+  padding: 20px;
   display: flex;
   flex-direction: row;
   align-items: center;

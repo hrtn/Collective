@@ -6,6 +6,7 @@ import {
   View,
   TouchableOpacity,
   TouchableWithoutFeedback,
+  ScrollView,
 } from "react-native";
 import { Table, Rows } from "react-native-table-component";
 import { Emoji } from "emoji-mart";
@@ -36,175 +37,200 @@ class DiaryScreen extends React.Component {
     const createdRecipe = navigation.getParam("createdRecipe");
     return (
       <Container>
-        <Text style={[styles.recipeTitle, { marginBottom: 16 }]}>
-          日記を書きましょう
-        </Text>
-        <Text style={[styles.modalText, { marginBottom: 16 }]}>豆の名前</Text>
-        <TextInput
-          onChangeText={(e) => this.changeBeanTextInput(e)}
-          value={this.state.beanTitle}
-        />
-        <Text style={[styles.modalText, { marginBottom: 16 }]}>味の感想</Text>
-        <View style={{ marginBottom: 24 }}>
-          <EmojiBlock style={{ marginBottom: 16 }}>
-            <TouchableWithoutFeedback
-              onPress={() => this.setState({ faceID: 0 })}
-            >
-              <View
-                style={[
-                  this.state.faceID === 0
-                    ? styles.activeEmojiBg
-                    : styles.defaultEmojiBg,
-                ]}
-              >
-                <Emoji emoji={face[0]} set="apple" size={28} />
-                <Text
-                  style={
-                    this.state.faceID === 0
-                      ? styles.activeEmojiText
-                      : styles.defaultEmojiText
-                  }
-                >
-                  最高
-                </Text>
+        <ScrollView>
+          <ScrollBox>
+            <View>
+              <Text style={[styles.recipeTitle, { marginBottom: 16 }]}>
+                日記を書きましょう
+              </Text>
+            </View>
+            <View>
+              <Text style={[styles.modalText, { marginBottom: 16 }]}>
+                豆の名前
+              </Text>
+              <TextInput
+                onChangeText={(text) => this.changeBeanTextInput(text)}
+                value={this.state.beanTitle}
+              />
+            </View>
+            <View>
+              <Text style={[styles.modalText, { marginBottom: 16 }]}>
+                味の感想
+              </Text>
+              <View style={{ marginBottom: 24 }}>
+                <EmojiBlock style={{ marginBottom: 16 }}>
+                  <TouchableWithoutFeedback
+                    onPress={() => this.setState({ faceID: 0 })}
+                  >
+                    <View
+                      style={[
+                        this.state.faceID === 0
+                          ? styles.activeEmojiBg
+                          : styles.defaultEmojiBg,
+                      ]}
+                    >
+                      <Emoji emoji={face[0]} set="apple" size={28} />
+                      <Text
+                        style={
+                          this.state.faceID === 0
+                            ? styles.activeEmojiText
+                            : styles.defaultEmojiText
+                        }
+                      >
+                        最高
+                      </Text>
+                    </View>
+                  </TouchableWithoutFeedback>
+                  <TouchableWithoutFeedback
+                    onPress={() => this.setState({ faceID: 1 })}
+                  >
+                    <View
+                      style={[
+                        this.state.faceID === 1
+                          ? styles.activeEmojiBg
+                          : styles.defaultEmojiBg,
+                      ]}
+                    >
+                      <Emoji emoji={face[1]} set="apple" size={28} />
+                      <Text
+                        style={
+                          this.state.faceID === 1
+                            ? styles.activeEmojiText
+                            : styles.defaultEmojiText
+                        }
+                      >
+                        うまい
+                      </Text>
+                    </View>
+                  </TouchableWithoutFeedback>
+                  <TouchableWithoutFeedback
+                    onPress={() => this.setState({ faceID: 2 })}
+                  >
+                    <View
+                      style={
+                        this.state.faceID === 2
+                          ? styles.activeEmojiBg
+                          : styles.defaultEmojiBg
+                      }
+                    >
+                      <Emoji emoji={face[2]} set="apple" size={28} />
+                      <Text
+                        style={
+                          this.state.faceID === 2
+                            ? styles.activeEmojiText
+                            : styles.defaultEmojiText
+                        }
+                      >
+                        ちょいうま
+                      </Text>
+                    </View>
+                  </TouchableWithoutFeedback>
+                </EmojiBlock>
+                <EmojiBlock>
+                  <TouchableWithoutFeedback
+                    onPress={() => this.setState({ faceID: 3 })}
+                  >
+                    <View
+                      style={[
+                        this.state.faceID === 3
+                          ? styles.activeEmojiBg
+                          : styles.defaultEmojiBg,
+                      ]}
+                    >
+                      <Emoji emoji={face[3]} set="apple" size={28} />
+                      <Text
+                        style={
+                          this.state.faceID === 3
+                            ? styles.activeEmojiText
+                            : styles.defaultEmojiText
+                        }
+                      >
+                        ちょい微妙
+                      </Text>
+                    </View>
+                  </TouchableWithoutFeedback>
+                  <TouchableWithoutFeedback
+                    onPress={() => this.setState({ faceID: 4 })}
+                  >
+                    <View
+                      style={[
+                        this.state.faceID === 4
+                          ? styles.activeEmojiBg
+                          : styles.defaultEmojiBg,
+                      ]}
+                    >
+                      <Emoji emoji={face[4]} set="apple" size={28} />
+                      <Text
+                        style={
+                          this.state.faceID === 4
+                            ? styles.activeEmojiText
+                            : styles.defaultEmojiText
+                        }
+                      >
+                        微妙
+                      </Text>
+                    </View>
+                  </TouchableWithoutFeedback>
+                  <TouchableWithoutFeedback
+                    onPress={() => this.setState({ faceID: 5 })}
+                  >
+                    <View
+                      style={
+                        this.state.faceID === 5
+                          ? styles.activeEmojiBg
+                          : styles.defaultEmojiBg
+                      }
+                    >
+                      <Emoji emoji={face[5]} set="apple" size={28} />
+                      <Text
+                        style={
+                          this.state.faceID === 5
+                            ? styles.activeEmojiText
+                            : styles.defaultEmojiText
+                        }
+                      >
+                        最悪
+                      </Text>
+                    </View>
+                  </TouchableWithoutFeedback>
+                </EmojiBlock>
               </View>
-            </TouchableWithoutFeedback>
-            <TouchableWithoutFeedback
-              onPress={() => this.setState({ faceID: 1 })}
+            </View>
+            <Text style={styles.beanWeightText}>
+              豆の重さ : {createdRecipe[0][2] / 2.5}g
+            </Text>
+            <View>
+              <Text style={[styles.modalText, { marginBottom: 16 }]}>
+                レシピ
+              </Text>
+            </View>
+            <Table
+              borderStyle={{
+                borderWidth: 1,
+                borderColor: "#e8e8e8",
+              }}
+              style={{ marginBottom: 36 }}
             >
-              <View
-                style={[
-                  this.state.faceID === 1
-                    ? styles.activeEmojiBg
-                    : styles.defaultEmojiBg,
-                ]}
-              >
-                <Emoji emoji={face[1]} set="apple" size={28} />
-                <Text
-                  style={
-                    this.state.faceID === 1
-                      ? styles.activeEmojiText
-                      : styles.defaultEmojiText
-                  }
-                >
-                  うまい
-                </Text>
-              </View>
-            </TouchableWithoutFeedback>
-            <TouchableWithoutFeedback
-              onPress={() => this.setState({ faceID: 2 })}
+              <Rows
+                data={createdRecipe}
+                textStyle={styles.rowText}
+                style={{ width: 300, backgroundColor: "#F6F6F6" }}
+              />
+            </Table>
+            <TouchableOpacity
+              onPress={() => this.props.navigation.navigate("Home")}
             >
-              <View
-                style={
-                  this.state.faceID === 2
-                    ? styles.activeEmojiBg
-                    : styles.defaultEmojiBg
-                }
-              >
-                <Emoji emoji={face[2]} set="apple" size={28} />
-                <Text
-                  style={
-                    this.state.faceID === 2
-                      ? styles.activeEmojiText
-                      : styles.defaultEmojiText
-                  }
-                >
-                  ちょいうま
-                </Text>
+              <View style={[styles.goToRecipeButton, { marginBottom: 16 }]}>
+                <Text style={styles.goToRecipeText}>日記を作成</Text>
               </View>
-            </TouchableWithoutFeedback>
-          </EmojiBlock>
-          <EmojiBlock>
-            <TouchableWithoutFeedback
-              onPress={() => this.setState({ faceID: 3 })}
-            >
-              <View
-                style={[
-                  this.state.faceID === 3
-                    ? styles.activeEmojiBg
-                    : styles.defaultEmojiBg,
-                ]}
-              >
-                <Emoji emoji={face[3]} set="apple" size={28} />
-                <Text
-                  style={
-                    this.state.faceID === 3
-                      ? styles.activeEmojiText
-                      : styles.defaultEmojiText
-                  }
-                >
-                  ちょい微妙
-                </Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <View style={styles.goBackTopButton}>
+                <Text style={styles.goBackTopText}>戻る</Text>
               </View>
-            </TouchableWithoutFeedback>
-            <TouchableWithoutFeedback
-              onPress={() => this.setState({ faceID: 4 })}
-            >
-              <View
-                style={[
-                  this.state.faceID === 4
-                    ? styles.activeEmojiBg
-                    : styles.defaultEmojiBg,
-                ]}
-              >
-                <Emoji emoji={face[4]} set="apple" size={28} />
-                <Text
-                  style={
-                    this.state.faceID === 4
-                      ? styles.activeEmojiText
-                      : styles.defaultEmojiText
-                  }
-                >
-                  微妙
-                </Text>
-              </View>
-            </TouchableWithoutFeedback>
-            <TouchableWithoutFeedback
-              onPress={() => this.setState({ faceID: 5 })}
-            >
-              <View
-                style={
-                  this.state.faceID === 5
-                    ? styles.activeEmojiBg
-                    : styles.defaultEmojiBg
-                }
-              >
-                <Emoji emoji={face[5]} set="apple" size={28} />
-                <Text
-                  style={
-                    this.state.faceID === 5
-                      ? styles.activeEmojiText
-                      : styles.defaultEmojiText
-                  }
-                >
-                  最悪
-                </Text>
-              </View>
-            </TouchableWithoutFeedback>
-          </EmojiBlock>
-        </View>
-        <Text style={styles.beanWeightText}>
-          豆の重さ : {createdRecipe[0][2] / 2.5}g
-        </Text>
-        <Text style={[styles.modalText, { marginBottom: 16 }]}>レシピ</Text>
-        <Table
-          borderStyle={{
-            borderWidth: 1,
-            borderColor: "#e8e8e8",
-          }}
-          style={{ marginBottom: 48 }}
-        >
-          <Rows
-            data={createdRecipe}
-            textStyle={styles.rowText}
-            style={{ width: 300, backgroundColor: "#F6F6F6" }}
-          />
-        </Table>
-        <TouchableOpacity>
-          <View>
-            <Text>ええやん</Text>
-          </View>
-        </TouchableOpacity>
+            </TouchableOpacity>
+          </ScrollBox>
+        </ScrollView>
       </Container>
     );
   }
@@ -215,21 +241,23 @@ export default DiaryScreen;
 const Container = styled.View`
   background: #ffffff;
   max-width: 375px;
-  padding: 20px;
   height: 100%;
+`;
+
+const ScrollBox = styled.View`
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 20px;
 `;
 
 const TextInput = styled.TextInput`
   border: 1px solid #dbdfea;
-  width: 100px;
-  height: 44px;
+  width: 280px;
+  padding: 12px;
+  font-size: 16px;
   border-radius: 10px;
-  font-size: 17px;
-  color: #fff;
-  padding-left: 44px;
+  color: #252525;
   margin-bottom: 20px;
 `;
 
@@ -266,6 +294,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "#f2f2f2",
     margin: 0,
+    borderRadius: 8,
   },
   activeEmojiBg: {
     width: 84,
@@ -274,6 +303,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "#F2994A",
     margin: 0,
+    borderRadius: 8,
   },
   defaultEmojiText: {
     color: "#252525",
@@ -289,7 +319,7 @@ const styles = StyleSheet.create({
   },
   recipeTitle: {
     fontSize: 24,
-    textAlign: "center",
+    textAlign: "left",
     color: "#000000",
     fontWeight: "bold",
   },

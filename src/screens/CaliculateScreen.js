@@ -13,7 +13,7 @@ class CaliculateScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      recipeCheck: true,
+      recipeCheck: "none",
     };
   }
 
@@ -46,23 +46,23 @@ class CaliculateScreen extends React.Component {
         <Text style={styles.beanWeightText}>
           豆の重さ : {currentBeanWeightNumber}g
         </Text>
-        <Text style={[styles.modalText, { marginBottom: 16 }]}>
-          レシピを選択してください
-        </Text>
+        <View>
+          <Text style={{ marginBottom: 16 }}>レシピを選択してください</Text>
+        </View>
         <RecipieChangeBox style={{ marginBottom: 36 }}>
           <TouchableWithoutFeedback
-            onPress={() =>
-              this.setState({ recipeCheck: !this.state.recipeCheck })
-            }
+            onPress={() => this.setState({ recipeCheck: "light" })}
           >
             <View
               style={
-                this.state.recipeCheck ? styles.activeBtn : styles.defaultBtn
+                this.state.recipeCheck == "light"
+                  ? styles.activeBtn
+                  : styles.defaultBtn
               }
             >
               <Text
                 style={
-                  this.state.recipeCheck
+                  this.state.recipeCheck == "light"
                     ? styles.activeText
                     : styles.defaultText
                 }
@@ -72,21 +72,21 @@ class CaliculateScreen extends React.Component {
             </View>
           </TouchableWithoutFeedback>
           <TouchableWithoutFeedback
-            onPress={() =>
-              this.setState({ recipeCheck: !this.state.recipeCheck })
-            }
+            onPress={() => this.setState({ recipeCheck: "dark" })}
           >
             <View
               style={[
                 styles.margin8,
-                this.state.recipeCheck ? styles.defaultBtn : styles.activeBtn,
+                this.state.recipeCheck == "dark"
+                  ? styles.activeBtn
+                  : styles.defaultBtn,
               ]}
             >
               <Text
                 style={
-                  this.state.recipeCheck
-                    ? styles.defaultText
-                    : styles.activeText
+                  this.state.recipeCheck == "dark"
+                    ? styles.activeText
+                    : styles.defaultText
                 }
               >
                 深煎りコーヒー
@@ -102,7 +102,9 @@ class CaliculateScreen extends React.Component {
           style={{ marginBottom: 48 }}
         >
           <Rows
-            data={this.state.recipeCheck ? defaultRecipe : unlimitedRecipe}
+            data={
+              this.state.recipeCheck == "dark" ? unlimitedRecipe : defaultRecipe
+            }
             textStyle={styles.rowText}
             style={{ width: 300, backgroundColor: "#F6F6F6" }}
           />
@@ -158,10 +160,6 @@ const styles = StyleSheet.create({
   modal: {
     justifyContent: "center",
     alignItems: "center",
-  },
-  modalText: {
-    justifyContent: "start",
-    alignItems: "start",
   },
   none: {
     display: "none",
