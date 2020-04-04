@@ -109,7 +109,7 @@ class CaliculateScreen extends React.Component {
         </Table>
         <TouchableOpacity
           onPress={() =>
-            this.props.navigation.navigate("Recipes", {
+            this.props.navigation.navigate("Diary", {
               createdRecipe: this.state.recipeCheck
                 ? defaultRecipe
                 : unlimitedRecipe,
