@@ -1,30 +1,30 @@
 import React from "react";
 import styled from "styled-components/native";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Emoji } from "emoji-mart";
 
 const styles = StyleSheet.create({
   heartEyes: {
-    backgroundColor: "#FCF7F7"
+    backgroundColor: "#FCF7F7",
   },
   blush: {
-    backgroundColor: "#FFF9F2"
+    backgroundColor: "#FFF9F2",
   },
   slightly_smiling_face: {
-    backgroundColor: "#FFF2FD"
+    backgroundColor: "#FFF2FD",
   },
   cry: {
-    backgroundColor: "#F2FFF2"
+    backgroundColor: "#F2FFF2",
   },
   sob: {
-    backgroundColor: "#F2FDFF"
+    backgroundColor: "#F2FDFF",
   },
   screem: {
-    backgroundColor: "#F2F6FF"
+    backgroundColor: "#F2F6FF",
   },
   noCoffee: {
-    backgroundColor: "#F8F8F8"
-  }
+    backgroundColor: "#F8F8F8",
+  },
 });
 
 const face = [
@@ -33,42 +33,44 @@ const face = [
   "slightly_smiling_face",
   "cry",
   "sob",
-  "scream"
+  "scream",
 ];
 
 const grindText = ["超細挽き", "細挽き", "中挽き", "粗挽き"];
 
-const Card = props => (
-  <Container
-    style={(() => {
-      if (props.faceID === 0) {
-        return styles.heartEyes;
-      } else if (props.faceID === 1) {
-        return styles.blush;
-      } else if (props.faceID === 2) {
-        return styles.slightly_smiling_face;
-      } else if (props.faceID === 3) {
-        return styles.cry;
-      } else if (props.faceID === 4) {
-        return styles.screem;
-      } else {
-        return styles.noCoffee;
-      }
-    })()}
-  >
-    <InnnerFlex>
-      <LeftBlock>
-        <Emoji emoji={face[props.faceID]} set="apple" size={36} />
-      </LeftBlock>
-      <RightBlock>
-        <Title numberOfLines={1} ellipsizeMode="tail">
-          {props.title}
-        </Title>
-        <SubText>{grindText[props.grindTextID]}</SubText>
-      </RightBlock>
-      <BeanWeightText>{props.BeanWeightNumber}g</BeanWeightText>
-    </InnnerFlex>
-  </Container>
+const Card = (props) => (
+  <View>
+    <Container
+      style={(() => {
+        if (props.faceID === 0) {
+          return styles.heartEyes;
+        } else if (props.faceID === 1) {
+          return styles.blush;
+        } else if (props.faceID === 2) {
+          return styles.slightly_smiling_face;
+        } else if (props.faceID === 3) {
+          return styles.cry;
+        } else if (props.faceID === 4) {
+          return styles.screem;
+        } else {
+          return styles.noCoffee;
+        }
+      })()}
+    >
+      <InnnerFlex>
+        <LeftBlock>
+          <Emoji emoji={face[props.faceID]} set="apple" size={36} />
+        </LeftBlock>
+        <RightBlock>
+          <Title numberOfLines={1} ellipsizeMode="tail">
+            {props.title}
+          </Title>
+          <SubText>{grindText[props.grindTextID]}</SubText>
+        </RightBlock>
+        <BeanWeightText>{props.BeanWeightNumber}g</BeanWeightText>
+      </InnnerFlex>
+    </Container>
+  </View>
 );
 
 export default Card;
@@ -85,15 +87,13 @@ const Container = styled.View`
 
 const Title = styled.Text`
   font-size: 20px;
-  width: 100%;
-  font-weight: bold;
-  display: inline-block;
+  width: 95%;
+  font-weight: bold;å
 `;
 
 const SubText = styled.Text`
   font-size: 14px;
-  width: 100%;
-  display: inline-block;
+  width: 95%;
 `;
 
 const InnnerFlex = styled.View`

@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
   },
   beanWeightText: {
     fontSize: 16,
-    fontWeight: 600,
+    fontWeight: "600",
     color: "#252525",
     marginBottom: 16,
     paddingTop: 20,

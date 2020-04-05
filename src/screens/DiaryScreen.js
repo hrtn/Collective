@@ -281,8 +281,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   modalText: {
-    justifyContent: "start",
-    alignItems: "start",
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
   },
   none: {
     display: "none",
@@ -351,7 +351,7 @@ const styles = StyleSheet.create({
   },
   beanWeightText: {
     fontSize: 16,
-    fontWeight: 600,
+    fontWeight: "600",
     color: "#252525",
     marginBottom: 16,
     paddingTop: 12,

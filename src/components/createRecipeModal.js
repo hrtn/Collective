@@ -69,7 +69,6 @@ const styles = StyleSheet.create({
   },
   inputText: {
     color: "#FFF",
-    display: "inline-block",
     marginLeft: 10,
     width: 20,
   },
