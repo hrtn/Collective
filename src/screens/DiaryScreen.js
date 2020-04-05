@@ -240,7 +240,7 @@ export default DiaryScreen;
 
 const Container = styled.View`
   background: #ffffff;
-  max-width: 375px;
+  width: 100%;
   height: 100%;
 `;
 

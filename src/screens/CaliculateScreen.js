@@ -1,6 +1,7 @@
 import React from "react";
 import {
   Text,
+  ScrollView,
   StyleSheet,
   View,
   TouchableWithoutFeedback,
@@ -13,7 +14,7 @@ class CaliculateScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      recipeCheck: "none",
+      recipeCheck: "light",
     };
   }
 
@@ -40,93 +41,99 @@ class CaliculateScreen extends React.Component {
     ];
     return (
       <Container>
-        <Text style={[styles.recipeTitle, { marginBottom: 16 }]}>
-          レシピを作成しました
-        </Text>
-        <Text style={styles.beanWeightText}>
-          豆の重さ : {currentBeanWeightNumber}g
-        </Text>
-        <View>
-          <Text style={{ marginBottom: 16 }}>レシピを選択してください</Text>
-        </View>
-        <RecipieChangeBox style={{ marginBottom: 36 }}>
-          <TouchableWithoutFeedback
-            onPress={() => this.setState({ recipeCheck: "light" })}
-          >
-            <View
-              style={
-                this.state.recipeCheck == "light"
-                  ? styles.activeBtn
-                  : styles.defaultBtn
+        <ScrollView>
+          <ScrollBox>
+            <Text style={[styles.recipeTitle, { marginBottom: 16 }]}>
+              レシピを作成しました
+            </Text>
+            <Text style={styles.beanWeightText}>
+              豆の重さ : {currentBeanWeightNumber}g
+            </Text>
+            <View>
+              <Text style={{ marginBottom: 16 }}>レシピを選択してください</Text>
+            </View>
+            <RecipieChangeBox style={{ marginBottom: 36 }}>
+              <TouchableWithoutFeedback
+                onPress={() => this.setState({ recipeCheck: "light" })}
+              >
+                <View
+                  style={
+                    this.state.recipeCheck == "light"
+                      ? styles.activeBtn
+                      : styles.defaultBtn
+                  }
+                >
+                  <Text
+                    style={
+                      this.state.recipeCheck == "light"
+                        ? styles.activeText
+                        : styles.defaultText
+                    }
+                  >
+                    浅煎りコーヒー
+                  </Text>
+                </View>
+              </TouchableWithoutFeedback>
+              <TouchableWithoutFeedback
+                onPress={() => this.setState({ recipeCheck: "dark" })}
+              >
+                <View
+                  style={[
+                    styles.margin8,
+                    this.state.recipeCheck == "dark"
+                      ? styles.activeBtn
+                      : styles.defaultBtn,
+                  ]}
+                >
+                  <Text
+                    style={
+                      this.state.recipeCheck == "dark"
+                        ? styles.activeText
+                        : styles.defaultText
+                    }
+                  >
+                    深煎りコーヒー
+                  </Text>
+                </View>
+              </TouchableWithoutFeedback>
+            </RecipieChangeBox>
+            <Table
+              borderStyle={{
+                borderWidth: 1,
+                borderColor: "#e8e8e8",
+              }}
+              style={{ marginBottom: 48 }}
+            >
+              <Rows
+                data={
+                  this.state.recipeCheck == "dark"
+                    ? unlimitedRecipe
+                    : defaultRecipe
+                }
+                textStyle={styles.rowText}
+                style={{ width: 300, backgroundColor: "#F6F6F6" }}
+              />
+            </Table>
+            <TouchableOpacity
+              onPress={() =>
+                this.props.navigation.navigate("Diary", {
+                  createdRecipe: this.state.recipeCheck
+                    ? defaultRecipe
+                    : unlimitedRecipe,
+                })
               }
             >
-              <Text
-                style={
-                  this.state.recipeCheck == "light"
-                    ? styles.activeText
-                    : styles.defaultText
-                }
-              >
-                浅煎りコーヒー
-              </Text>
-            </View>
-          </TouchableWithoutFeedback>
-          <TouchableWithoutFeedback
-            onPress={() => this.setState({ recipeCheck: "dark" })}
-          >
-            <View
-              style={[
-                styles.margin8,
-                this.state.recipeCheck == "dark"
-                  ? styles.activeBtn
-                  : styles.defaultBtn,
-              ]}
-            >
-              <Text
-                style={
-                  this.state.recipeCheck == "dark"
-                    ? styles.activeText
-                    : styles.defaultText
-                }
-              >
-                深煎りコーヒー
-              </Text>
-            </View>
-          </TouchableWithoutFeedback>
-        </RecipieChangeBox>
-        <Table
-          borderStyle={{
-            borderWidth: 1,
-            borderColor: "#e8e8e8",
-          }}
-          style={{ marginBottom: 48 }}
-        >
-          <Rows
-            data={
-              this.state.recipeCheck == "dark" ? unlimitedRecipe : defaultRecipe
-            }
-            textStyle={styles.rowText}
-            style={{ width: 300, backgroundColor: "#F6F6F6" }}
-          />
-        </Table>
-        <TouchableOpacity
-          onPress={() =>
-            this.props.navigation.navigate("Diary", {
-              createdRecipe: this.state.recipeCheck
-                ? defaultRecipe
-                : unlimitedRecipe,
-            })
-          }
-        >
-          <View style={[styles.goToRecipeButton, { marginBottom: 16 }]}>
-            <Text style={styles.goToRecipeText}>日記を書く</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <View style={styles.goBackTopButton}>
-            <Text style={styles.goBackTopText}>TOPへ戻る</Text>
-          </View>
-        </TouchableOpacity>
+              <View style={[styles.goToRecipeButton, { marginBottom: 16 }]}>
+                <Text style={styles.goToRecipeText}>日記を書く</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <View style={styles.goBackTopButton}>
+                <Text style={styles.goBackTopText}>TOPへ戻る</Text>
+              </View>
+            </TouchableOpacity>
+          </ScrollBox>
+        </ScrollView>
       </Container>
     );
   }
@@ -136,12 +143,15 @@ export default CaliculateScreen;
 
 const Container = styled.View`
   background: #ffffff;
-  max-width: 375px;
-  padding: 20px;
+  width: 100%;
   height: 100%;
+`;
+
+const ScrollBox = styled.View`
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 20px;
 `;
 
 const RecipieChangeBox = styled.View`

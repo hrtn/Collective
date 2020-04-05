@@ -9,3 +9,4 @@ build/
 # Expo
 .expo
 __generated__
+app.json
