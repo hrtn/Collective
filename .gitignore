@@ -3,10 +3,10 @@
 .vscode
 .idea
 package-lock.json
+*app.json
 *.log
 build/
 .eslintcache
 # Expo
 .expo
 __generated__
-app.json
