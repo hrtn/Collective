@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, ScrollView } from "react-native";
+import { Text, ScrollView, AsyncStorage } from "react-native";
 import styled from "styled-components/native";
 import FAB from "react-native-fab";
 
@@ -63,20 +63,34 @@ const cards = [
 export default class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       isVisible: false,
       visible: false,
       currentBeanWeightNumber: 0,
+      diarys: [],
     };
+  }
+
+  componentDidMount() {
+    this.loadDiarys();
   }
   toggleSemiModal = () => {
     this.setState({ isVisible: !this.state.isVisible });
+    console.log(this.state.diarys);
   };
   changeTextInput = (e) => {
     this.setState({ currentBeanWeightNumber: e });
   };
   onToggleSnackBar = () =>
     this.setState((state) => ({ visible: !state.visible }));
+
+  loadDiarys() {
+    AsyncStorage.getItem("diarys").then((str) => {
+      const diarys = str ? JSON.parse(str) : ["a"];
+      this.setState({ diarys: diarys });
+    });
+  }
 
   render() {
     return (
@@ -175,7 +189,7 @@ const LeftBlock = styled.View`
 
 const RightBlock = styled.View`
   width: 80%;
-  text-align: left;
+  align-items: left;
   flex: 1;
   display: flex;
   flex-direction: column;

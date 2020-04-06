@@ -7,9 +7,10 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   ScrollView,
+  AsyncStorage,
 } from "react-native";
 import { Table, Rows } from "react-native-table-component";
-import { Emoji } from "emoji-mart";
+import { Emoji } from "emoji-mart-native";
 
 const face = [
   "heart_eyes",
@@ -24,17 +25,44 @@ class DiaryScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      beanTitle: "",
+      title: "",
       faceID: 99,
+      diarys: [],
     };
   }
+
   changeBeanTextInput = (e) => {
-    this.setState({ beanTitle: e });
+    this.setState({ title: e });
   };
+
+  onPressCreateDiary() {
+    this.setState({
+      diarys: [
+        {
+          title: this.state.title,
+          faceID: this.state.faceID,
+          BeanWeightNumber: BeanWeightNumber,
+          recipeCheckText: recipeCheckText,
+          createdRecipe: createdRecipe,
+        },
+      ],
+    });
+  }
 
   render() {
     const { navigation } = this.props;
     const createdRecipe = navigation.getParam("createdRecipe");
+    const recipeCheckText = navigation.getParam("recipeCheckText");
+    const BeanWeightNumber = navigation.getParam("BeanWeightNumber");
+    const setData = async (diarys) => {
+      try {
+        for (var i in diarys) {
+          await AsyncStorage.setItem(i, JSON.stringify(this.state.diarys[i]));
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
     return (
       <Container>
         <ScrollView>
@@ -50,7 +78,7 @@ class DiaryScreen extends React.Component {
               </Text>
               <TextInput
                 onChangeText={(text) => this.changeBeanTextInput(text)}
-                value={this.state.beanTitle}
+                value={this.state.title}
               />
             </View>
             <View>
@@ -197,11 +225,11 @@ class DiaryScreen extends React.Component {
               </View>
             </View>
             <Text style={styles.beanWeightText}>
-              豆の重さ : {createdRecipe[0][2] / 2.5}g
+              豆の重さ : {BeanWeightNumber}g
             </Text>
             <View>
               <Text style={[styles.modalText, { marginBottom: 16 }]}>
-                レシピ
+                {recipeCheckText}のレシピ
               </Text>
             </View>
             <Table
@@ -218,7 +246,11 @@ class DiaryScreen extends React.Component {
               />
             </Table>
             <TouchableOpacity
-              onPress={() => this.props.navigation.navigate("Home")}
+              onPress={
+                (() => this.onPressCreateDiary,
+                setData(this.state.diarys),
+                () => this.props.navigation.navigate("Home"))
+              }
             >
               <View style={[styles.goToRecipeButton, { marginBottom: 16 }]}>
                 <Text style={styles.goToRecipeText}>日記を作成</Text>
@@ -273,12 +305,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   open: {
-    textAlign: "center",
     marginTop: 64,
   },
   modal: {
     justifyContent: "center",
-    alignItems: "center",
   },
   modalText: {
     justifyContent: "flex-start",
@@ -290,7 +320,7 @@ const styles = StyleSheet.create({
   defaultEmojiBg: {
     width: 84,
     height: 84,
-    textAlign: "center",
+    alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#f2f2f2",
     margin: 0,
@@ -299,7 +329,7 @@ const styles = StyleSheet.create({
   activeEmojiBg: {
     width: 84,
     height: 84,
-    textAlign: "center",
+    alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#F2994A",
     margin: 0,
@@ -319,7 +349,6 @@ const styles = StyleSheet.create({
   },
   recipeTitle: {
     fontSize: 24,
-    textAlign: "left",
     color: "#000000",
     fontWeight: "bold",
   },
@@ -328,7 +357,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#252525",
     borderRadius: 8,
     padding: 12,
-    textAlign: "center",
+    alignItems: "center",
   },
   goBackTopButton: {
     width: 300,
@@ -338,7 +367,7 @@ const styles = StyleSheet.create({
     borderStyle: "solid",
     borderRadius: 8,
     padding: 12,
-    textAlign: "center",
+    alignItems: "center",
   },
   goToRecipeText: {
     color: "#ffffff",

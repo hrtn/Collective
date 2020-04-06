@@ -64,7 +64,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   open: {
-    textAlign: "center",
     marginTop: 64,
   },
   inputText: {
@@ -75,11 +74,9 @@ const styles = StyleSheet.create({
   inputBlock: {
     display: "flex",
     flexDirection: "row",
-    alignItems: "center",
   },
   modalTitle: {
     fontSize: 18,
-    textAlign: "center",
     color: "#FFF",
     fontWeight: "bold",
   },
@@ -91,7 +88,7 @@ const styles = StyleSheet.create({
     height: 40,
     backgroundColor: "#243347",
     justifyContent: "center",
-    alignItems: "center",
+    textAlign: "center",
   },
   bar: {
     width: 16,

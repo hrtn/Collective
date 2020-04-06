@@ -3,7 +3,7 @@ import styled from "styled-components/native";
 
 const today = new Date();
 
-const DateNumber = props => (
+const DateNumber = (props) => (
   <>
     {today.getDate() == props.DateNumber ? (
       <AvtiveContainer>
@@ -20,15 +20,14 @@ const DateNumber = props => (
 const Container = styled.View`
   width: 48px;
   height: 48px;
-  text-align: center;
+  align-items: center;
   justify-content: center;
 `;
 
 const AvtiveContainer = styled.View`
   width: 48px;
   height: 48px;
-  color: #fff;
-  text-align: center;
+  align-items: center;
   justify-content: center;
   background: #252525;
   border-radius: 10px;

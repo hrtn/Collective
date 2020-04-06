@@ -120,6 +120,10 @@ class CaliculateScreen extends React.Component {
                   createdRecipe: this.state.recipeCheck
                     ? defaultRecipe
                     : unlimitedRecipe,
+                  recipeCheckText: this.state.recipeCheck
+                    ? "浅煎りコーヒー"
+                    : !"深煎りコーヒー",
+                  BeanWeightNumber: currentBeanWeightNumber,
                 })
               }
             >
@@ -150,7 +154,6 @@ const Container = styled.View`
 const ScrollBox = styled.View`
   display: flex;
   flex-direction: column;
-  align-items: center;
   padding: 20px;
 `;
 
@@ -164,12 +167,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   open: {
-    textAlign: "center",
     marginTop: 64,
   },
   modal: {
     justifyContent: "center",
-    alignItems: "center",
   },
   none: {
     display: "none",
@@ -183,7 +184,6 @@ const styles = StyleSheet.create({
     borderColor: "#F2994A",
     borderStyle: "solid",
     padding: 12,
-    textAlign: "center",
   },
   activeBtn: {
     paddingTop: 12,
@@ -208,7 +208,6 @@ const styles = StyleSheet.create({
   },
   recipeTitle: {
     fontSize: 24,
-    textAlign: "center",
     color: "#000000",
     fontWeight: "bold",
   },
@@ -217,7 +216,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#252525",
     borderRadius: 8,
     padding: 12,
-    textAlign: "center",
   },
   goBackTopButton: {
     width: 300,
@@ -227,19 +225,21 @@ const styles = StyleSheet.create({
     borderStyle: "solid",
     borderRadius: 8,
     padding: 12,
-    textAlign: "center",
   },
   goToRecipeText: {
     color: "#ffffff",
+    textAlign: "center",
   },
   goBackTopText: {
     color: "#252525",
+    textAlign: "center",
   },
   rowText: {
     padding: 8,
   },
   beanWeightText: {
     fontSize: 16,
+    textAlign: "center",
     fontWeight: "600",
     color: "#252525",
     marginBottom: 16,
