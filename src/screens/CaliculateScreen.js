@@ -57,6 +57,7 @@ class CaliculateScreen extends React.Component {
                 <TextInput
                   onChangeText={(e) => this.changeTextInput(e)}
                   value={this.state.currentBeanWeightNumber}
+                  keyboardType={"number-pad"}
                 />
                 <Text style={[styles.inputText]}>g</Text>
               </View>
@@ -185,7 +186,7 @@ const TextInput = styled.TextInput`
   border-radius: 10px;
   font-size: 16px;
   color: #252525;
-  padding-left: 44px;
+  padding-left: 16px;
   margin-bottom: 20px;
 `;
 
@@ -204,6 +205,8 @@ const styles = StyleSheet.create({
   inputBlock: {
     display: "flex",
     flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
   },
   modal: {
     justifyContent: "center",
