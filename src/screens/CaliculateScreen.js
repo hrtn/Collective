@@ -6,6 +6,8 @@ import {
   View,
   TouchableWithoutFeedback,
   TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import styled from "styled-components/native";
 import { Table, Rows } from "react-native-table-component";
@@ -41,117 +43,123 @@ class CaliculateScreen extends React.Component {
     return (
       <Container>
         <ScrollView>
-          <ScrollBox>
-            <View>
-              <Text style={[styles.recipeTitle, { marginBottom: 16 }]}>
-                レシピを作成しましょう
-              </Text>
-            </View>
-            <View>
-              <Text style={[styles.modalText, { marginBottom: 16 }]}>
-                豆の重さを入力してください
-              </Text>
-            </View>
-            <View>
-              <View style={styles.inputBlock}>
-                <TextInput
-                  onChangeText={(e) => this.changeTextInput(e)}
-                  value={this.state.currentBeanWeightNumber}
-                  keyboardType={"number-pad"}
-                />
-                <Text style={[styles.inputText]}>g</Text>
+          <KeyboardAvoidingView
+            behavior={Platform.Os == "ios" ? "padding" : "height"}
+            style={{ flex: 1 }}
+          >
+            <ScrollBox>
+              <View>
+                <Text style={[styles.recipeTitle, { marginBottom: 16 }]}>
+                  レシピを作成しましょう
+                </Text>
               </View>
-            </View>
-            <View>
-              <Text style={[styles.modalText, { marginBottom: 16 }]}>
-                コーヒーの種類を選択してください
-              </Text>
-            </View>
-            <RecipieChangeBox style={{ marginBottom: 36 }}>
-              <TouchableWithoutFeedback
-                onPress={() => this.setState({ recipeCheck: "light" })}
-              >
-                <View
-                  style={
-                    this.state.recipeCheck == "light"
-                      ? styles.activeBtn
-                      : styles.defaultBtn
-                  }
+              <View>
+                <Text style={[styles.modalText, { marginBottom: 16 }]}>
+                  豆の重さを入力してください
+                </Text>
+              </View>
+              <View>
+                <View style={styles.inputBlock}>
+                  <TextInput
+                    onChangeText={(e) => this.changeTextInput(e)}
+                    value={this.state.currentBeanWeightNumber}
+                    keyboardType={"number-pad"}
+                    enablesReturnKeyAutomatically={true}
+                  />
+                  <Text style={[styles.inputText]}>g</Text>
+                </View>
+              </View>
+              <View>
+                <Text style={[styles.modalText, { marginBottom: 16 }]}>
+                  コーヒーの種類を選択してください
+                </Text>
+              </View>
+              <RecipieChangeBox style={{ marginBottom: 36 }}>
+                <TouchableWithoutFeedback
+                  onPress={() => this.setState({ recipeCheck: "light" })}
                 >
-                  <Text
+                  <View
                     style={
                       this.state.recipeCheck == "light"
-                        ? styles.activeText
-                        : styles.defaultText
+                        ? styles.activeBtn
+                        : styles.defaultBtn
                     }
                   >
-                    浅煎りコーヒー
-                  </Text>
-                </View>
-              </TouchableWithoutFeedback>
-              <TouchableWithoutFeedback
-                onPress={() => this.setState({ recipeCheck: "dark" })}
-              >
-                <View
-                  style={[
-                    styles.margin8,
-                    this.state.recipeCheck == "dark"
-                      ? styles.activeBtn
-                      : styles.defaultBtn,
-                  ]}
+                    <Text
+                      style={
+                        this.state.recipeCheck == "light"
+                          ? styles.activeText
+                          : styles.defaultText
+                      }
+                    >
+                      浅煎りコーヒー
+                    </Text>
+                  </View>
+                </TouchableWithoutFeedback>
+                <TouchableWithoutFeedback
+                  onPress={() => this.setState({ recipeCheck: "dark" })}
                 >
-                  <Text
-                    style={
+                  <View
+                    style={[
+                      styles.margin8,
                       this.state.recipeCheck == "dark"
-                        ? styles.activeText
-                        : styles.defaultText
-                    }
+                        ? styles.activeBtn
+                        : styles.defaultBtn,
+                    ]}
                   >
-                    深煎りコーヒー
-                  </Text>
-                </View>
-              </TouchableWithoutFeedback>
-            </RecipieChangeBox>
-            <Table
-              borderStyle={{
-                borderWidth: 1,
-                borderColor: "#e8e8e8",
-              }}
-              style={{ marginBottom: 48 }}
-            >
-              <Rows
-                data={
-                  this.state.recipeCheck == "dark"
-                    ? unlimitedRecipe
-                    : defaultRecipe
+                    <Text
+                      style={
+                        this.state.recipeCheck == "dark"
+                          ? styles.activeText
+                          : styles.defaultText
+                      }
+                    >
+                      深煎りコーヒー
+                    </Text>
+                  </View>
+                </TouchableWithoutFeedback>
+              </RecipieChangeBox>
+              <Table
+                borderStyle={{
+                  borderWidth: 1,
+                  borderColor: "#e8e8e8",
+                }}
+                style={{ marginBottom: 48 }}
+              >
+                <Rows
+                  data={
+                    this.state.recipeCheck == "dark"
+                      ? unlimitedRecipe
+                      : defaultRecipe
+                  }
+                  textStyle={styles.rowText}
+                  style={{ width: 300, backgroundColor: "#F6F6F6" }}
+                />
+              </Table>
+              <TouchableOpacity
+                onPress={() =>
+                  this.props.navigation.navigate("Diary", {
+                    createdRecipe: this.state.recipeCheck
+                      ? defaultRecipe
+                      : unlimitedRecipe,
+                    recipeCheckText: this.state.recipeCheck
+                      ? "浅煎りコーヒー"
+                      : !"深煎りコーヒー",
+                    BeanWeightNumber: this.state.currentBeanWeightNumber,
+                  })
                 }
-                textStyle={styles.rowText}
-                style={{ width: 300, backgroundColor: "#F6F6F6" }}
-              />
-            </Table>
-            <TouchableOpacity
-              onPress={() =>
-                this.props.navigation.navigate("Diary", {
-                  createdRecipe: this.state.recipeCheck
-                    ? defaultRecipe
-                    : unlimitedRecipe,
-                  recipeCheckText: this.state.recipeCheck
-                    ? "浅煎りコーヒー"
-                    : !"深煎りコーヒー",
-                  BeanWeightNumber: this.state.currentBeanWeightNumber,
-                })
-              }
-            >
-              <View style={[styles.goToRecipeButton, { marginBottom: 16 }]}>
-                <Text style={styles.goToRecipeText}>日記を書く</Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.goBack()}>
-              <View style={styles.goBackTopButton}>
-                <Text style={styles.goBackTopText}>TOPへ戻る</Text>
-              </View>
-            </TouchableOpacity>
-          </ScrollBox>
+              >
+                <View style={[styles.goToRecipeButton, { marginBottom: 16 }]}>
+                  <Text style={styles.goToRecipeText}>日記を書く</Text>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+                <View style={styles.goBackTopButton}>
+                  <Text style={styles.goBackTopText}>TOPへ戻る</Text>
+                </View>
+              </TouchableOpacity>
+            </ScrollBox>
+          </KeyboardAvoidingView>
         </ScrollView>
       </Container>
     );

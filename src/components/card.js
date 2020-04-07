@@ -1,8 +1,6 @@
 import React from "react";
 import styled from "styled-components/native";
 import { StyleSheet } from "react-native";
-import data from "emoji-mart-native/data/apple.json";
-import { Emoji } from "emoji-mart-native";
 
 const styles = StyleSheet.create({
   heartEyes: {
@@ -52,6 +50,8 @@ const Card = (props) => (
         return styles.cry;
       } else if (props.faceID === 4) {
         return styles.screem;
+      } else if (props.faceID === 5) {
+        return styles.sob;
       } else {
         return styles.noCoffee;
       }
@@ -59,7 +59,25 @@ const Card = (props) => (
   >
     <InnnerFlex>
       <LeftBlock>
-        <Emoji emoji={face[props.faceID]} set="apple" data={data} size={36} />
+        {(() => {
+          if (props.faceID === 0) {
+            return <ImageIcon source={require("../img/heartEyes.png")} />;
+          } else if (props.faceID === 1) {
+            return <ImageIcon source={require("../img/blush.png")} />;
+          } else if (props.faceID === 2) {
+            return (
+              <ImageIcon source={require("../img/slightly_smiling_face.png")} />
+            );
+          } else if (props.faceID === 3) {
+            return <ImageIcon source={require("../img/cry.png")} />;
+          } else if (props.faceID === 4) {
+            return <ImageIcon source={require("../img/sob.png")} />;
+          } else if (props.faceID === 5) {
+            return <ImageIcon source={require("../img/screem.png")} />;
+          } else {
+            return styles.noCoffee;
+          }
+        })()}
       </LeftBlock>
       <RightBlock>
         <Title numberOfLines={1} ellipsizeMode="tail">
@@ -82,6 +100,11 @@ const Container = styled.View`
   padding-left: 20px;
   margin-bottom: 16px;
   overflow: hidden;
+`;
+
+const ImageIcon = styled.Image`
+  width: 36px;
+  height: 36px;
 `;
 
 const Title = styled.Text`

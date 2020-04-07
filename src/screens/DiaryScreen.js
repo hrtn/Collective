@@ -10,16 +10,6 @@ import {
   AsyncStorage,
 } from "react-native";
 import { Table, Rows } from "react-native-table-component";
-import { Emoji } from "emoji-mart-native";
-
-const face = [
-  "heart_eyes",
-  "blush",
-  "slightly_smiling_face",
-  "cry",
-  "sob",
-  "scream",
-];
 
 class DiaryScreen extends React.Component {
   constructor(props) {
@@ -100,7 +90,7 @@ class DiaryScreen extends React.Component {
                           : styles.defaultEmojiBg,
                       ]}
                     >
-                      <Emoji emoji={face[0]} set="apple" size={28} />
+                      <ImageIcon source={require("../img/heartEyes.png")} />
                       <Text
                         style={
                           this.state.faceID === 0
@@ -122,7 +112,7 @@ class DiaryScreen extends React.Component {
                           : styles.defaultEmojiBg,
                       ]}
                     >
-                      <Emoji emoji={face[1]} set="apple" size={28} />
+                      <ImageIcon source={require("../img/blush.png")} />
                       <Text
                         style={
                           this.state.faceID === 1
@@ -144,7 +134,9 @@ class DiaryScreen extends React.Component {
                           : styles.defaultEmojiBg
                       }
                     >
-                      <Emoji emoji={face[2]} set="apple" size={28} />
+                      <ImageIcon
+                        source={require("../img/slightly_smiling_face.png")}
+                      />
                       <Text
                         style={
                           this.state.faceID === 2
@@ -168,7 +160,7 @@ class DiaryScreen extends React.Component {
                           : styles.defaultEmojiBg,
                       ]}
                     >
-                      <Emoji emoji={face[3]} set="apple" size={28} />
+                      <ImageIcon source={require("../img/sob.png")} />
                       <Text
                         style={
                           this.state.faceID === 3
@@ -190,7 +182,7 @@ class DiaryScreen extends React.Component {
                           : styles.defaultEmojiBg,
                       ]}
                     >
-                      <Emoji emoji={face[4]} set="apple" size={28} />
+                      <ImageIcon source={require("../img/cry.png")} />
                       <Text
                         style={
                           this.state.faceID === 4
@@ -212,7 +204,7 @@ class DiaryScreen extends React.Component {
                           : styles.defaultEmojiBg
                       }
                     >
-                      <Emoji emoji={face[5]} set="apple" size={28} />
+                      <ImageIcon source={require("../img/screem.png")} />
                       <Text
                         style={
                           this.state.faceID === 5
@@ -274,6 +266,12 @@ const Container = styled.View`
   background: #ffffff;
   width: 100%;
   height: 100%;
+`;
+
+const ImageIcon = styled.Image`
+  width: 28px;
+  height: 28px;
+  margin-bottom: 8px;
 `;
 
 const ScrollBox = styled.View`
