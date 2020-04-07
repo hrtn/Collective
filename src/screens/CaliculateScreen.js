@@ -42,18 +42,29 @@ class CaliculateScreen extends React.Component {
       <Container>
         <ScrollView>
           <ScrollBox>
-            <Text style={[styles.recipeTitle, { marginBottom: 16 }]}>
-              レシピを作成しました
-            </Text>
-            <View style={styles.inputBlock}>
-              <TextInput
-                onChangeText={(e) => this.changeTextInput(e)}
-                value={this.state.currentBeanWeightNumber}
-              />
-              <Text style={[styles.inputText]}>g</Text>
+            <View>
+              <Text style={[styles.recipeTitle, { marginBottom: 16 }]}>
+                レシピを作成しましょう
+              </Text>
             </View>
             <View>
-              <Text style={{ marginBottom: 16 }}>レシピを選択してください</Text>
+              <Text style={[styles.modalText, { marginBottom: 16 }]}>
+                豆の重さを入力してください
+              </Text>
+            </View>
+            <View>
+              <View style={styles.inputBlock}>
+                <TextInput
+                  onChangeText={(e) => this.changeTextInput(e)}
+                  value={this.state.currentBeanWeightNumber}
+                />
+                <Text style={[styles.inputText]}>g</Text>
+              </View>
+            </View>
+            <View>
+              <Text style={[styles.modalText, { marginBottom: 16 }]}>
+                コーヒーの種類を選択してください
+              </Text>
             </View>
             <RecipieChangeBox style={{ marginBottom: 36 }}>
               <TouchableWithoutFeedback
@@ -157,7 +168,9 @@ const Container = styled.View`
 const ScrollBox = styled.View`
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  align-items: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
 `;
 
 const RecipieChangeBox = styled.View`
@@ -167,7 +180,7 @@ const RecipieChangeBox = styled.View`
 
 const TextInput = styled.TextInput`
   border: 1px solid #ccc;
-  width: 100px;
+  width: 200px;
   height: 44px;
   border-radius: 10px;
   font-size: 16px;
@@ -194,6 +207,10 @@ const styles = StyleSheet.create({
   },
   modal: {
     justifyContent: "center",
+  },
+  modalText: {
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
   },
   none: {
     display: "none",

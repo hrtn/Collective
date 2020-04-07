@@ -280,7 +280,8 @@ const ScrollBox = styled.View`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
 `;
 
 const TextInput = styled.TextInput`
