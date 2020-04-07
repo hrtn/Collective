@@ -15,29 +15,28 @@ class CaliculateScreen extends React.Component {
     super(props);
     this.state = {
       recipeCheck: "light",
+      currentBeanWeightNumber: 0,
     };
   }
-
+  changeTextInput = (e) => {
+    this.setState({ currentBeanWeightNumber: e });
+  };
   render() {
-    const { navigation } = this.props;
-    const currentBeanWeightNumber = navigation.getParam(
-      "currentBeanWeightNumber"
-    );
     const defaultRecipe = [
-      ["蒸らし", "30秒", currentBeanWeightNumber * 2.5],
-      ["", "1分", currentBeanWeightNumber * 5.25],
-      ["", "1分30秒", currentBeanWeightNumber * 8],
-      ["", "2分", currentBeanWeightNumber * 12],
-      ["", "2分30秒", currentBeanWeightNumber * 16],
-      ["落ち切り", "3分30秒", currentBeanWeightNumber * 16],
+      ["蒸らし", "30秒", this.state.currentBeanWeightNumber * 2.5],
+      ["", "1分", this.state.currentBeanWeightNumber * 5.25],
+      ["", "1分30秒", this.state.currentBeanWeightNumber * 8],
+      ["", "2分", this.state.currentBeanWeightNumber * 12],
+      ["", "2分30秒", this.state.currentBeanWeightNumber * 16],
+      ["落ち切り", "3分30秒", this.state.currentBeanWeightNumber * 16],
     ];
     const unlimitedRecipe = [
-      ["蒸らし", "30秒", currentBeanWeightNumber * 2.5],
-      ["", "45秒", currentBeanWeightNumber * 5.25],
-      ["", "1分", currentBeanWeightNumber * 8],
-      ["", "1分30秒", currentBeanWeightNumber * 12],
-      ["", "2分", currentBeanWeightNumber * 16],
-      ["落ち切り", "3分", currentBeanWeightNumber * 16],
+      ["蒸らし", "30秒", this.state.currentBeanWeightNumber * 2.5],
+      ["", "45秒", this.state.currentBeanWeightNumber * 5.25],
+      ["", "1分", this.state.currentBeanWeightNumber * 8],
+      ["", "1分30秒", this.state.currentBeanWeightNumber * 12],
+      ["", "2分", this.state.currentBeanWeightNumber * 16],
+      ["落ち切り", "3分", this.state.currentBeanWeightNumber * 16],
     ];
     return (
       <Container>
@@ -46,9 +45,13 @@ class CaliculateScreen extends React.Component {
             <Text style={[styles.recipeTitle, { marginBottom: 16 }]}>
               レシピを作成しました
             </Text>
-            <Text style={styles.beanWeightText}>
-              豆の重さ : {currentBeanWeightNumber}g
-            </Text>
+            <View style={styles.inputBlock}>
+              <TextInput
+                onChangeText={(e) => this.changeTextInput(e)}
+                value={this.state.currentBeanWeightNumber}
+              />
+              <Text style={[styles.inputText]}>g</Text>
+            </View>
             <View>
               <Text style={{ marginBottom: 16 }}>レシピを選択してください</Text>
             </View>
@@ -123,7 +126,7 @@ class CaliculateScreen extends React.Component {
                   recipeCheckText: this.state.recipeCheck
                     ? "浅煎りコーヒー"
                     : !"深煎りコーヒー",
-                  BeanWeightNumber: currentBeanWeightNumber,
+                  BeanWeightNumber: this.state.currentBeanWeightNumber,
                 })
               }
             >
@@ -162,12 +165,32 @@ const RecipieChangeBox = styled.View`
   flex-direction: row;
 `;
 
+const TextInput = styled.TextInput`
+  border: 1px solid #ccc;
+  width: 100px;
+  height: 44px;
+  border-radius: 10px;
+  font-size: 16px;
+  color: #252525;
+  padding-left: 44px;
+  margin-bottom: 20px;
+`;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
   open: {
     marginTop: 64,
+  },
+  inputText: {
+    color: "#252525",
+    marginLeft: 10,
+    width: 20,
+  },
+  inputBlock: {
+    display: "flex",
+    flexDirection: "row",
   },
   modal: {
     justifyContent: "center",

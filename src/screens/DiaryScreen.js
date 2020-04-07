@@ -72,6 +72,9 @@ class DiaryScreen extends React.Component {
                 日記を書きましょう
               </Text>
             </View>
+            <Text style={styles.beanWeightText}>
+              豆の重さ : {BeanWeightNumber}g
+            </Text>
             <View>
               <Text style={[styles.modalText, { marginBottom: 16 }]}>
                 豆の名前
@@ -224,9 +227,6 @@ class DiaryScreen extends React.Component {
                 </EmojiBlock>
               </View>
             </View>
-            <Text style={styles.beanWeightText}>
-              豆の重さ : {BeanWeightNumber}g
-            </Text>
             <View>
               <Text style={[styles.modalText, { marginBottom: 16 }]}>
                 {recipeCheckText}のレシピ

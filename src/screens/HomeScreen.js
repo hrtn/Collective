@@ -2,8 +2,6 @@ import React from "react";
 import { Text, ScrollView, AsyncStorage } from "react-native";
 import styled from "styled-components/native";
 import FAB from "react-native-fab";
-
-import CreateRecipeModal from "../components/CreateRecipeModal";
 import Card from "../components/Card";
 import DateNumber from "../components/DateNumber";
 
@@ -148,20 +146,9 @@ export default class HomeScreen extends React.Component {
         <FAB
           buttonColor="#252525"
           iconTextColor="#FFFFFF"
-          onClickAction={() => this.toggleSemiModal()}
+          onClickAction={() => this.props.navigation.navigate("Caliculate")}
           visible={true}
           iconTextComponent={<Text>+</Text>}
-        />
-        <CreateRecipeModal
-          isVisible={this.state.isVisible}
-          onModalClose={() => this.toggleSemiModal()}
-          onChangeText={(e) => this.changeTextInput(e)}
-          value={this.state.currentBeanWeightNumber}
-          onPress={() =>
-            this.props.navigation.navigate("Caliculate", {
-              currentBeanWeightNumber: this.state.currentBeanWeightNumber,
-            })
-          }
         />
       </Container>
     );
