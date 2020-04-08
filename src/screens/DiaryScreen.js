@@ -7,9 +7,19 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   ScrollView,
-  AsyncStorage,
 } from "react-native";
 import { Table, Rows } from "react-native-table-component";
+
+import Storage from "react-native-storage";
+import AsyncStorage from "@react-native-community/async-storage";
+
+const storage = new Storage({
+  size: 1000,
+  storageBackend: AsyncStorage,
+  defaultExpires: 1000 * 3600 * 24,
+  enableCache: true,
+  sync: {},
+});
 
 class DiaryScreen extends React.Component {
   constructor(props) {
@@ -24,37 +34,20 @@ class DiaryScreen extends React.Component {
     this.setState({ title: e });
   };
 
-  // onPressCreateDiary() {
-  //   this.setState({
-  //     diarys: {
-  //       title: this.state.title,
-  //       faceID: this.state.faceID,
-  //       BeanWeightNumber: BeanWeightNumber,
-  //       recipeCheckText: recipeCheckText,
-  //       createdRecipe: createdRecipe,
-  //     },
-  //   });
-  // }
-
   saveDiarys = () => {
     const value1 = this.state.title;
     const value2 = this.state.faceID;
     const value3 = BeanWeightNumber;
     const value4 = recipeCheckText;
-    let keys = [
-      ["title", value1],
-      ["faceID", value2],
-      ["BeanWeightNumber", value3],
-      ["recipeCheckText", value4],
-    ];
-    AsyncStorage.multiSet(keys, (err) => {
-      console.log("Value1" + value1 + " " + value2);
-      this.setState({
+    storage.save({
+      key: "sample",
+      id: "1234",
+      data: {
         title: value1,
         faceID: value2,
         BeanWeightNumber: value3,
         recipeCheckText: value4,
-      });
+      },
     });
   };
 
@@ -63,15 +56,6 @@ class DiaryScreen extends React.Component {
     const createdRecipe = navigation.getParam("createdRecipe");
     const recipeCheckText = navigation.getParam("recipeCheckText");
     const BeanWeightNumber = navigation.getParam("BeanWeightNumber");
-    // const setData = async (diarys) => {
-    //   try {
-    //     for (var i in diarys) {
-    //       await AsyncStorage.setItem(i, JSON.stringify(this.state.diarys[i]));
-    //     }
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // };
     return (
       <Container>
         <ScrollView>

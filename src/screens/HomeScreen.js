@@ -1,8 +1,10 @@
 import React from "react";
-import { Text, ScrollView, AsyncStorage } from "react-native";
+import { Text, ScrollView } from "react-native";
 import styled from "styled-components/native";
 import FAB from "react-native-fab";
 import Card from "../components/Card";
+import Storage from "react-native-storage";
+import AsyncStorage from "@react-native-community/async-storage";
 
 const cards = [
   {
@@ -63,6 +65,14 @@ const cards = [
   },
 ];
 
+const storage = new Storage({
+  size: 1000,
+  storageBackend: AsyncStorage,
+  defaultExpires: 1000 * 3600 * 24,
+  enableCache: true,
+  sync: {},
+});
+
 export default class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -86,15 +96,27 @@ export default class HomeScreen extends React.Component {
   onToggleSnackBar = () =>
     this.setState((state) => ({ visible: !state.visible }));
   loadDiarys() {
-    let keys = ["title", "faceID", "BeanWeightNumber", "recipeCheckText"];
-    AsyncStorage.multiGet(keys).then((result) => {
-      this.setState({
-        title: result[0][1],
-        faceID: result[1][1],
-        BeanWeightNumber: result[2][1],
-        recipeCheckText: result[3][1],
+    storage
+      .load({
+        key: "sample",
+        id: "1234",
+      })
+      .then((ret) => {
+        // ロードに成功したら
+        console.log(ret.title + " is " + ret.faceID);
+      })
+      .catch((err) => {
+        // ロードに失敗したら
+        console.warn(err.message);
+        switch (err.name) {
+          case "NotFoundError":
+            // 見つかんなかった場合の処理を書こう
+            break;
+          case "ExpiredError":
+            // キャッシュ切れの場合の処理を書こう
+            break;
+        }
       });
-    });
   }
 
   checkAnything() {
