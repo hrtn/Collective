@@ -26,15 +26,6 @@ const styles = StyleSheet.create({
   },
 });
 
-const face = [
-  "heart_eyes",
-  "blush",
-  "slightly_smiling_face",
-  "cry",
-  "sob",
-  "scream",
-];
-
 const grindText = ["超細挽き", "細挽き", "中挽き", "粗挽き"];
 
 const Card = (props) => (
@@ -83,7 +74,10 @@ const Card = (props) => (
         <Title numberOfLines={1} ellipsizeMode="tail">
           {props.title}
         </Title>
-        <SubText>{grindText[props.grindTextID]}</SubText>
+        <TextBlock>
+          <DateText>{props.date}</DateText>
+          <SubText>{grindText[props.grindTextID]}</SubText>
+        </TextBlock>
       </RightBlock>
       <BeanWeightText>{props.BeanWeightNumber}g</BeanWeightText>
     </InnnerFlex>
@@ -94,7 +88,7 @@ export default Card;
 
 const Container = styled.View`
   background-color: white;
-  width: 252px;
+  width: 80%;
   height: 80px;
   border-radius: 15px;
   padding-left: 20px;
@@ -114,8 +108,12 @@ const Title = styled.Text`
 `;
 
 const SubText = styled.Text`
-  font-size: 14px;
-  width: 95%;
+  font-size: 12px;
+  margin-left: 8px;
+`;
+const DateText = styled.Text`
+  font-size: 12px;
+  opacity: 0.5;
 `;
 
 const InnnerFlex = styled.View`
@@ -127,12 +125,12 @@ const InnnerFlex = styled.View`
 `;
 
 const LeftBlock = styled.View`
-  width: 20%;
+  width: 15%;
 `;
 
 const RightBlock = styled.View`
-  width: 80%;
-  align-items: left;
+  width: 85%;
+  height: 48px;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -148,4 +146,13 @@ const BeanWeightText = styled.Text`
   bottom: -8px;
   color: #f2994a;
   opacity: 0.2;
+`;
+
+const TextBlock = styled.View`
+  width: 95%;
+  margin-top: 8px;
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 `;

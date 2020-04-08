@@ -3,9 +3,6 @@ import { Text, ScrollView, AsyncStorage } from "react-native";
 import styled from "styled-components/native";
 import FAB from "react-native-fab";
 import Card from "../components/Card";
-import DateNumber from "../components/DateNumber";
-
-const today = new Date();
 
 const cards = [
   {
@@ -13,55 +10,62 @@ const cards = [
     faceID: 2,
     grindTextID: 1,
     BeanWeightNumber: 13,
+    date: "2019/12/13",
   },
   {
-    title: "パナマゲイシャパナマゲイシャパナマゲイシャパナマゲイシャ",
-    faceID: 1,
+    title: "エチオピア",
+    faceID: 3,
     grindTextID: 0,
     BeanWeightNumber: 13,
+    date: "2019/12/13",
   },
   {
-    title: "パナマゲイシャパナマゲイシャパナマゲイシャパナマゲイシャ",
+    title: "コロンビア",
+    faceID: 3,
+    grindTextID: 1,
+    BeanWeightNumber: 13,
+    date: "2019/12/13",
+  },
+  {
+    title: "ベトナム",
+    faceID: 4,
+    grindTextID: 0,
+    BeanWeightNumber: 13,
+    date: "2019/12/13",
+  },
+  {
+    title: "コーヒー",
     faceID: 2,
     grindTextID: 1,
     BeanWeightNumber: 13,
+    date: "2019/12/13",
   },
   {
-    title: "パナマゲイシャパナマゲイシャパナマゲイシャパナマゲイシャ",
-    faceID: 1,
+    title: "アイスコーヒー",
+    faceID: 3,
     grindTextID: 0,
     BeanWeightNumber: 13,
+    date: "2019/12/13",
   },
   {
-    title: "パナマゲイシャパナマゲイシャパナマゲイシャパナマゲイシャ",
+    title: "エチオピアアリチャ",
     faceID: 2,
     grindTextID: 1,
     BeanWeightNumber: 13,
+    date: "2019/12/13",
   },
   {
     title: "パナマゲイシャパナマゲイシャパナマゲイシャパナマゲイシャ",
     faceID: 1,
     grindTextID: 0,
     BeanWeightNumber: 13,
-  },
-  {
-    title: "パナマゲイシャパナマゲイシャパナマゲイシャパナマゲイシャ",
-    faceID: 2,
-    grindTextID: 1,
-    BeanWeightNumber: 13,
-  },
-  {
-    title: "パナマゲイシャパナマゲイシャパナマゲイシャパナマゲイシャ",
-    faceID: 1,
-    grindTextID: 0,
-    BeanWeightNumber: 13,
+    date: "2019/12/13",
   },
 ];
 
 export default class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       isVisible: false,
       visible: false,
@@ -69,7 +73,6 @@ export default class HomeScreen extends React.Component {
       diarys: [],
     };
   }
-
   componentDidMount() {
     this.loadDiarys();
   }
@@ -82,12 +85,20 @@ export default class HomeScreen extends React.Component {
   };
   onToggleSnackBar = () =>
     this.setState((state) => ({ visible: !state.visible }));
-
   loadDiarys() {
-    AsyncStorage.getItem("diarys").then((str) => {
-      const diarys = str ? JSON.parse(str) : ["a"];
-      this.setState({ diarys: diarys });
+    let keys = ["title", "faceID", "BeanWeightNumber", "recipeCheckText"];
+    AsyncStorage.multiGet(keys).then((result) => {
+      this.setState({
+        title: result[0][1],
+        faceID: result[1][1],
+        BeanWeightNumber: result[2][1],
+        recipeCheckText: result[3][1],
+      });
     });
+  }
+
+  checkAnything() {
+    console.log();
   }
 
   render() {
@@ -95,52 +106,17 @@ export default class HomeScreen extends React.Component {
       <Container>
         <ScrollView>
           <DateContainer>
-            <LeftBlock>
-              <DateNumber DateNumber={today.getDate() - 2} />
-            </LeftBlock>
-            <RightBlock>
-              {cards.map((card, index) => (
-                <Card
-                  key={index}
-                  title={card.title}
-                  faceID={card.faceID}
-                  grindTextID={card.grindTextID}
-                  BeanWeightNumber={card.BeanWeightNumber}
-                />
-              ))}
-            </RightBlock>
-          </DateContainer>
-          <DateContainer>
-            <LeftBlock>
-              <DateNumber DateNumber={today.getDate() - 1} />
-            </LeftBlock>
-            <RightBlock>
-              {cards.map((card, index) => (
-                <Card
-                  key={index}
-                  title={card.title}
-                  faceID={card.faceID}
-                  grindTextID={card.grindTextID}
-                  BeanWeightNumber={card.BeanWeightNumber}
-                />
-              ))}
-            </RightBlock>
-          </DateContainer>
-          <DateContainer>
-            <LeftBlock>
-              <DateNumber DateNumber={today.getDate()} />
-            </LeftBlock>
-            <RightBlock>
-              {cards.map((card, index) => (
-                <Card
-                  key={index}
-                  title={card.title}
-                  faceID={card.faceID}
-                  grindTextID={card.grindTextID}
-                  BeanWeightNumber={card.BeanWeightNumber}
-                />
-              ))}
-            </RightBlock>
+            <DateTitle>Diarys</DateTitle>
+            {cards.map((card, index) => (
+              <Card
+                key={index}
+                title={card.title}
+                faceID={card.faceID}
+                grindTextID={card.grindTextID}
+                BeanWeightNumber={card.BeanWeightNumber}
+                date={card.date}
+              />
+            ))}
           </DateContainer>
         </ScrollView>
         <FAB
@@ -164,21 +140,14 @@ const Container = styled.View`
 const DateContainer = styled.View`
   padding: 20px;
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-`;
-
-const LeftBlock = styled.View`
-  width: 20%;
-  justify-content: flex-start;
-`;
-
-const RightBlock = styled.View`
-  width: 80%;
-  align-items: left;
   flex: 1;
-  display: flex;
   flex-direction: column;
   align-items: center;
+`;
+
+const DateTitle = styled.Text`
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  width: 80%;
 `;

@@ -17,7 +17,6 @@ class DiaryScreen extends React.Component {
     this.state = {
       title: "",
       faceID: 99,
-      diarys: [],
     };
   }
 
@@ -25,34 +24,54 @@ class DiaryScreen extends React.Component {
     this.setState({ title: e });
   };
 
-  onPressCreateDiary() {
-    this.setState({
-      diarys: [
-        {
-          title: this.state.title,
-          faceID: this.state.faceID,
-          BeanWeightNumber: BeanWeightNumber,
-          recipeCheckText: recipeCheckText,
-          createdRecipe: createdRecipe,
-        },
-      ],
+  // onPressCreateDiary() {
+  //   this.setState({
+  //     diarys: {
+  //       title: this.state.title,
+  //       faceID: this.state.faceID,
+  //       BeanWeightNumber: BeanWeightNumber,
+  //       recipeCheckText: recipeCheckText,
+  //       createdRecipe: createdRecipe,
+  //     },
+  //   });
+  // }
+
+  saveDiarys = () => {
+    const value1 = this.state.title;
+    const value2 = this.state.faceID;
+    const value3 = BeanWeightNumber;
+    const value4 = recipeCheckText;
+    let keys = [
+      ["title", value1],
+      ["faceID", value2],
+      ["BeanWeightNumber", value3],
+      ["recipeCheckText", value4],
+    ];
+    AsyncStorage.multiSet(keys, (err) => {
+      console.log("Value1" + value1 + " " + value2);
+      this.setState({
+        title: value1,
+        faceID: value2,
+        BeanWeightNumber: value3,
+        recipeCheckText: value4,
+      });
     });
-  }
+  };
 
   render() {
     const { navigation } = this.props;
     const createdRecipe = navigation.getParam("createdRecipe");
     const recipeCheckText = navigation.getParam("recipeCheckText");
     const BeanWeightNumber = navigation.getParam("BeanWeightNumber");
-    const setData = async (diarys) => {
-      try {
-        for (var i in diarys) {
-          await AsyncStorage.setItem(i, JSON.stringify(this.state.diarys[i]));
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
+    // const setData = async (diarys) => {
+    //   try {
+    //     for (var i in diarys) {
+    //       await AsyncStorage.setItem(i, JSON.stringify(this.state.diarys[i]));
+    //     }
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // };
     return (
       <Container>
         <ScrollView>
@@ -239,8 +258,7 @@ class DiaryScreen extends React.Component {
             </Table>
             <TouchableOpacity
               onPress={
-                (() => this.onPressCreateDiary,
-                setData(this.state.diarys),
+                (() => this.saveDiarys,
                 () => this.props.navigation.navigate("Home"))
               }
             >
