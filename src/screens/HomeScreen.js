@@ -106,7 +106,6 @@ export default class HomeScreen extends React.Component {
       <Container>
         <ScrollView>
           <DateContainer>
-            <DateTitle>Diarys</DateTitle>
             {cards.map((card, index) => (
               <Card
                 key={index}
@@ -143,11 +142,4 @@ const DateContainer = styled.View`
   flex: 1;
   flex-direction: column;
   align-items: center;
-`;
-
-const DateTitle = styled.Text`
-  font-size: 24px;
-  font-weight: 600;
-  margin-bottom: 20px;
-  width: 80%;
 `;

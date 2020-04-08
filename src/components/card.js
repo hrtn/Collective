@@ -88,7 +88,7 @@ export default Card;
 
 const Container = styled.View`
   background-color: white;
-  width: 80%;
+  width: 90%;
   height: 80px;
   border-radius: 15px;
   padding-left: 20px;
