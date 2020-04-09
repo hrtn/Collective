@@ -10,17 +10,6 @@ import {
 } from "react-native";
 import { Table, Rows } from "react-native-table-component";
 
-import Storage from "react-native-storage";
-import AsyncStorage from "@react-native-community/async-storage";
-
-const storage = new Storage({
-  size: 1000,
-  storageBackend: AsyncStorage,
-  defaultExpires: 1000 * 3600 * 24,
-  enableCache: true,
-  sync: {},
-});
-
 class DiaryScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -39,16 +28,16 @@ class DiaryScreen extends React.Component {
     const value2 = this.state.faceID;
     const value3 = BeanWeightNumber;
     const value4 = recipeCheckText;
-    storage.save({
-      key: "sample",
-      id: "1234",
-      data: {
-        title: value1,
-        faceID: value2,
-        BeanWeightNumber: value3,
-        recipeCheckText: value4,
-      },
-    });
+    // storage.save({
+    //   key: "sample",
+    //   id: "1234",
+    //   data: {
+    //     title: value1,
+    //     faceID: value2,
+    //     BeanWeightNumber: value3,
+    //     recipeCheckText: value4,
+    //   },
+    // });
   };
 
   render() {
