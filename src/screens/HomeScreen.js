@@ -4,6 +4,30 @@ import styled from "styled-components/native";
 import FAB from "react-native-fab";
 import Card from "../components/Card";
 
+import * as SQLite from "expo-sqlite";
+const db = SQLite.openDatebase({ name: "db.sqlite", location: "default" });
+
+db.transaction(
+  (tx) => {
+    tx.executeSql(
+      "create table if not exists diarys (id integer primary key not null, title text, faceID integer, BeanWeightNumber integer, date text, recipeCheckText text);", // 実行したいSQL文
+      null, // SQL文の引数
+      () => {
+        console.log("success");
+      }, // 成功時のコールバック関数
+      () => {
+        console.log("fail");
+      } // 失敗時のコールバック関数
+    );
+  },
+  () => {
+    console.log("fail");
+  }, // 失敗時のコールバック関数
+  () => {
+    console.log("success");
+  } // 成功時のコールバック関数
+);
+
 const cards = [
   {
     title: "パナマゲイシャパナマゲイシャパナマゲイシャパナマゲイシャ",
@@ -67,15 +91,37 @@ export default class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      cards: [],
       isVisible: false,
       visible: false,
       currentBeanWeightNumber: 0,
-      diarys: [],
     };
   }
-  componentDidMount() {
-    this.loadDiarys();
+  componentWillMount() {
+    // データ取得のSQL実行
+    db.executeSql(
+      "SELECT * FROM diarys ORDER BY id desc",
+      [],
+      function (rs) {
+        // 取得したデータを表示
+        for (var i = 0; i < rs.rows.length; i++) {
+          row = rs.rows.item(i);
+          showCards(row.title, row.faceID, grindTextID, BeanWeightNumber, date);
+        }
+      },
+      function (error) {
+        // データ取得失敗
+        alert(error.message);
+      }
+    );
   }
+
+  showCards = (title, faceID, BeanWeightNumber, date, recipeCheckText) => {
+    const newCards = [title, faceID, BeanWeightNumber, date, recipeCheckText];
+    this.setState({
+      cards: newCards,
+    });
+  };
   toggleSemiModal = () => {
     this.setState({ isVisible: !this.state.isVisible });
     console.log(this.state.diarys);
@@ -85,13 +131,11 @@ export default class HomeScreen extends React.Component {
   };
   onToggleSnackBar = () =>
     this.setState((state) => ({ visible: !state.visible }));
-  loadDiarys() {}
-
-  checkAnything() {
-    console.log();
-  }
 
   render() {
+    // const cards = this.state.realm
+    //   ? this.state.realm.objects(Preference.name)
+    //   : [];
     return (
       <Container>
         <ScrollView>

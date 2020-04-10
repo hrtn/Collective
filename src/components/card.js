@@ -26,8 +26,6 @@ const styles = StyleSheet.create({
   },
 });
 
-const grindText = ["超細挽き", "細挽き", "中挽き", "粗挽き"];
-
 const Card = (props) => (
   <Container
     style={(() => {
@@ -76,7 +74,6 @@ const Card = (props) => (
         </Title>
         <TextBlock>
           <DateText>{props.date}</DateText>
-          <SubText>{grindText[props.grindTextID]}</SubText>
         </TextBlock>
       </RightBlock>
       <BeanWeightText>{props.BeanWeightNumber}g</BeanWeightText>
@@ -107,10 +104,6 @@ const Title = styled.Text`
   font-weight: bold;
 `;
 
-const SubText = styled.Text`
-  font-size: 12px;
-  margin-left: 8px;
-`;
 const DateText = styled.Text`
   font-size: 12px;
   opacity: 0.5;

@@ -1,0 +1,67 @@
+{
+  "name": "RealmJS",
+  "version": "4.0.0-beta.0",
+  "summary": "Realm is a mobile database: an alternative to SQLite and key-value stores",
+  "license": "See the actual license in the file LICENSE",
+  "authors": {
+    "name": "Realm",
+    "email": "help@realm.io",
+    "url": "https://realm.io"
+  },
+  "homepage": "https://realm.io",
+  "platforms": {
+    "ios": "9.0"
+  },
+  "source": {
+    "http": "https://github.com/realm/realm-js/blob/master/CONTRIBUTING.md#how-to-debug-react-native-podspec"
+  },
+  "prepare_command": "node ./scripts/download-realm.js ios --sync",
+  "source_files": [
+    "src/*.cpp",
+    "src/jsc/*.cpp",
+    "src/ios/*.mm",
+    "src/object-store/src/*.cpp",
+    "src/object-store/src/sync/*.cpp",
+    "src/object-store/src/sync/impl/*.cpp",
+    "src/object-store/src/sync/impl/apple/*.cpp",
+    "src/object-store/src/impl/*.cpp",
+    "src/object-store/src/impl/apple/*.cpp",
+    "src/object-store/src/util/*.cpp",
+    "src/object-store/src/util/apple/*.cpp",
+    "react-native/ios/RealmReact/*.mm",
+    "vendor/*.cpp"
+  ],
+  "frameworks": [
+    "JavaScriptCore"
+  ],
+  "libraries": [
+    "c++",
+    "z"
+  ],
+  "compiler_flags": "-DREALM_HAVE_CONFIG -DREALM_ENABLE_SYNC",
+  "pod_target_xcconfig": {
+    "CC": "$(PODS_TARGET_SRCROOT)/scripts/ccache-clang.sh",
+    "CXX": "$(PODS_TARGET_SRCROOT)/scripts/ccache-clang++.sh",
+    "CLANG_CXX_LANGUAGE_STANDARD": "c++14",
+    "CLANG_CXX_LIBRARY": "libc++",
+    "CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF": "NO",
+    "CLANG_WARN_DOCUMENTATION_COMMENTS": "NO",
+    "CURRENT_PROJECT_VERSION": "4.0.0-beta.0",
+    "VERSIONING_SYSTEM": "apple-generic",
+    "HEADER_SEARCH_PATHS": "\"$(PODS_TARGET_SRCROOT)/src/\" \"$(PODS_TARGET_SRCROOT)/src/jsc/\" \"$(PODS_TARGET_SRCROOT)/src/object-store/src/\" \"$(PODS_TARGET_SRCROOT)/src/object-store/external/json/\" \"$(PODS_TARGET_SRCROOT)/vendor/\" \"$(PODS_TARGET_SRCROOT)/vendor/realm-ios/include/\" \"$(PODS_TARGET_SRCROOT)/react-native/ios/RealmReact/\" '/Users/haruta-masaki/projects/Collective/ios/Pods/Headers/Public/React-Core'"
+  },
+  "ios": {
+    "vendored_libraries": [
+      "vendor/realm-ios/librealm-ios.a",
+      "vendor/realm-ios/librealm-parser-ios.a"
+    ]
+  },
+  "dependencies": {
+    "React": [
+
+    ],
+    "GCDWebServer": [
+
+    ]
+  }
+}

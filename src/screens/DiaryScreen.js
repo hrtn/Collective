@@ -9,6 +9,30 @@ import {
   ScrollView,
 } from "react-native";
 import { Table, Rows } from "react-native-table-component";
+import { SQLite } from "expo-sqlite";
+
+const db = SQLite.openDatebase("db.db");
+
+db.transaction(
+  (tx) => {
+    tx.executeSql(
+      "create table if not exists diarys (id integer primary key not null, title text, faceID integer, BeanWeightNumber integer, date text, recipeCheckText text);", // 実行したいSQL文
+      null, // SQL文の引数
+      () => {
+        console.log("success");
+      }, // 成功時のコールバック関数
+      () => {
+        console.log("fail");
+      } // 失敗時のコールバック関数
+    );
+  },
+  () => {
+    console.log("fail");
+  }, // 失敗時のコールバック関数
+  () => {
+    console.log("success");
+  } // 成功時のコールバック関数
+);
 
 class DiaryScreen extends React.Component {
   constructor(props) {
@@ -16,6 +40,7 @@ class DiaryScreen extends React.Component {
     this.state = {
       title: "",
       faceID: 99,
+      realm: null,
     };
   }
 
@@ -23,22 +48,28 @@ class DiaryScreen extends React.Component {
     this.setState({ title: e });
   };
 
-  saveDiarys = () => {
-    const value1 = this.state.title;
-    const value2 = this.state.faceID;
-    const value3 = BeanWeightNumber;
-    const value4 = recipeCheckText;
-    // storage.save({
-    //   key: "sample",
-    //   id: "1234",
-    //   data: {
-    //     title: value1,
-    //     faceID: value2,
-    //     BeanWeightNumber: value3,
-    //     recipeCheckText: value4,
-    //   },
-    // });
-  };
+  saveDiarys(title, faceID, BeanWeightNumber, date, recipeCheckText) {
+    db.transaction(
+      (tx) => {
+        tx.executeSql(
+          `insert into diarys (title, faceID, BeanWeightNumber, date, recipeCheckText) values (title, faceID, BeanWeightNumber, date, recipeCheckText);`,
+          [title, faceID, BeanWeightNumber, date, recipeCheckText], // SQL文の引数
+          () => {
+            console.log("success");
+          }, // 成功時のコールバック関数
+          () => {
+            console.log("fail");
+          } // 失敗時のコールバック関数
+        );
+      },
+      () => {
+        console.log("fail");
+      }, // 失敗時のコールバック関数
+      () => {
+        console.log("success");
+      } // 成功時のコールバック関数
+    );
+  }
 
   render() {
     const { navigation } = this.props;
@@ -231,7 +262,16 @@ class DiaryScreen extends React.Component {
             </Table>
             <TouchableOpacity
               onPress={
-                (() => this.saveDiarys,
+                (() => {
+                  const date = new Date();
+                  this.saveDiarys(
+                    this.state.title,
+                    this.state.faceID,
+                    BeanWeightNumber,
+                    date,
+                    recipeCheckText
+                  );
+                },
                 () => this.props.navigation.navigate("Home"))
               }
             >
