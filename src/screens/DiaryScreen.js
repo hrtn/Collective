@@ -9,30 +9,30 @@ import {
   ScrollView,
 } from "react-native";
 import { Table, Rows } from "react-native-table-component";
-import { SQLite } from "expo-sqlite";
+// import { SQLite } from "expo-sqlite";
 
-const db = SQLite.openDatebase("db.db");
+// const db = SQLite.openDatabase("db");
 
-db.transaction(
-  (tx) => {
-    tx.executeSql(
-      "create table if not exists diarys (id integer primary key not null, title text, faceID integer, BeanWeightNumber integer, date text, recipeCheckText text);", // 実行したいSQL文
-      null, // SQL文の引数
-      () => {
-        console.log("success");
-      }, // 成功時のコールバック関数
-      () => {
-        console.log("fail");
-      } // 失敗時のコールバック関数
-    );
-  },
-  () => {
-    console.log("fail");
-  }, // 失敗時のコールバック関数
-  () => {
-    console.log("success");
-  } // 成功時のコールバック関数
-);
+// db.transaction(
+//   (tx) => {
+//     tx.executeSql(
+//       "create table if not exists diarys (id integer primary key not null, title text, faceID integer, BeanWeightNumber integer, date text, recipeCheckText text);", // 実行したいSQL文
+//       null, // SQL文の引数
+//       () => {
+//         console.log("success");
+//       }, // 成功時のコールバック関数
+//       () => {
+//         console.log("fail");
+//       } // 失敗時のコールバック関数
+//     );
+//   },
+//   () => {
+//     console.log("fail");
+//   }, // 失敗時のコールバック関数
+//   () => {
+//     console.log("success");
+//   } // 成功時のコールバック関数
+// );
 
 class DiaryScreen extends React.Component {
   constructor(props) {

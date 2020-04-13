@@ -2,7 +2,6 @@
 /node_modules
 .vscode
 .idea
-package-lock.json
 *app.json
 *.log
 build/
