@@ -19,7 +19,6 @@ class DiaryScreen extends React.Component {
     this.state = {
       title: "",
       faceID: 99,
-      realm: null,
     };
   }
 
