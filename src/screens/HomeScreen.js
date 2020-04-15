@@ -7,6 +7,45 @@ import Card from "../components/Card";
 import * as SQLite from "expo-sqlite";
 const db = SQLite.openDatabase("db.db");
 
+// こっちは動く
+const cards_ = [
+  {
+    title: "パナマゲイシャパナマゲイシャパナマゲイシャパナマゲイシャ",
+    faceID: 2,
+    grindTextID: 1,
+    BeanWeightNumber: 13,
+    date: "2019/12/13",
+  },
+  {
+    title: "パナマゲイシャパナマゲイシャパナマゲイシャパナマゲイシャ",
+    faceID: 2,
+    grindTextID: 1,
+    BeanWeightNumber: 13,
+    date: "2019/12/13",
+  },
+  {
+    title: "パナマゲイシャパナマゲイシャパナマゲイシャパナマゲイシャ",
+    faceID: 2,
+    grindTextID: 1,
+    BeanWeightNumber: 13,
+    date: "2019/12/13",
+  },
+  {
+    title: "パナマゲイシャパナマゲイシャパナマゲイシャパナマゲイシャ",
+    faceID: 2,
+    grindTextID: 1,
+    BeanWeightNumber: 13,
+    date: "2019/12/13",
+  },
+  {
+    title: "パナマゲイシャパナマゲイシャパナマゲイシャパナマゲイシャ",
+    faceID: 2,
+    grindTextID: 1,
+    BeanWeightNumber: 13,
+    date: "2019/12/13",
+  },
+];
+
 export default class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -19,7 +58,7 @@ export default class HomeScreen extends React.Component {
   }
   toggleSemiModal = () => {
     this.setState({ isVisible: !this.state.isVisible });
-    console.log(this.state.diarys);
+    console.log(this.state.cards);
   };
   changeTextInput = (e) => {
     this.setState({ currentBeanWeightNumber: e });
@@ -33,15 +72,18 @@ export default class HomeScreen extends React.Component {
       <Container>
         <ScrollView>
           <DateContainer>
-            {/* {cards.map((card) => (
-              <Card
-                key={card.id}
-                title={card.title}
-                faceID={card.faceID}
-                BeanWeightNumber={card.BeanWeightNumber}
-                date={card.date}
-              />
-            ))} */}
+            {cards === null || cards.length === 0
+              ? null
+              : cards_.map((card) => (
+                  <Card
+                    key={card.id}
+                    title={card.title}
+                    faceID={card.faceID}
+                    BeanWeightNumber={card.BeanWeightNumber}
+                    date={card.date}
+                  />
+                ))}
+            {/* cards_は動く。cardはうごかない */}
           </DateContainer>
         </ScrollView>
         <FAB
@@ -83,6 +125,7 @@ export default class HomeScreen extends React.Component {
       () => {
         console.log("success_fetchAllData");
         console.log(this.state.cards);
+        console.log(cards_);
       }
     );
   }
