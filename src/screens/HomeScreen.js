@@ -33,20 +33,15 @@ export default class HomeScreen extends React.Component {
       <Container>
         <ScrollView>
           <DateContainer>
-            {cards.length > 0 ? (
-              <Container>none</Container>
-            ) : (
-              cards.map((card, index) => (
-                <Card
-                  key={index}
-                  title={card.title}
-                  faceID={card.faceID}
-                  grindTextID={card.grindTextID}
-                  BeanWeightNumber={card.BeanWeightNumber}
-                  date={card.date}
-                />
-              ))
-            )}
+            {/* {cards.map((card) => (
+              <Card
+                key={card.id}
+                title={card.title}
+                faceID={card.faceID}
+                BeanWeightNumber={card.BeanWeightNumber}
+                date={card.date}
+              />
+            ))} */}
           </DateContainer>
         </ScrollView>
         <FAB
@@ -61,41 +56,35 @@ export default class HomeScreen extends React.Component {
   }
 
   componentDidMount() {
+    db.transaction((tx) => {
+      tx.executeSql(
+        "create table if not exists diarys (id integer primary key not null, title text, faceID integer, BeanWeightNumber integer, date text, recipeCheckText text);", // 実行したいSQL文
+        null, // SQL文の引数
+        () => {
+          console.log("success create table");
+        }, // 成功時のコールバック関数
+        () => {
+          console.log("fail");
+        } // 失敗時のコールバック関数
+      );
+    });
+
     db.transaction(
       (tx) => {
         tx.executeSql(
-          "create table if not exists diarys (id integer primary key not null, title text, faceID integer, BeanWeightNumber integer, date text, recipeCheckText text);", // 実行したいSQL文
-          null, // SQL文の引数
-          () => {
-            console.log("success");
-          }, // 成功時のコールバック関数
-          () => {
-            console.log("fail");
-          } // 失敗時のコールバック関数
+          "SELECT * FROM diarys ORDER BY id ASC;",
+          [],
+          (_, { rows: { _array } }) => this.setState({ cards: _array })
         );
       },
       () => {
         console.log("fail");
-      }, // 失敗時のコールバック関数
+      },
       () => {
-        console.log("success");
-      } // 成功時のコールバック関数
+        console.log("success_fetchAllData");
+        console.log(this.state.cards);
+      }
     );
-
-    db.transaction((tx) => {
-      tx.executeSql("SELECT * FROM diarys;", [], (tx, results) => {
-        const rows = results.rows;
-        let cards = [];
-
-        for (var i = 0; i < rows.length; i++) {
-          cards.push({
-            ...rows.item(i),
-          });
-        }
-
-        this.setState({ cards });
-      });
-    });
   }
 }
 

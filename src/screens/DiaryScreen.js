@@ -9,6 +9,7 @@ import {
   ScrollView,
 } from "react-native";
 import { Table, Rows } from "react-native-table-component";
+import moment from "moment";
 import * as SQLite from "expo-sqlite";
 
 const db = SQLite.openDatabase("db.db");
@@ -27,26 +28,19 @@ class DiaryScreen extends React.Component {
   };
 
   saveDiarys(title, faceID, BeanWeightNumber, date, recipeCheckText) {
-    db.transaction(
-      (tx) => {
-        tx.executeSql(
-          `insert into diarys (title, faceID, BeanWeightNumber, date, recipeCheckText) values (title, faceID, BeanWeightNumber, date, recipeCheckText);`,
-          [title, faceID, BeanWeightNumber, date, recipeCheckText], // SQL文の引数
-          () => {
-            console.log("success");
-          }, // 成功時のコールバック関数
-          () => {
-            console.log("fail");
-          } // 失敗時のコールバック関数
-        );
-      },
-      () => {
-        console.log("fail");
-      }, // 失敗時のコールバック関数
-      () => {
-        console.log("success");
-      } // 成功時のコールバック関数
-    );
+    db.transaction((tx) => {
+      tx.executeSql(
+        `insert into diarys (title, faceID, BeanWeightNumber, date, recipeCheckText) values (?, ?, ?, ?, ?);`,
+        [title, faceID, BeanWeightNumber, date, recipeCheckText], // SQL文の引数
+        () => {
+          console.log("success diarys");
+          console.log(title, faceID, BeanWeightNumber, date, recipeCheckText);
+        }, // 成功時のコールバック関数
+        () => {
+          console.log("fail");
+        } // 失敗時のコールバック関数
+      );
+    });
   }
 
   render() {
@@ -239,19 +233,18 @@ class DiaryScreen extends React.Component {
               />
             </Table>
             <TouchableOpacity
-              onPress={
-                (() => {
-                  const date = new Date();
-                  this.saveDiarys(
-                    this.state.title,
-                    this.state.faceID,
-                    BeanWeightNumber,
-                    date,
-                    recipeCheckText
-                  );
-                },
-                () => this.props.navigation.navigate("Home"))
-              }
+              onPress={() => {
+                const currentDate = new Date();
+                const date = moment(currentDate).format("YYYY-MM-DD");
+                this.saveDiarys(
+                  this.state.title,
+                  this.state.faceID,
+                  BeanWeightNumber,
+                  date,
+                  recipeCheckText
+                );
+                this.props.navigation.navigate("Home");
+              }}
             >
               <View style={[styles.goToRecipeButton, { marginBottom: 16 }]}>
                 <Text style={styles.goToRecipeText}>日記を作成</Text>
