@@ -71,272 +71,267 @@ class CaliculateScreen extends React.Component {
     return (
       <Container>
         <ScrollView>
-          <KeyboardAvoidingView
-            behavior={Platform.Os == "ios" ? "padding" : "height"}
-            style={{ flex: 1 }}
-          >
-            <ScrollBox>
-              <View style={{ width: 280 }}>
-                <Text style={[styles.modalText, { marginBottom: 16 }]}>
-                  豆の重さ
-                </Text>
-                <View style={styles.inputBlock}>
-                  <TextInput
-                    onChangeText={(e) => this.changeTextInput(e)}
-                    value={this.state.currentBeanWeightNumber}
-                    keyboardType={"number-pad"}
-                    enablesReturnKeyAutomatically={true}
-                  />
-                  <Text style={[styles.inputText]}>g</Text>
-                </View>
-              </View>
-              <View>
-                <Text style={[styles.modalText, { marginBottom: 16 }]}>
-                  豆の名前
-                </Text>
-                <TextBeanInput
-                  onChangeText={(text) => this.changeBeanTextInput(text)}
-                  value={this.state.title}
+          <ScrollBox>
+            <View style={{ width: 280 }}>
+              <Text style={[styles.modalText, { marginBottom: 16 }]}>
+                豆の重さ
+              </Text>
+              <View style={styles.inputBlock}>
+                <TextInput
+                  onChangeText={(e) => this.changeTextInput(e)}
+                  value={this.state.currentBeanWeightNumber}
+                  keyboardType={"number-pad"}
+                  enablesReturnKeyAutomatically={true}
                 />
+                <Text style={[styles.inputText]}>g</Text>
               </View>
-              <View>
-                <Text style={[styles.modalText, { marginBottom: 16 }]}>
-                  コーヒーの種類
-                </Text>
-                <RecipieChangeBox style={{ marginBottom: 24 }}>
-                  <TouchableWithoutFeedback
-                    onPress={() => this.setState({ recipeCheck: "light" })}
+            </View>
+            <View>
+              <Text style={[styles.modalText, { marginBottom: 16 }]}>
+                豆の名前
+              </Text>
+              <TextBeanInput
+                onChangeText={(text) => this.changeBeanTextInput(text)}
+                value={this.state.title}
+              />
+            </View>
+            <View>
+              <Text style={[styles.modalText, { marginBottom: 16 }]}>
+                コーヒーの種類
+              </Text>
+              <RecipieChangeBox style={{ marginBottom: 24 }}>
+                <TouchableWithoutFeedback
+                  onPress={() => this.setState({ recipeCheck: "light" })}
+                >
+                  <View
+                    style={
+                      this.state.recipeCheck == "light"
+                        ? styles.activeBtn
+                        : styles.defaultBtn
+                    }
                   >
-                    <View
+                    <Text
                       style={
                         this.state.recipeCheck == "light"
-                          ? styles.activeBtn
-                          : styles.defaultBtn
+                          ? styles.activeText
+                          : styles.defaultText
                       }
                     >
-                      <Text
-                        style={
-                          this.state.recipeCheck == "light"
-                            ? styles.activeText
-                            : styles.defaultText
-                        }
-                      >
-                        浅煎りコーヒー
-                      </Text>
-                    </View>
-                  </TouchableWithoutFeedback>
+                      浅煎りコーヒー
+                    </Text>
+                  </View>
+                </TouchableWithoutFeedback>
+                <TouchableWithoutFeedback
+                  onPress={() => this.setState({ recipeCheck: "dark" })}
+                >
+                  <View
+                    style={[
+                      styles.margin8,
+                      this.state.recipeCheck == "dark"
+                        ? styles.activeBtn
+                        : styles.defaultBtn,
+                    ]}
+                  >
+                    <Text
+                      style={
+                        this.state.recipeCheck == "dark"
+                          ? styles.activeText
+                          : styles.defaultText
+                      }
+                    >
+                      深煎りコーヒー
+                    </Text>
+                  </View>
+                </TouchableWithoutFeedback>
+              </RecipieChangeBox>
+            </View>
+            <Table
+              borderStyle={{
+                borderWidth: 1,
+                borderColor: "#e8e8e8",
+              }}
+              style={{ marginBottom: 24 }}
+            >
+              <Rows
+                data={
+                  this.state.recipeCheck == "dark"
+                    ? unlimitedRecipe
+                    : defaultRecipe
+                }
+                textStyle={styles.rowText}
+                style={{ width: 280, backgroundColor: "#F6F6F6" }}
+              />
+            </Table>
+            <View>
+              <Text style={[styles.modalText, { marginBottom: 16 }]}>
+                味の感想
+              </Text>
+              <View style={{ marginBottom: 24 }}>
+                <EmojiBlock style={{ marginBottom: 16 }}>
                   <TouchableWithoutFeedback
-                    onPress={() => this.setState({ recipeCheck: "dark" })}
+                    onPress={() => this.setState({ faceID: 0 })}
                   >
                     <View
                       style={[
-                        styles.margin8,
-                        this.state.recipeCheck == "dark"
-                          ? styles.activeBtn
-                          : styles.defaultBtn,
+                        this.state.faceID === 0
+                          ? styles.activeEmojiBg
+                          : styles.defaultEmojiBg,
                       ]}
                     >
+                      <ImageIcon source={require("../img/heartEyes.png")} />
                       <Text
                         style={
-                          this.state.recipeCheck == "dark"
-                            ? styles.activeText
-                            : styles.defaultText
+                          this.state.faceID === 0
+                            ? styles.activeEmojiText
+                            : styles.defaultEmojiText
                         }
                       >
-                        深煎りコーヒー
+                        最高
                       </Text>
                     </View>
                   </TouchableWithoutFeedback>
-                </RecipieChangeBox>
-              </View>
-              <Table
-                borderStyle={{
-                  borderWidth: 1,
-                  borderColor: "#e8e8e8",
-                }}
-                style={{ marginBottom: 24 }}
-              >
-                <Rows
-                  data={
-                    this.state.recipeCheck == "dark"
-                      ? unlimitedRecipe
-                      : defaultRecipe
-                  }
-                  textStyle={styles.rowText}
-                  style={{ width: 280, backgroundColor: "#F6F6F6" }}
-                />
-              </Table>
-              <View>
-                <Text style={[styles.modalText, { marginBottom: 16 }]}>
-                  味の感想
-                </Text>
-                <View style={{ marginBottom: 24 }}>
-                  <EmojiBlock style={{ marginBottom: 16 }}>
-                    <TouchableWithoutFeedback
-                      onPress={() => this.setState({ faceID: 0 })}
+                  <TouchableWithoutFeedback
+                    onPress={() => this.setState({ faceID: 1 })}
+                  >
+                    <View
+                      style={[
+                        this.state.faceID === 1
+                          ? styles.activeEmojiBg
+                          : styles.defaultEmojiBg,
+                      ]}
                     >
-                      <View
-                        style={[
-                          this.state.faceID === 0
-                            ? styles.activeEmojiBg
-                            : styles.defaultEmojiBg,
-                        ]}
-                      >
-                        <ImageIcon source={require("../img/heartEyes.png")} />
-                        <Text
-                          style={
-                            this.state.faceID === 0
-                              ? styles.activeEmojiText
-                              : styles.defaultEmojiText
-                          }
-                        >
-                          最高
-                        </Text>
-                      </View>
-                    </TouchableWithoutFeedback>
-                    <TouchableWithoutFeedback
-                      onPress={() => this.setState({ faceID: 1 })}
-                    >
-                      <View
-                        style={[
+                      <ImageIcon source={require("../img/blush.png")} />
+                      <Text
+                        style={
                           this.state.faceID === 1
-                            ? styles.activeEmojiBg
-                            : styles.defaultEmojiBg,
-                        ]}
+                            ? styles.activeEmojiText
+                            : styles.defaultEmojiText
+                        }
                       >
-                        <ImageIcon source={require("../img/blush.png")} />
-                        <Text
-                          style={
-                            this.state.faceID === 1
-                              ? styles.activeEmojiText
-                              : styles.defaultEmojiText
-                          }
-                        >
-                          うまい
-                        </Text>
-                      </View>
-                    </TouchableWithoutFeedback>
-                    <TouchableWithoutFeedback
-                      onPress={() => this.setState({ faceID: 2 })}
+                        うまい
+                      </Text>
+                    </View>
+                  </TouchableWithoutFeedback>
+                  <TouchableWithoutFeedback
+                    onPress={() => this.setState({ faceID: 2 })}
+                  >
+                    <View
+                      style={
+                        this.state.faceID === 2
+                          ? styles.activeEmojiBg
+                          : styles.defaultEmojiBg
+                      }
                     >
-                      <View
+                      <ImageIcon
+                        source={require("../img/slightly_smiling_face.png")}
+                      />
+                      <Text
                         style={
                           this.state.faceID === 2
-                            ? styles.activeEmojiBg
-                            : styles.defaultEmojiBg
+                            ? styles.activeEmojiText
+                            : styles.defaultEmojiText
                         }
                       >
-                        <ImageIcon
-                          source={require("../img/slightly_smiling_face.png")}
-                        />
-                        <Text
-                          style={
-                            this.state.faceID === 2
-                              ? styles.activeEmojiText
-                              : styles.defaultEmojiText
-                          }
-                        >
-                          ちょいうま
-                        </Text>
-                      </View>
-                    </TouchableWithoutFeedback>
-                  </EmojiBlock>
-                  <EmojiBlock>
-                    <TouchableWithoutFeedback
-                      onPress={() => this.setState({ faceID: 3 })}
+                        ちょいうま
+                      </Text>
+                    </View>
+                  </TouchableWithoutFeedback>
+                </EmojiBlock>
+                <EmojiBlock>
+                  <TouchableWithoutFeedback
+                    onPress={() => this.setState({ faceID: 3 })}
+                  >
+                    <View
+                      style={[
+                        this.state.faceID === 3
+                          ? styles.activeEmojiBg
+                          : styles.defaultEmojiBg,
+                      ]}
                     >
-                      <View
-                        style={[
+                      <ImageIcon source={require("../img/sob.png")} />
+                      <Text
+                        style={
                           this.state.faceID === 3
-                            ? styles.activeEmojiBg
-                            : styles.defaultEmojiBg,
-                        ]}
+                            ? styles.activeEmojiText
+                            : styles.defaultEmojiText
+                        }
                       >
-                        <ImageIcon source={require("../img/sob.png")} />
-                        <Text
-                          style={
-                            this.state.faceID === 3
-                              ? styles.activeEmojiText
-                              : styles.defaultEmojiText
-                          }
-                        >
-                          ちょい微妙
-                        </Text>
-                      </View>
-                    </TouchableWithoutFeedback>
-                    <TouchableWithoutFeedback
-                      onPress={() => this.setState({ faceID: 4 })}
+                        ちょい微妙
+                      </Text>
+                    </View>
+                  </TouchableWithoutFeedback>
+                  <TouchableWithoutFeedback
+                    onPress={() => this.setState({ faceID: 4 })}
+                  >
+                    <View
+                      style={[
+                        this.state.faceID === 4
+                          ? styles.activeEmojiBg
+                          : styles.defaultEmojiBg,
+                      ]}
                     >
-                      <View
-                        style={[
+                      <ImageIcon source={require("../img/cry.png")} />
+                      <Text
+                        style={
                           this.state.faceID === 4
-                            ? styles.activeEmojiBg
-                            : styles.defaultEmojiBg,
-                        ]}
+                            ? styles.activeEmojiText
+                            : styles.defaultEmojiText
+                        }
                       >
-                        <ImageIcon source={require("../img/cry.png")} />
-                        <Text
-                          style={
-                            this.state.faceID === 4
-                              ? styles.activeEmojiText
-                              : styles.defaultEmojiText
-                          }
-                        >
-                          微妙
-                        </Text>
-                      </View>
-                    </TouchableWithoutFeedback>
-                    <TouchableWithoutFeedback
-                      onPress={() => this.setState({ faceID: 5 })}
+                        微妙
+                      </Text>
+                    </View>
+                  </TouchableWithoutFeedback>
+                  <TouchableWithoutFeedback
+                    onPress={() => this.setState({ faceID: 5 })}
+                  >
+                    <View
+                      style={
+                        this.state.faceID === 5
+                          ? styles.activeEmojiBg
+                          : styles.defaultEmojiBg
+                      }
                     >
-                      <View
+                      <ImageIcon source={require("../img/screem.png")} />
+                      <Text
                         style={
                           this.state.faceID === 5
-                            ? styles.activeEmojiBg
-                            : styles.defaultEmojiBg
+                            ? styles.activeEmojiText
+                            : styles.defaultEmojiText
                         }
                       >
-                        <ImageIcon source={require("../img/screem.png")} />
-                        <Text
-                          style={
-                            this.state.faceID === 5
-                              ? styles.activeEmojiText
-                              : styles.defaultEmojiText
-                          }
-                        >
-                          最悪
-                        </Text>
-                      </View>
-                    </TouchableWithoutFeedback>
-                  </EmojiBlock>
-                </View>
+                        最悪
+                      </Text>
+                    </View>
+                  </TouchableWithoutFeedback>
+                </EmojiBlock>
               </View>
-              <TouchableOpacity
-                onPress={() => {
-                  const currentDate = new Date();
-                  const date = moment(currentDate).format("YYYY-MM-DD");
-                  this.saveDiarys(
-                    this.state.title,
-                    this.state.faceID,
-                    this.state.BeanWeightNumber,
-                    date,
-                    this.state.recipeCheckText
-                  );
-                  this.props.navigation.state.params.refresh();
-                  this.props.navigation.navigate("Home");
-                }}
-              >
-                <View style={[styles.goToRecipeButton, { marginBottom: 16 }]}>
-                  <Text style={styles.goToRecipeText}>日記を作成</Text>
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-                <View style={styles.goBackTopButton}>
-                  <Text style={styles.goBackTopText}>キャンセル</Text>
-                </View>
-              </TouchableOpacity>
-            </ScrollBox>
-          </KeyboardAvoidingView>
+            </View>
+            <TouchableOpacity
+              onPress={() => {
+                const currentDate = new Date();
+                const date = moment(currentDate).format("YYYY-MM-DD");
+                this.saveDiarys(
+                  this.state.title,
+                  this.state.faceID,
+                  this.state.currentBeanWeightNumber,
+                  date,
+                  this.state.recipeCheckText
+                );
+                this.props.navigation.state.params.refresh();
+                this.props.navigation.navigate("Home");
+              }}
+            >
+              <View style={[styles.goToRecipeButton, { marginBottom: 16 }]}>
+                <Text style={styles.goToRecipeText}>日記を作成</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+              <View style={styles.goBackTopButton}>
+                <Text style={styles.goBackTopText}>キャンセル</Text>
+              </View>
+            </TouchableOpacity>
+          </ScrollBox>
         </ScrollView>
       </Container>
     );
@@ -356,7 +351,7 @@ const ScrollBox = styled.View`
   flex-direction: column;
   align-items: center;
   padding-top: 20px;
-  padding-bottom: 20px;
+  padding-bottom: 60px;
 `;
 
 const RecipieChangeBox = styled.View`
