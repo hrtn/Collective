@@ -53,7 +53,11 @@ export default class HomeScreen extends React.Component {
         <FAB
           buttonColor="#252525"
           iconTextColor="#FFFFFF"
-          onClickAction={() => this.props.navigation.navigate("Caliculate")}
+          onClickAction={() =>
+            this.props.navigation.navigate("Caliculate", {
+              refresh: this.componentWillMount.bind(this),
+            })
+          }
           visible={true}
           iconTextComponent={<Text>+</Text>}
         />
@@ -61,7 +65,7 @@ export default class HomeScreen extends React.Component {
     );
   }
 
-  componentDidMount() {
+  componentWillMount() {
     db.transaction((tx) => {
       tx.executeSql(
         "create table if not exists diarys (id integer primary key not null, title text, faceID integer, BeanWeightNumber integer, date text, recipeCheckText text);", // 実行したいSQL文

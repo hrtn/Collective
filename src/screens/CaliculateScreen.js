@@ -11,6 +11,11 @@ import {
 } from "react-native";
 import styled from "styled-components/native";
 import { Table, Rows } from "react-native-table-component";
+import moment from "moment";
+
+import * as SQLite from "expo-sqlite";
+
+const db = SQLite.openDatabase("db.db");
 
 class CaliculateScreen extends React.Component {
   constructor(props) {
@@ -18,11 +23,34 @@ class CaliculateScreen extends React.Component {
     this.state = {
       recipeCheck: "light",
       currentBeanWeightNumber: 0,
+      title: "",
+      faceID: 99,
     };
   }
   changeTextInput = (e) => {
     this.setState({ currentBeanWeightNumber: e });
   };
+  changeBeanTextInput = (e) => {
+    this.setState({ title: e });
+  };
+
+  saveDiarys(title, faceID, BeanWeightNumber, date, recipeCheckText) {
+    db.transaction((tx) => {
+      tx.executeSql(
+        `insert into diarys (title, faceID, BeanWeightNumber, date, recipeCheckText) values (?, ?, ?, ?, ?);`,
+        [title, faceID, BeanWeightNumber, date, recipeCheckText], // SQL文の引数
+        () => {
+          console.log("success diarys");
+          console.log(title, faceID, BeanWeightNumber, date, recipeCheckText);
+          console.log(this.props.navigation.state.params.refresh());
+        }, // 成功時のコールバック関数
+        () => {
+          console.log("fail");
+        } // 失敗時のコールバック関数
+      );
+    });
+  }
+
   render() {
     const defaultRecipe = [
       ["蒸らし", "30秒", this.state.currentBeanWeightNumber * 2.5],
@@ -48,17 +76,10 @@ class CaliculateScreen extends React.Component {
             style={{ flex: 1 }}
           >
             <ScrollBox>
-              <View>
-                <Text style={[styles.recipeTitle, { marginBottom: 16 }]}>
-                  レシピを作成しましょう
-                </Text>
-              </View>
-              <View>
+              <View style={{ width: 280 }}>
                 <Text style={[styles.modalText, { marginBottom: 16 }]}>
-                  豆の重さを入力してください
+                  豆の重さ
                 </Text>
-              </View>
-              <View>
                 <View style={styles.inputBlock}>
                   <TextInput
                     onChangeText={(e) => this.changeTextInput(e)}
@@ -71,60 +92,69 @@ class CaliculateScreen extends React.Component {
               </View>
               <View>
                 <Text style={[styles.modalText, { marginBottom: 16 }]}>
-                  コーヒーの種類を選択してください
+                  豆の名前
                 </Text>
+                <TextBeanInput
+                  onChangeText={(text) => this.changeBeanTextInput(text)}
+                  value={this.state.title}
+                />
               </View>
-              <RecipieChangeBox style={{ marginBottom: 36 }}>
-                <TouchableWithoutFeedback
-                  onPress={() => this.setState({ recipeCheck: "light" })}
-                >
-                  <View
-                    style={
-                      this.state.recipeCheck == "light"
-                        ? styles.activeBtn
-                        : styles.defaultBtn
-                    }
+              <View>
+                <Text style={[styles.modalText, { marginBottom: 16 }]}>
+                  コーヒーの種類
+                </Text>
+                <RecipieChangeBox style={{ marginBottom: 24 }}>
+                  <TouchableWithoutFeedback
+                    onPress={() => this.setState({ recipeCheck: "light" })}
                   >
-                    <Text
+                    <View
                       style={
                         this.state.recipeCheck == "light"
-                          ? styles.activeText
-                          : styles.defaultText
+                          ? styles.activeBtn
+                          : styles.defaultBtn
                       }
                     >
-                      浅煎りコーヒー
-                    </Text>
-                  </View>
-                </TouchableWithoutFeedback>
-                <TouchableWithoutFeedback
-                  onPress={() => this.setState({ recipeCheck: "dark" })}
-                >
-                  <View
-                    style={[
-                      styles.margin8,
-                      this.state.recipeCheck == "dark"
-                        ? styles.activeBtn
-                        : styles.defaultBtn,
-                    ]}
+                      <Text
+                        style={
+                          this.state.recipeCheck == "light"
+                            ? styles.activeText
+                            : styles.defaultText
+                        }
+                      >
+                        浅煎りコーヒー
+                      </Text>
+                    </View>
+                  </TouchableWithoutFeedback>
+                  <TouchableWithoutFeedback
+                    onPress={() => this.setState({ recipeCheck: "dark" })}
                   >
-                    <Text
-                      style={
+                    <View
+                      style={[
+                        styles.margin8,
                         this.state.recipeCheck == "dark"
-                          ? styles.activeText
-                          : styles.defaultText
-                      }
+                          ? styles.activeBtn
+                          : styles.defaultBtn,
+                      ]}
                     >
-                      深煎りコーヒー
-                    </Text>
-                  </View>
-                </TouchableWithoutFeedback>
-              </RecipieChangeBox>
+                      <Text
+                        style={
+                          this.state.recipeCheck == "dark"
+                            ? styles.activeText
+                            : styles.defaultText
+                        }
+                      >
+                        深煎りコーヒー
+                      </Text>
+                    </View>
+                  </TouchableWithoutFeedback>
+                </RecipieChangeBox>
+              </View>
               <Table
                 borderStyle={{
                   borderWidth: 1,
                   borderColor: "#e8e8e8",
                 }}
-                style={{ marginBottom: 48 }}
+                style={{ marginBottom: 24 }}
               >
                 <Rows
                   data={
@@ -133,29 +163,176 @@ class CaliculateScreen extends React.Component {
                       : defaultRecipe
                   }
                   textStyle={styles.rowText}
-                  style={{ width: 300, backgroundColor: "#F6F6F6" }}
+                  style={{ width: 280, backgroundColor: "#F6F6F6" }}
                 />
               </Table>
+              <View>
+                <Text style={[styles.modalText, { marginBottom: 16 }]}>
+                  味の感想
+                </Text>
+                <View style={{ marginBottom: 24 }}>
+                  <EmojiBlock style={{ marginBottom: 16 }}>
+                    <TouchableWithoutFeedback
+                      onPress={() => this.setState({ faceID: 0 })}
+                    >
+                      <View
+                        style={[
+                          this.state.faceID === 0
+                            ? styles.activeEmojiBg
+                            : styles.defaultEmojiBg,
+                        ]}
+                      >
+                        <ImageIcon source={require("../img/heartEyes.png")} />
+                        <Text
+                          style={
+                            this.state.faceID === 0
+                              ? styles.activeEmojiText
+                              : styles.defaultEmojiText
+                          }
+                        >
+                          最高
+                        </Text>
+                      </View>
+                    </TouchableWithoutFeedback>
+                    <TouchableWithoutFeedback
+                      onPress={() => this.setState({ faceID: 1 })}
+                    >
+                      <View
+                        style={[
+                          this.state.faceID === 1
+                            ? styles.activeEmojiBg
+                            : styles.defaultEmojiBg,
+                        ]}
+                      >
+                        <ImageIcon source={require("../img/blush.png")} />
+                        <Text
+                          style={
+                            this.state.faceID === 1
+                              ? styles.activeEmojiText
+                              : styles.defaultEmojiText
+                          }
+                        >
+                          うまい
+                        </Text>
+                      </View>
+                    </TouchableWithoutFeedback>
+                    <TouchableWithoutFeedback
+                      onPress={() => this.setState({ faceID: 2 })}
+                    >
+                      <View
+                        style={
+                          this.state.faceID === 2
+                            ? styles.activeEmojiBg
+                            : styles.defaultEmojiBg
+                        }
+                      >
+                        <ImageIcon
+                          source={require("../img/slightly_smiling_face.png")}
+                        />
+                        <Text
+                          style={
+                            this.state.faceID === 2
+                              ? styles.activeEmojiText
+                              : styles.defaultEmojiText
+                          }
+                        >
+                          ちょいうま
+                        </Text>
+                      </View>
+                    </TouchableWithoutFeedback>
+                  </EmojiBlock>
+                  <EmojiBlock>
+                    <TouchableWithoutFeedback
+                      onPress={() => this.setState({ faceID: 3 })}
+                    >
+                      <View
+                        style={[
+                          this.state.faceID === 3
+                            ? styles.activeEmojiBg
+                            : styles.defaultEmojiBg,
+                        ]}
+                      >
+                        <ImageIcon source={require("../img/sob.png")} />
+                        <Text
+                          style={
+                            this.state.faceID === 3
+                              ? styles.activeEmojiText
+                              : styles.defaultEmojiText
+                          }
+                        >
+                          ちょい微妙
+                        </Text>
+                      </View>
+                    </TouchableWithoutFeedback>
+                    <TouchableWithoutFeedback
+                      onPress={() => this.setState({ faceID: 4 })}
+                    >
+                      <View
+                        style={[
+                          this.state.faceID === 4
+                            ? styles.activeEmojiBg
+                            : styles.defaultEmojiBg,
+                        ]}
+                      >
+                        <ImageIcon source={require("../img/cry.png")} />
+                        <Text
+                          style={
+                            this.state.faceID === 4
+                              ? styles.activeEmojiText
+                              : styles.defaultEmojiText
+                          }
+                        >
+                          微妙
+                        </Text>
+                      </View>
+                    </TouchableWithoutFeedback>
+                    <TouchableWithoutFeedback
+                      onPress={() => this.setState({ faceID: 5 })}
+                    >
+                      <View
+                        style={
+                          this.state.faceID === 5
+                            ? styles.activeEmojiBg
+                            : styles.defaultEmojiBg
+                        }
+                      >
+                        <ImageIcon source={require("../img/screem.png")} />
+                        <Text
+                          style={
+                            this.state.faceID === 5
+                              ? styles.activeEmojiText
+                              : styles.defaultEmojiText
+                          }
+                        >
+                          最悪
+                        </Text>
+                      </View>
+                    </TouchableWithoutFeedback>
+                  </EmojiBlock>
+                </View>
+              </View>
               <TouchableOpacity
-                onPress={() =>
-                  this.props.navigation.navigate("Diary", {
-                    createdRecipe: this.state.recipeCheck
-                      ? defaultRecipe
-                      : unlimitedRecipe,
-                    recipeCheckText: this.state.recipeCheck
-                      ? "浅煎りコーヒー"
-                      : !"深煎りコーヒー",
-                    BeanWeightNumber: this.state.currentBeanWeightNumber,
-                  })
-                }
+                onPress={() => {
+                  const currentDate = new Date();
+                  const date = moment(currentDate).format("YYYY-MM-DD");
+                  this.saveDiarys(
+                    this.state.title,
+                    this.state.faceID,
+                    this.state.BeanWeightNumber,
+                    date,
+                    this.state.recipeCheckText
+                  );
+                  this.props.navigation.state.params.refresh();
+                  this.props.navigation.navigate("Home");
+                }}
               >
                 <View style={[styles.goToRecipeButton, { marginBottom: 16 }]}>
-                  <Text style={styles.goToRecipeText}>日記を書く</Text>
+                  <Text style={styles.goToRecipeText}>日記を作成</Text>
                 </View>
               </TouchableOpacity>
               <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
                 <View style={styles.goBackTopButton}>
-                  <Text style={styles.goBackTopText}>TOPへ戻る</Text>
+                  <Text style={styles.goBackTopText}>キャンセル</Text>
                 </View>
               </TouchableOpacity>
             </ScrollBox>
@@ -189,13 +366,37 @@ const RecipieChangeBox = styled.View`
 
 const TextInput = styled.TextInput`
   border: 1px solid #ccc;
-  width: 200px;
+  width: 100px;
   height: 44px;
   border-radius: 10px;
   font-size: 16px;
   color: #252525;
   padding-left: 16px;
   margin-bottom: 20px;
+`;
+
+const TextBeanInput = styled.TextInput`
+  border: 1px solid #ccc;
+  width: 280px;
+  height: 44px;
+  border-radius: 10px;
+  font-size: 16px;
+  color: #252525;
+  padding-left: 16px;
+  margin-bottom: 20px;
+`;
+
+const ImageIcon = styled.Image`
+  width: 28px;
+  height: 28px;
+  margin-bottom: 8px;
+`;
+
+const EmojiBlock = styled.View`
+  width: 280px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 `;
 
 const styles = StyleSheet.create({
@@ -213,7 +414,7 @@ const styles = StyleSheet.create({
   inputBlock: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "center",
   },
   modal: {
@@ -229,8 +430,8 @@ const styles = StyleSheet.create({
   defaultBtn: {
     paddingTop: 12,
     paddingBottom: 12,
-    paddingLeft: 24,
-    paddingRight: 24,
+    paddingLeft: 20,
+    paddingRight: 20,
     borderWidth: 2,
     borderColor: "#F2994A",
     borderStyle: "solid",
@@ -239,8 +440,8 @@ const styles = StyleSheet.create({
   activeBtn: {
     paddingTop: 12,
     paddingBottom: 12,
-    paddingLeft: 24,
-    paddingRight: 24,
+    paddingLeft: 20,
+    paddingRight: 20,
     borderWidth: 2,
     borderColor: "#F2994A",
     borderStyle: "solid",
@@ -257,19 +458,14 @@ const styles = StyleSheet.create({
   margin8: {
     marginLeft: 8,
   },
-  recipeTitle: {
-    fontSize: 24,
-    color: "#000000",
-    fontWeight: "bold",
-  },
   goToRecipeButton: {
-    width: 300,
+    width: 280,
     backgroundColor: "#252525",
     borderRadius: 8,
     padding: 12,
   },
   goBackTopButton: {
-    width: 300,
+    width: 280,
     backgroundColor: "#ffffff",
     borderWidth: 2,
     borderColor: "#252525",
@@ -300,5 +496,35 @@ const styles = StyleSheet.create({
     paddingRight: 80,
     backgroundColor: "#e8e8e8",
     borderRadius: 8,
+  },
+  none: {
+    display: "none",
+  },
+  defaultEmojiBg: {
+    width: 84,
+    height: 84,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#f2f2f2",
+    margin: 0,
+    borderRadius: 8,
+  },
+  activeEmojiBg: {
+    width: 84,
+    height: 84,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#F2994A",
+    margin: 0,
+    borderRadius: 8,
+  },
+  defaultEmojiText: {
+    color: "#252525",
+    fontSize: 12,
+  },
+  activeEmojiText: {
+    color: "#ffffff",
+    fontWeight: "600",
+    fontSize: 12,
   },
 });
