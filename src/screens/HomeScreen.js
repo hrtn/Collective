@@ -7,45 +7,6 @@ import Card from "../components/Card";
 import * as SQLite from "expo-sqlite";
 const db = SQLite.openDatabase("db.db");
 
-// こっちは動く
-const cards_ = [
-  {
-    title: "パナマゲイシャパナマゲイシャパナマゲイシャパナマゲイシャ",
-    faceID: 2,
-    grindTextID: 1,
-    BeanWeightNumber: 13,
-    date: "2019/12/13",
-  },
-  {
-    title: "パナマゲイシャパナマゲイシャパナマゲイシャパナマゲイシャ",
-    faceID: 2,
-    grindTextID: 1,
-    BeanWeightNumber: 13,
-    date: "2019/12/13",
-  },
-  {
-    title: "パナマゲイシャパナマゲイシャパナマゲイシャパナマゲイシャ",
-    faceID: 2,
-    grindTextID: 1,
-    BeanWeightNumber: 13,
-    date: "2019/12/13",
-  },
-  {
-    title: "パナマゲイシャパナマゲイシャパナマゲイシャパナマゲイシャ",
-    faceID: 2,
-    grindTextID: 1,
-    BeanWeightNumber: 13,
-    date: "2019/12/13",
-  },
-  {
-    title: "パナマゲイシャパナマゲイシャパナマゲイシャパナマゲイシャ",
-    faceID: 2,
-    grindTextID: 1,
-    BeanWeightNumber: 13,
-    date: "2019/12/13",
-  },
-];
-
 export default class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -53,7 +14,6 @@ export default class HomeScreen extends React.Component {
       cards: [],
       isVisible: false,
       visible: false,
-      currentBeanWeightNumber: 0,
     };
   }
   toggleSemiModal = () => {
@@ -72,18 +32,22 @@ export default class HomeScreen extends React.Component {
       <Container>
         <ScrollView>
           <DateContainer>
-            {cards === null || cards.length === 0
-              ? null
-              : cards_.map((card) => (
-                  <Card
-                    key={card.id}
-                    title={card.title}
-                    faceID={card.faceID}
-                    BeanWeightNumber={card.BeanWeightNumber}
-                    date={card.date}
-                  />
-                ))}
-            {/* cards_は動く。cardはうごかない */}
+            {cards === null || cards.length === 0 ? (
+              <EmptyBox>
+                <ImageIcon source={require("../img/ghost.png")} />
+                <EmptyText>日記が登録されていません</EmptyText>
+              </EmptyBox>
+            ) : (
+              cards.map((card) => (
+                <Card
+                  key={card.id}
+                  title={card.title}
+                  faceID={card.faceID}
+                  BeanWeightNumber={card.BeanWeightNumber}
+                  date={card.date}
+                />
+              ))
+            )}
           </DateContainer>
         </ScrollView>
         <FAB
@@ -114,7 +78,7 @@ export default class HomeScreen extends React.Component {
     db.transaction(
       (tx) => {
         tx.executeSql(
-          "SELECT * FROM diarys ORDER BY id ASC;",
+          "SELECT * FROM diarys ORDER BY id DESC;",
           [],
           (_, { rows: { _array } }) => this.setState({ cards: _array })
         );
@@ -125,7 +89,6 @@ export default class HomeScreen extends React.Component {
       () => {
         console.log("success_fetchAllData");
         console.log(this.state.cards);
-        console.log(cards_);
       }
     );
   }
@@ -143,4 +106,23 @@ const DateContainer = styled.View`
   flex: 1;
   flex-direction: column;
   align-items: center;
+`;
+
+const ImageIcon = styled.Image`
+  width: 36px;
+  height: 36px;
+`;
+
+const EmptyBox = styled.View`
+  padding: 20px;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const EmptyText = styled.Text`
+  color: #252525;
+  font-size: 18px;
+  margin-top: 8px;
 `;

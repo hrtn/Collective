@@ -41,6 +41,8 @@ const Card = (props) => (
         return styles.screem;
       } else if (props.faceID === 5) {
         return styles.sob;
+      } else if (props.faceID === 99) {
+        return styles.noCoffee;
       } else {
         return styles.noCoffee;
       }
@@ -64,7 +66,7 @@ const Card = (props) => (
           } else if (props.faceID === 5) {
             return <ImageIcon source={require("../img/screem.png")} />;
           } else {
-            return styles.noCoffee;
+            return <ImageIcon source={require("../img/ghost.png")} />;
           }
         })()}
       </LeftBlock>
