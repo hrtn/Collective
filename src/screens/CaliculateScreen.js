@@ -13,15 +13,16 @@ import moment from "moment";
 
 import * as SQLite from "expo-sqlite";
 
-const db = SQLite.openDatabase("db.db");
+const db = SQLite.openDatabase("db.sqlite", "ver1.1");
 
 class CaliculateScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      recipeCheck: "light",
+      recipeCheck: "",
       currentBeanWeightNumber: 0,
       title: "",
+      grindCheck: "",
       faceID: 99,
     };
   }
@@ -32,15 +33,21 @@ class CaliculateScreen extends React.Component {
     this.setState({ title: e });
   };
 
-  saveDiarys(title, faceID, BeanWeightNumber, date, recipeCheckText) {
+  saveDiarys(title, faceID, BeanWeightNumber, date, recipeCheck, grindCheck) {
     db.transaction((tx) => {
       tx.executeSql(
-        `insert into diarys (title, faceID, BeanWeightNumber, date, recipeCheckText) values (?, ?, ?, ?, ?);`,
-        [title, faceID, BeanWeightNumber, date, recipeCheckText], // SQL文の引数
+        `insert into diarys (title, faceID, BeanWeightNumber, date, recipeCheck, grindCheck) values (?, ?, ?, ?, ?, ?);`,
+        [title, faceID, BeanWeightNumber, date, recipeCheck, grindCheck], // SQL文の引数
         () => {
           console.log("success diarys");
-          console.log(title, faceID, BeanWeightNumber, date, recipeCheckText);
-          console.log(this.props.navigation.state.params.refresh());
+          console.log(
+            title,
+            faceID,
+            BeanWeightNumber,
+            date,
+            recipeCheck,
+            grindCheck
+          );
         }, // 成功時のコールバック関数
         () => {
           console.log("fail");
@@ -70,7 +77,7 @@ class CaliculateScreen extends React.Component {
       <Container>
         <ScrollView>
           <ScrollBox>
-            <View style={{ width: 280 }}>
+            <View style={{ width: 280, marginBottom: 8 }}>
               <Text style={[styles.modalText, { marginBottom: 16 }]}>
                 豆の重さ
               </Text>
@@ -84,7 +91,8 @@ class CaliculateScreen extends React.Component {
                 <Text style={[styles.inputText]}>g</Text>
               </View>
             </View>
-            <View>
+
+            <View style={{ width: 280, marginBottom: 8 }}>
               <Text style={[styles.modalText, { marginBottom: 16 }]}>
                 豆の名前
               </Text>
@@ -93,7 +101,102 @@ class CaliculateScreen extends React.Component {
                 value={this.state.title}
               />
             </View>
-            <View>
+            <View style={{ width: 280, marginBottom: 8 }}>
+              <Text style={[styles.modalText, { marginBottom: 16 }]}>
+                豆の挽き具合
+              </Text>
+              <RecipieChangeBox style={{ marginBottom: 8 }}>
+                <TouchableWithoutFeedback
+                  onPress={() => this.setState({ grindCheck: "超細挽き" })}
+                >
+                  <View
+                    style={
+                      this.state.grindCheck == "超細挽き"
+                        ? styles.activeBtn
+                        : styles.defaultBtn
+                    }
+                  >
+                    <Text
+                      style={
+                        this.state.grindCheck == "超細挽き"
+                          ? styles.activeText
+                          : styles.defaultText
+                      }
+                    >
+                      超細挽き
+                    </Text>
+                  </View>
+                </TouchableWithoutFeedback>
+                <TouchableWithoutFeedback
+                  onPress={() => this.setState({ grindCheck: "細挽き" })}
+                >
+                  <View
+                    style={[
+                      styles.margin8,
+                      this.state.grindCheck == "細挽き"
+                        ? styles.activeBtn
+                        : styles.defaultBtn,
+                    ]}
+                  >
+                    <Text
+                      style={
+                        this.state.grindCheck == "細挽き"
+                          ? styles.activeText
+                          : styles.defaultText
+                      }
+                    >
+                      細挽き
+                    </Text>
+                  </View>
+                </TouchableWithoutFeedback>
+              </RecipieChangeBox>
+              <RecipieChangeBox style={{ marginBottom: 16 }}>
+                <TouchableWithoutFeedback
+                  onPress={() => this.setState({ grindCheck: "粗挽き" })}
+                >
+                  <View
+                    style={
+                      this.state.grindCheck == "粗挽き"
+                        ? styles.activeBtn
+                        : styles.defaultBtn
+                    }
+                  >
+                    <Text
+                      style={
+                        this.state.grindCheck == "粗挽き"
+                          ? styles.activeText
+                          : styles.defaultText
+                      }
+                    >
+                      粗挽き
+                    </Text>
+                  </View>
+                </TouchableWithoutFeedback>
+                <TouchableWithoutFeedback
+                  onPress={() => this.setState({ grindCheck: "超粗挽き" })}
+                >
+                  <View
+                    style={[
+                      styles.margin8,
+                      this.state.grindCheck == "超粗挽き"
+                        ? styles.activeBtn
+                        : styles.defaultBtn,
+                    ]}
+                  >
+                    <Text
+                      style={
+                        this.state.grindCheck == "超粗挽き"
+                          ? styles.activeText
+                          : styles.defaultText
+                      }
+                    >
+                      超粗挽き
+                    </Text>
+                  </View>
+                </TouchableWithoutFeedback>
+              </RecipieChangeBox>
+            </View>
+            <View style={{ width: 280, marginBottom: 8 }}>
               <Text style={[styles.modalText, { marginBottom: 16 }]}>
                 コーヒーの種類
               </Text>
@@ -143,24 +246,28 @@ class CaliculateScreen extends React.Component {
                 </TouchableWithoutFeedback>
               </RecipieChangeBox>
             </View>
-            <Table
-              borderStyle={{
-                borderWidth: 1,
-                borderColor: "#e8e8e8",
-              }}
-              style={{ marginBottom: 24 }}
-            >
-              <Rows
-                data={
-                  this.state.recipeCheck == "dark"
-                    ? unlimitedRecipe
-                    : defaultRecipe
-                }
-                textStyle={styles.rowText}
-                style={{ width: 280, backgroundColor: "#F6F6F6" }}
-              />
-            </Table>
-            <View>
+            <View style={{ width: 280, marginBottom: 24 }}>
+              <Text style={[styles.modalText, { marginBottom: 16 }]}>
+                コーヒーのレシピ
+              </Text>
+              <Table
+                borderStyle={{
+                  borderWidth: 1,
+                  borderColor: "#e8e8e8",
+                }}
+              >
+                <Rows
+                  data={
+                    this.state.recipeCheck == "dark"
+                      ? unlimitedRecipe
+                      : defaultRecipe
+                  }
+                  textStyle={styles.rowText}
+                  style={{ width: 280, backgroundColor: "#F6F6F6" }}
+                />
+              </Table>
+            </View>
+            <View style={{ width: 280, marginBottom: 16 }}>
               <Text style={[styles.modalText, { marginBottom: 16 }]}>
                 味の感想
               </Text>
@@ -314,7 +421,8 @@ class CaliculateScreen extends React.Component {
                   this.state.faceID,
                   this.state.currentBeanWeightNumber,
                   date,
-                  this.state.recipeCheckText
+                  this.state.recipeCheck,
+                  this.state.grindCheck
                 );
                 this.props.navigation.state.params.refresh();
                 this.props.navigation.navigate("Home");
@@ -423,8 +531,7 @@ const styles = StyleSheet.create({
   defaultBtn: {
     paddingTop: 12,
     paddingBottom: 12,
-    paddingLeft: 20,
-    paddingRight: 20,
+    width: 136,
     borderWidth: 2,
     borderColor: "#F2994A",
     borderStyle: "solid",
@@ -433,8 +540,7 @@ const styles = StyleSheet.create({
   activeBtn: {
     paddingTop: 12,
     paddingBottom: 12,
-    paddingLeft: 20,
-    paddingRight: 20,
+    width: 136,
     borderWidth: 2,
     borderColor: "#F2994A",
     borderStyle: "solid",
@@ -443,10 +549,12 @@ const styles = StyleSheet.create({
   defaultText: {
     color: "#F2994A",
     fontWeight: "600",
+    textAlign: "center",
   },
   activeText: {
     color: "#ffffff",
     fontWeight: "600",
+    textAlign: "center",
   },
   margin8: {
     marginLeft: 8,

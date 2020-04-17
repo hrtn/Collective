@@ -41,7 +41,8 @@ class Card extends React.Component {
             BeanWeightNumber: this.props.BeanWeightNumber,
             date: this.props.date,
             recipeCheckText: this.props.recipeCheckText,
-            refresh: this.props.refreshDiarys(),
+            grindCheck: this.props.grindCheck,
+            updateComponent: () => this.props.updateComponent(),
           });
         }}
       >
@@ -80,9 +81,9 @@ class Card extends React.Component {
                     />
                   );
                 } else if (this.props.faceID === 3) {
-                  return <ImageIcon source={require("../img/cry.png")} />;
-                } else if (this.props.faceID === 4) {
                   return <ImageIcon source={require("../img/sob.png")} />;
+                } else if (this.props.faceID === 4) {
+                  return <ImageIcon source={require("../img/cry.png")} />;
                 } else if (this.props.faceID === 5) {
                   return <ImageIcon source={require("../img/screem.png")} />;
                 } else {
@@ -95,6 +96,9 @@ class Card extends React.Component {
                 {this.props.title}
               </Title>
               <TextBlock>
+                <DateText style={{ marginRight: 8 }}>
+                  {this.props.grindCheck}
+                </DateText>
                 <DateText>{this.props.date}</DateText>
               </TextBlock>
             </RightBlock>

@@ -1,11 +1,11 @@
 import React from "react";
-import { Text, ScrollView } from "react-native";
+import { Text, ScrollView, View, StyleSheet } from "react-native";
 import styled from "styled-components/native";
 import FAB from "react-native-fab";
 import Card from "../components/Card";
 
 import * as SQLite from "expo-sqlite";
-const db = SQLite.openDatabase("db.db");
+const db = SQLite.openDatabase("db.sqlite", "ver1.1");
 
 export default class HomeScreen extends React.Component {
   constructor(props) {
@@ -20,19 +20,61 @@ export default class HomeScreen extends React.Component {
     this.setState({ currentBeanWeightNumber: e });
   };
 
+  updateComponent() {
+    db.transaction((tx) => {
+      tx.executeSql(
+        "create table if not exists diarys (id integer primary key not null, title text, faceID integer, BeanWeightNumber integer, date text, recipeCheck text, grindCheck text);", // 実行したいSQL文
+        null, // SQL文の引数
+        () => {
+          console.log("success create table");
+        }, // 成功時のコールバック関数
+        () => {
+          console.log("fail");
+        } // 失敗時のコールバック関数
+      );
+    });
+
+    db.transaction(
+      (tx) => {
+        tx.executeSql(
+          "SELECT * FROM diarys ORDER BY id DESC;",
+          [],
+          (_, { rows: { _array } }) => this.setState({ cards: _array })
+        );
+      },
+      () => {
+        console.log("fail");
+      },
+      () => {
+        console.log("success_fetchAllData");
+        console.log(this.state.cards);
+      }
+    );
+  }
+
   render() {
     const { cards } = this.state;
     return (
       <Container>
         <ScrollView>
-          <DateContainer>
-            {cards === null || cards.length === 0 ? (
+          {cards === null || cards.length === 0 ? (
+            <View
+              style={{
+                display: "flex",
+                alignItems: "center",
+                flexDirection: "row",
+                position: "absolute",
+                top: 150,
+              }}
+            >
               <EmptyBox>
                 <ImageIcon source={require("../img/ghost.png")} />
-                <EmptyText>日記が登録されていません</EmptyText>
+                <EmptyText>NO DIARYS</EmptyText>
               </EmptyBox>
-            ) : (
-              cards.map((card) => (
+            </View>
+          ) : (
+            <DateContainer>
+              {cards.map((card) => (
                 <Card
                   key={card.id}
                   id={card.id}
@@ -40,13 +82,14 @@ export default class HomeScreen extends React.Component {
                   faceID={card.faceID}
                   BeanWeightNumber={card.BeanWeightNumber}
                   date={card.date}
-                  recipeCheckText={card.recipeCheckText}
+                  recipeCheck={card.recipeCheck}
+                  grindCheck={card.grindCheck}
                   navigationView={this.props.navigation}
-                  refreshDiarys={this.componentWillMount}
+                  updateComponent={() => this.updateComponent()}
                 />
-              ))
-            )}
-          </DateContainer>
+              ))}
+            </DateContainer>
+          )}
         </ScrollView>
         <FAB
           buttonColor="#252525"
@@ -66,7 +109,7 @@ export default class HomeScreen extends React.Component {
   componentWillMount() {
     db.transaction((tx) => {
       tx.executeSql(
-        "create table if not exists diarys (id integer primary key not null, title text, faceID integer, BeanWeightNumber integer, date text, recipeCheckText text);", // 実行したいSQL文
+        "create table if not exists diarys (id integer primary key not null, title text, faceID integer, BeanWeightNumber integer, date text, recipeCheck text, grindCheck text);", // 実行したいSQL文
         null, // SQL文の引数
         () => {
           console.log("success create table");
@@ -111,20 +154,22 @@ const DateContainer = styled.View`
 `;
 
 const ImageIcon = styled.Image`
-  width: 36px;
-  height: 36px;
+  width: 150px;
 `;
 
 const EmptyBox = styled.View`
   padding: 20px;
+  height: 100%;
   display: flex;
   flex: 1;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
 `;
 
 const EmptyText = styled.Text`
-  color: #252525;
-  font-size: 18px;
+  color: #ccc;
+  font-size: 36px;
+  font-weight: 600;
   margin-top: 8px;
 `;

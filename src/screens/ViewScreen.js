@@ -12,7 +12,7 @@ import { Table, Rows } from "react-native-table-component";
 
 import * as SQLite from "expo-sqlite";
 
-const db = SQLite.openDatabase("db.db");
+const db = SQLite.openDatabase("db.sqlite", "ver1.1");
 
 class ViewScreen extends React.Component {
   constructor(props) {
@@ -36,12 +36,13 @@ class ViewScreen extends React.Component {
 
   render() {
     const { navigation } = this.props;
-    const recipeCheckText = navigation.getParam("recipeCheckText");
+    const recipeCheck = navigation.getParam("recipeCheck");
     const BeanWeightNumber = navigation.getParam("BeanWeightNumber");
     const title = navigation.getParam("title");
     const faceID = navigation.getParam("faceID");
     const date = navigation.getParam("date");
     const id = navigation.getParam("id");
+    const grindCheck = navigation.getParam("grindCheck");
     const defaultRecipe = [
       ["蒸らし", "30秒", BeanWeightNumber * 2.5],
       ["", "1分", BeanWeightNumber * 5.25],
@@ -63,19 +64,84 @@ class ViewScreen extends React.Component {
         <ScrollView>
           <ScrollBox>
             <View style={{ width: 280 }}>
+              <Text style={[styles.modalText, { marginBottom: 16 }]}>日付</Text>
+              <Text
+                style={[
+                  styles.modalText,
+                  {
+                    marginBottom: 24,
+                    backgroundColor: "#F6F6F6",
+                    padding: 16,
+                    fontSize: 18,
+                    fontWeight: "bold",
+                  },
+                ]}
+              >
+                {date}
+              </Text>
+            </View>
+            <View style={{ width: 280 }}>
               <Text style={[styles.modalText, { marginBottom: 16 }]}>
                 豆の重さ
               </Text>
-              <Text style={[styles.modalText, { marginBottom: 16 }]}>
-                {BeanWeightNumber}
+              <Text
+                style={[
+                  styles.modalText,
+                  {
+                    marginBottom: 24,
+                    backgroundColor: "#F6F6F6",
+                    padding: 16,
+                    fontSize: 18,
+                    fontWeight: "bold",
+                  },
+                ]}
+              >
+                {BeanWeightNumber + "g"}
               </Text>
             </View>
-            <View>
+            <View style={{ width: 280 }}>
               <Text style={[styles.modalText, { marginBottom: 16 }]}>
                 豆の名前
               </Text>
-              <Text style={[styles.modalText, { marginBottom: 16 }]}>
+              <Text
+                style={[
+                  styles.modalText,
+                  {
+                    marginBottom: 24,
+                    backgroundColor: "#F6F6F6",
+                    padding: 16,
+                    fontSize: 18,
+                    fontWeight: "bold",
+                  },
+                ]}
+              >
                 {title}
+              </Text>
+            </View>
+            <View style={{ width: 280 }}>
+              <Text style={[styles.modalText, { marginBottom: 16 }]}>
+                豆の挽き具合
+              </Text>
+              <Text
+                style={[
+                  styles.modalText,
+                  {
+                    marginBottom: 24,
+                    backgroundColor: "#F6F6F6",
+                    padding: 16,
+                    fontSize: 18,
+                    fontWeight: "bold",
+                  },
+                ]}
+              >
+                {grindCheck}
+              </Text>
+            </View>
+            <View style={{ width: 280 }}>
+              <Text style={[styles.modalText, { marginBottom: 16 }]}>
+                {recipeCheck == "light"
+                  ? "浅煎りコーヒーのレシピ"
+                  : "深煎りコーヒーのレシピ"}
               </Text>
             </View>
             <Table
@@ -86,9 +152,7 @@ class ViewScreen extends React.Component {
               style={{ marginBottom: 24 }}
             >
               <Rows
-                data={
-                  recipeCheckText == "dark" ? unlimitedRecipe : defaultRecipe
-                }
+                data={recipeCheck == "dark" ? unlimitedRecipe : defaultRecipe}
                 textStyle={styles.rowText}
                 style={{ width: 280, backgroundColor: "#F6F6F6" }}
               />
@@ -217,7 +281,7 @@ class ViewScreen extends React.Component {
             <TouchableOpacity
               onPress={() => {
                 this.deleteDiarys(id);
-                // this.props.navigation.state.params.refreshDiarys.componentWillMount();
+                this.props.navigation.state.params.updateComponent();
                 this.props.navigation.navigate("Home");
               }}
             >
@@ -274,6 +338,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#f2f2f2",
     margin: 0,
     borderRadius: 8,
+    opacity: 0.7,
   },
   activeEmojiBg: {
     width: 84,
@@ -287,6 +352,7 @@ const styles = StyleSheet.create({
   defaultEmojiText: {
     color: "#252525",
     fontSize: 12,
+    opacity: 0.7,
   },
   activeEmojiText: {
     color: "#ffffff",
@@ -305,5 +371,8 @@ const styles = StyleSheet.create({
   deleteButtonText: {
     color: "#D04646",
     textAlign: "center",
+  },
+  rowText: {
+    padding: 8,
   },
 });
