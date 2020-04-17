@@ -6,8 +6,6 @@ import {
   View,
   TouchableWithoutFeedback,
   TouchableOpacity,
-  KeyboardAvoidingView,
-  Platform,
 } from "react-native";
 import styled from "styled-components/native";
 import { Table, Rows } from "react-native-table-component";

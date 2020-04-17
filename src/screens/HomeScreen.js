@@ -16,15 +16,9 @@ export default class HomeScreen extends React.Component {
       visible: false,
     };
   }
-  toggleSemiModal = () => {
-    this.setState({ isVisible: !this.state.isVisible });
-    console.log(this.state.cards);
-  };
   changeTextInput = (e) => {
     this.setState({ currentBeanWeightNumber: e });
   };
-  onToggleSnackBar = () =>
-    this.setState((state) => ({ visible: !state.visible }));
 
   render() {
     const { cards } = this.state;
@@ -41,10 +35,14 @@ export default class HomeScreen extends React.Component {
               cards.map((card) => (
                 <Card
                   key={card.id}
+                  id={card.id}
                   title={card.title}
                   faceID={card.faceID}
                   BeanWeightNumber={card.BeanWeightNumber}
                   date={card.date}
+                  recipeCheckText={card.recipeCheckText}
+                  navigationView={this.props.navigation}
+                  refreshDiarys={this.componentWillMount}
                 />
               ))
             )}
@@ -105,7 +103,7 @@ const Container = styled.View`
 `;
 
 const DateContainer = styled.View`
-  padding: 20px;
+  padding: 24px;
   display: flex;
   flex: 1;
   flex-direction: column;

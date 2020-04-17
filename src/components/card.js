@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components/native";
-import { StyleSheet } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 
 const styles = StyleSheet.create({
   heartEyes: {
@@ -26,68 +26,96 @@ const styles = StyleSheet.create({
   },
 });
 
-const Card = (props) => (
-  <Container
-    style={(() => {
-      if (props.faceID === 0) {
-        return styles.heartEyes;
-      } else if (props.faceID === 1) {
-        return styles.blush;
-      } else if (props.faceID === 2) {
-        return styles.slightly_smiling_face;
-      } else if (props.faceID === 3) {
-        return styles.cry;
-      } else if (props.faceID === 4) {
-        return styles.screem;
-      } else if (props.faceID === 5) {
-        return styles.sob;
-      } else if (props.faceID === 99) {
-        return styles.noCoffee;
-      } else {
-        return styles.noCoffee;
-      }
-    })()}
-  >
-    <InnnerFlex>
-      <LeftBlock>
-        {(() => {
-          if (props.faceID === 0) {
-            return <ImageIcon source={require("../img/heartEyes.png")} />;
-          } else if (props.faceID === 1) {
-            return <ImageIcon source={require("../img/blush.png")} />;
-          } else if (props.faceID === 2) {
-            return (
-              <ImageIcon source={require("../img/slightly_smiling_face.png")} />
-            );
-          } else if (props.faceID === 3) {
-            return <ImageIcon source={require("../img/cry.png")} />;
-          } else if (props.faceID === 4) {
-            return <ImageIcon source={require("../img/sob.png")} />;
-          } else if (props.faceID === 5) {
-            return <ImageIcon source={require("../img/screem.png")} />;
-          } else {
-            return <ImageIcon source={require("../img/ghost.png")} />;
-          }
-        })()}
-      </LeftBlock>
-      <RightBlock>
-        <Title numberOfLines={1} ellipsizeMode="tail">
-          {props.title}
-        </Title>
-        <TextBlock>
-          <DateText>{props.date}</DateText>
-        </TextBlock>
-      </RightBlock>
-      <BeanWeightText>{props.BeanWeightNumber}g</BeanWeightText>
-    </InnnerFlex>
-  </Container>
-);
+class Card extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return (
+      <TouchableCard
+        onPress={() => {
+          this.props.navigationView.navigate("View", {
+            id: this.props.id,
+            title: this.props.title,
+            faceID: this.props.faceID,
+            BeanWeightNumber: this.props.BeanWeightNumber,
+            date: this.props.date,
+            recipeCheckText: this.props.recipeCheckText,
+            refresh: this.props.refreshDiarys(),
+          });
+        }}
+      >
+        <Container
+          style={(() => {
+            if (this.props.faceID === 0) {
+              return styles.heartEyes;
+            } else if (this.props.faceID === 1) {
+              return styles.blush;
+            } else if (this.props.faceID === 2) {
+              return styles.slightly_smiling_face;
+            } else if (this.props.faceID === 3) {
+              return styles.cry;
+            } else if (this.props.faceID === 4) {
+              return styles.screem;
+            } else if (this.props.faceID === 5) {
+              return styles.sob;
+            } else if (this.props.faceID === 99) {
+              return styles.noCoffee;
+            } else {
+              return styles.noCoffee;
+            }
+          })()}
+        >
+          <InnnerFlex>
+            <LeftBlock>
+              {(() => {
+                if (this.props.faceID === 0) {
+                  return <ImageIcon source={require("../img/heartEyes.png")} />;
+                } else if (this.props.faceID === 1) {
+                  return <ImageIcon source={require("../img/blush.png")} />;
+                } else if (this.props.faceID === 2) {
+                  return (
+                    <ImageIcon
+                      source={require("../img/slightly_smiling_face.png")}
+                    />
+                  );
+                } else if (this.props.faceID === 3) {
+                  return <ImageIcon source={require("../img/cry.png")} />;
+                } else if (this.props.faceID === 4) {
+                  return <ImageIcon source={require("../img/sob.png")} />;
+                } else if (this.props.faceID === 5) {
+                  return <ImageIcon source={require("../img/screem.png")} />;
+                } else {
+                  return <ImageIcon source={require("../img/ghost.png")} />;
+                }
+              })()}
+            </LeftBlock>
+            <RightBlock>
+              <Title numberOfLines={1} ellipsizeMode="tail">
+                {this.props.title}
+              </Title>
+              <TextBlock>
+                <DateText>{this.props.date}</DateText>
+              </TextBlock>
+            </RightBlock>
+            <BeanWeightText>{this.props.BeanWeightNumber}g</BeanWeightText>
+          </InnnerFlex>
+        </Container>
+      </TouchableCard>
+    );
+  }
+}
 
 export default Card;
 
+const TouchableCard = styled.TouchableOpacity`
+  width: 100%;
+  margin: 0px;
+  display: flex;
+`;
+
 const Container = styled.View`
   background-color: white;
-  width: 90%;
   height: 80px;
   border-radius: 15px;
   padding-left: 20px;
