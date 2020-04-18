@@ -4,7 +4,6 @@ import {
   ScrollView,
   StyleSheet,
   View,
-  TouchableWithoutFeedback,
   TouchableOpacity,
 } from "react-native";
 import styled from "styled-components/native";
@@ -280,6 +279,23 @@ class ViewScreen extends React.Component {
             </View>
             <TouchableOpacity
               onPress={() => {
+                this.props.navigation.navigate("Copy", {
+                  _recipeCheck: recipeCheck,
+                  _BeanWeightNumber: BeanWeightNumber,
+                  _grindCheck: grindCheck,
+                  _title: title,
+                  updateComponent: () =>
+                    this.props.navigation.state.params.updateComponent(),
+                });
+                console.log(recipeCheck);
+              }}
+            >
+              <View style={styles.copyButton}>
+                <Text style={styles.copyButtonText}>複製する</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
                 this.deleteDiarys(id);
                 this.props.navigation.state.params.updateComponent();
                 this.props.navigation.navigate("Home");
@@ -358,6 +374,20 @@ const styles = StyleSheet.create({
     color: "#ffffff",
     fontWeight: "600",
     fontSize: 12,
+  },
+  copyButton: {
+    width: 280,
+    backgroundColor: "#252525",
+    borderWidth: 2,
+    borderColor: "#252525",
+    borderStyle: "solid",
+    borderRadius: 8,
+    marginBottom: 16,
+    padding: 12,
+  },
+  copyButtonText: {
+    color: "#ffffff",
+    textAlign: "center",
   },
   deleteButton: {
     width: 280,

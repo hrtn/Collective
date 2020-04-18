@@ -40,7 +40,7 @@ class Card extends React.Component {
             faceID: this.props.faceID,
             BeanWeightNumber: this.props.BeanWeightNumber,
             date: this.props.date,
-            recipeCheckText: this.props.recipeCheckText,
+            recipeCheck: this.props.recipeCheck,
             grindCheck: this.props.grindCheck,
             updateComponent: () => this.props.updateComponent(),
           });

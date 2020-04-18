@@ -6,13 +6,11 @@ import {
   View,
   TouchableWithoutFeedback,
   TouchableOpacity,
-  InputAccessoryView,
-  Button,
-  Keyboard,
 } from "react-native";
 import styled from "styled-components/native";
 import { Table, Rows } from "react-native-table-component";
 import moment from "moment";
+import { NavigationEvents } from "react-navigation";
 
 import { isIPhoneX } from "../lib/windowsize";
 
@@ -20,19 +18,19 @@ import * as SQLite from "expo-sqlite";
 
 const db = SQLite.openDatabase("db.sqlite", "ver1.1");
 
-class CaliculateScreen extends React.Component {
+class CopyScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       recipeCheck: "",
-      currentBeanWeightNumber: 0,
+      BeanWeightNumber: 0,
       title: "",
       grindCheck: "",
       faceID: 99,
     };
   }
   changeTextInput = (e) => {
-    this.setState({ currentBeanWeightNumber: e });
+    this.setState({ BeanWeightNumber: e });
   };
   changeBeanTextInput = (e) => {
     this.setState({ title: e });
@@ -60,25 +58,42 @@ class CaliculateScreen extends React.Component {
       );
     });
   }
+
   render() {
+    const { navigation } = this.props;
+    const _title = navigation.getParam("_title");
+    const _recipeCheck = navigation.getParam("_recipeCheck");
+    const _BeanWeightNumber = navigation.getParam("_BeanWeightNumber");
+    const _grindCheck = navigation.getParam("_grindCheck");
     const defaultRecipe = [
-      ["蒸らし", "30秒", this.state.currentBeanWeightNumber * 2.5],
-      ["", "1分", this.state.currentBeanWeightNumber * 5.25],
-      ["", "1分30秒", this.state.currentBeanWeightNumber * 8],
-      ["", "2分", this.state.currentBeanWeightNumber * 12],
-      ["", "2分30秒", this.state.currentBeanWeightNumber * 16],
-      ["落ち切り", "3分30秒", this.state.currentBeanWeightNumber * 16],
+      ["蒸らし", "30秒", this.state.BeanWeightNumber * 2.5],
+      ["", "1分", this.state.BeanWeightNumber * 5.25],
+      ["", "1分30秒", this.state.BeanWeightNumber * 8],
+      ["", "2分", this.state.BeanWeightNumber * 12],
+      ["", "2分30秒", this.state.BeanWeightNumber * 16],
+      ["落ち切り", "3分30秒", this.state.BeanWeightNumber * 16],
     ];
     const unlimitedRecipe = [
-      ["蒸らし", "30秒", this.state.currentBeanWeightNumber * 2.5],
-      ["", "45秒", this.state.currentBeanWeightNumber * 5.25],
-      ["", "1分", this.state.currentBeanWeightNumber * 8],
-      ["", "1分30秒", this.state.currentBeanWeightNumber * 12],
-      ["", "2分", this.state.currentBeanWeightNumber * 16],
-      ["落ち切り", "3分", this.state.currentBeanWeightNumber * 16],
+      ["蒸らし", "30秒", this.state.BeanWeightNumber * 2.5],
+      ["", "45秒", this.state.BeanWeightNumber * 5.25],
+      ["", "1分", this.state.BeanWeightNumber * 8],
+      ["", "1分30秒", this.state.BeanWeightNumber * 12],
+      ["", "2分", this.state.BeanWeightNumber * 16],
+      ["落ち切り", "3分", this.state.BeanWeightNumber * 16],
     ];
+
     return (
       <Container>
+        <NavigationEvents
+          onWillFocus={() =>
+            this.setState({
+              recipeCheck: _recipeCheck,
+              BeanWeightNumber: _BeanWeightNumber,
+              title: _title,
+              grindCheck: _grindCheck,
+            })
+          }
+        />
         <ModalHeadBlock style={isIPhoneX() ? { height: 88 } : { height: 64 }}>
           <ModalHeadInnerBlock
             style={isIPhoneX() ? { paddingTop: 36 } : { paddingTop: 24 }}
@@ -101,9 +116,8 @@ class CaliculateScreen extends React.Component {
               <View style={styles.inputBlock}>
                 <TextInput
                   onChangeText={(e) => this.changeTextInput(e)}
-                  value={`${this.state.currentBeanWeightNumber}`}
+                  value={`${this.state.BeanWeightNumber}`}
                   keyboardType={"number-pad"}
-                  enablesReturnKeyAutomatically={true}
                   inputAccessoryViewID={"currentBeanWeightNumber"}
                 />
                 <Text style={[styles.inputText]}>g</Text>
@@ -438,12 +452,12 @@ class CaliculateScreen extends React.Component {
                 this.saveDiarys(
                   this.state.title,
                   this.state.faceID,
-                  this.state.currentBeanWeightNumber,
+                  this.state.BeanWeightNumber,
                   date,
                   this.state.recipeCheck,
                   this.state.grindCheck
                 );
-                this.props.navigation.state.params.refresh();
+                this.props.navigation.state.params.updateComponent();
                 this.props.navigation.navigate("Home");
               }}
             >
@@ -484,7 +498,7 @@ class CaliculateScreen extends React.Component {
   }
 }
 
-export default CaliculateScreen;
+export default CopyScreen;
 
 const ModalHeadBlock = styled.View`
   background: #ffffff;
@@ -497,7 +511,6 @@ const ModalHeadBlock = styled.View`
 
 const ModalHeadInnerBlock = styled.View`
   background: #ffffff;
-  padding-top: 36px;
   padding-left: 20px;
   padding-right: 20px;
   width: 100%;
@@ -605,13 +618,6 @@ const styles = StyleSheet.create({
   },
   modal: {
     justifyContent: "center",
-  },
-  modalTitle: {
-    fontSize: 24,
-    color: "#252525",
-    fontWeight: "bold",
-    justifyContent: "flex-start",
-    alignItems: "flex-start",
   },
   modalText: {
     justifyContent: "flex-start",
