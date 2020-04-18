@@ -3,6 +3,9 @@
 ## 当アプリについて
 個人で運営しているサービスになるため、迅速な対応が難しい場合がございます。
 
+
+![cover](https://github.com/hrtn/Collective/blob/master/src/img/cover.png)
+
 ## 貢献の仕方
 - issueを書く
 - issueの実装を着手する
@@ -12,7 +15,6 @@
 デザインの修正をしたい場合はFigmaのMaster Fileをduplicateして、issueにFigmaのURLを貼るか、変更後のデザイン指示をissueに貼ってください。
 
 https://www.figma.com/file/bF7Iqj16LXuKFHdjRLrgBi/Collective_Design
-
 
 ## 開発者向け情報 
 
