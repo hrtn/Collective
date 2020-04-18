@@ -6,6 +6,9 @@ import {
   View,
   TouchableWithoutFeedback,
   TouchableOpacity,
+  InputAccessoryView,
+  Button,
+  Keyboard,
 } from "react-native";
 import styled from "styled-components/native";
 import { Table, Rows } from "react-native-table-component";
