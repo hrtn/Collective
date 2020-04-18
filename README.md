@@ -25,3 +25,7 @@ https://www.figma.com/file/bF7Iqj16LXuKFHdjRLrgBi/Collective_Design
 
 # install dependencies
 $ npm install
+
+
+## お問い合わせ
+開発者の https://twitter.com/hrtnde にDMでお問い合わせください
