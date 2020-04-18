@@ -101,7 +101,7 @@ class CaliculateScreen extends React.Component {
               <View style={styles.inputBlock}>
                 <TextInput
                   onChangeText={(e) => this.changeTextInput(e)}
-                  value={`${this.state.currentBeanWeightNumber}`}
+                  value={this.state.currentBeanWeightNumber}
                   keyboardType={"number-pad"}
                   enablesReturnKeyAutomatically={true}
                   inputAccessoryViewID={"currentBeanWeightNumber"}
@@ -625,7 +625,7 @@ const styles = StyleSheet.create({
     paddingBottom: 12,
     width: 136,
     borderWidth: 2,
-    borderColor: "#F2994A",
+    borderColor: "#444444",
     borderStyle: "solid",
     padding: 12,
   },
@@ -634,12 +634,12 @@ const styles = StyleSheet.create({
     paddingBottom: 12,
     width: 136,
     borderWidth: 2,
-    borderColor: "#F2994A",
+    borderColor: "#444444",
     borderStyle: "solid",
-    backgroundColor: "#F2994A",
+    backgroundColor: "#444444",
   },
   defaultText: {
-    color: "#F2994A",
+    color: "#444444",
     fontWeight: "600",
     textAlign: "center",
   },
@@ -655,7 +655,7 @@ const styles = StyleSheet.create({
     width: 280,
     backgroundColor: "#252525",
     borderRadius: 8,
-    padding: 12,
+    padding: 16,
   },
   goBackTopButton: {
     width: 280,
@@ -664,15 +664,17 @@ const styles = StyleSheet.create({
     borderColor: "#252525",
     borderStyle: "solid",
     borderRadius: 8,
-    padding: 12,
+    padding: 16,
   },
   goToRecipeText: {
     color: "#ffffff",
     textAlign: "center",
+    fontSize: 16,
   },
   goBackTopText: {
     color: "#252525",
     textAlign: "center",
+    fontSize: 16,
   },
   rowText: {
     padding: 8,
@@ -707,7 +709,7 @@ const styles = StyleSheet.create({
     height: 84,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#F2994A",
+    backgroundColor: "#444444",
     margin: 0,
     borderRadius: 8,
   },

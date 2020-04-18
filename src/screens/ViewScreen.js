@@ -361,7 +361,7 @@ const styles = StyleSheet.create({
     height: 84,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#F2994A",
+    backgroundColor: "#444444",
     margin: 0,
     borderRadius: 8,
   },
@@ -383,11 +383,12 @@ const styles = StyleSheet.create({
     borderStyle: "solid",
     borderRadius: 8,
     marginBottom: 16,
-    padding: 12,
+    padding: 16,
   },
   copyButtonText: {
     color: "#ffffff",
     textAlign: "center",
+    fontSize: 16,
   },
   deleteButton: {
     width: 280,
@@ -396,11 +397,12 @@ const styles = StyleSheet.create({
     borderColor: "#D04646",
     borderStyle: "solid",
     borderRadius: 8,
-    padding: 12,
+    padding: 16,
   },
   deleteButtonText: {
     color: "#D04646",
     textAlign: "center",
+    fontSize: 16,
   },
   rowText: {
     padding: 8,
