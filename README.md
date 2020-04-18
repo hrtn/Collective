@@ -23,10 +23,10 @@ https://www.figma.com/file/bF7Iqj16LXuKFHdjRLrgBi/Collective_Design
 
 
 ### 環境構築の手順
-必要となるNode.jsのバージョン: 10.13.0以上
+```必要となるNode.jsのバージョン: 10.13.0以上```
 
 # install dependencies
-$ npm install
+`$ npm install`
 
 
 ## お問い合わせ
