@@ -354,7 +354,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#f2f2f2",
     margin: 0,
     borderRadius: 8,
-    opacity: 0.7,
+    opacity: 0.6,
   },
   activeEmojiBg: {
     width: 84,
