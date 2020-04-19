@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components/native";
-import { StyleSheet, TouchableOpacity } from "react-native";
+import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   heartEyes: {
