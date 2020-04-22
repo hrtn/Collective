@@ -69,7 +69,7 @@ export default class HomeScreen extends React.Component {
             >
               <EmptyBox>
                 <ImageIcon source={require("../img/ghost.png")} />
-                <EmptyText>NO DIARYS</EmptyText>
+                <EmptyText>NO DIARIES</EmptyText>
               </EmptyBox>
             </View>
           ) : (
