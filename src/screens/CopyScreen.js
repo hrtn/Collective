@@ -11,7 +11,7 @@ import {
   Keyboard,
 } from "react-native";
 import styled from "styled-components/native";
-import { Table, Rows } from "react-native-table-component";
+import RecipeTable from "../components/RecipeTable";
 import moment from "moment";
 import { NavigationEvents } from "react-navigation";
 
@@ -68,23 +68,6 @@ class CopyScreen extends React.Component {
     const _recipeCheck = navigation.getParam("_recipeCheck");
     const _BeanWeightNumber = navigation.getParam("_BeanWeightNumber");
     const _grindCheck = navigation.getParam("_grindCheck");
-    const defaultRecipe = [
-      ["蒸らし", "30秒", this.state.BeanWeightNumber * 2.5],
-      ["", "1分", this.state.BeanWeightNumber * 5.25],
-      ["", "1分30秒", this.state.BeanWeightNumber * 8],
-      ["", "2分", this.state.BeanWeightNumber * 12],
-      ["", "2分30秒", this.state.BeanWeightNumber * 16],
-      ["落ち切り", "3分30秒", this.state.BeanWeightNumber * 16],
-    ];
-    const unlimitedRecipe = [
-      ["蒸らし", "30秒", this.state.BeanWeightNumber * 2.5],
-      ["", "45秒", this.state.BeanWeightNumber * 5.25],
-      ["", "1分", this.state.BeanWeightNumber * 8],
-      ["", "1分30秒", this.state.BeanWeightNumber * 12],
-      ["", "2分", this.state.BeanWeightNumber * 16],
-      ["落ち切り", "3分", this.state.BeanWeightNumber * 16],
-    ];
-
     return (
       <Container>
         <NavigationEvents
@@ -286,22 +269,10 @@ class CopyScreen extends React.Component {
               <Text style={[styles.modalText, { marginBottom: 16 }]}>
                 コーヒーのレシピ
               </Text>
-              <Table
-                borderStyle={{
-                  borderWidth: 1,
-                  borderColor: "#e8e8e8",
-                }}
-              >
-                <Rows
-                  data={
-                    this.state.recipeCheck == "dark"
-                      ? unlimitedRecipe
-                      : defaultRecipe
-                  }
-                  textStyle={styles.rowText}
-                  style={{ width: 280, backgroundColor: "#F6F6F6" }}
-                />
-              </Table>
+              <RecipeTable 
+                data={this.state.recipeCheck} 
+                currentBeanWeightNumber={this.state.BeanWeightNumber}
+              />
             </View>
             <View style={{ width: 280, marginBottom: 16 }}>
               <Text style={[styles.modalText, { marginBottom: 16 }]}>

@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import styled from "styled-components/native";
-import { Table, Rows } from "react-native-table-component";
+import RecipeTable from "../components/RecipeTable";
 
 import * as SQLite from "expo-sqlite";
 
@@ -42,22 +42,6 @@ class ViewScreen extends React.Component {
     const date = navigation.getParam("date");
     const id = navigation.getParam("id");
     const grindCheck = navigation.getParam("grindCheck");
-    const defaultRecipe = [
-      ["蒸らし", "30秒", BeanWeightNumber * 2.5],
-      ["", "1分", BeanWeightNumber * 5.25],
-      ["", "1分30秒", BeanWeightNumber * 8],
-      ["", "2分", BeanWeightNumber * 12],
-      ["", "2分30秒", BeanWeightNumber * 16],
-      ["落ち切り", "3分30秒", BeanWeightNumber * 16],
-    ];
-    const unlimitedRecipe = [
-      ["蒸らし", "30秒", BeanWeightNumber * 2.5],
-      ["", "45秒", BeanWeightNumber * 5.25],
-      ["", "1分", BeanWeightNumber * 8],
-      ["", "1分30秒", BeanWeightNumber * 12],
-      ["", "2分", BeanWeightNumber * 16],
-      ["落ち切り", "3分", BeanWeightNumber * 16],
-    ];
     return (
       <Container>
         <ScrollView>
@@ -117,7 +101,7 @@ class ViewScreen extends React.Component {
                 {title}
               </Text>
             </View>
-            <View style={{ width: 280 }}>
+            <View style={{ width: 280, marginBottom: 24 }}>
               <Text style={[styles.modalText, { marginBottom: 16 }]}>
                 豆の挽き具合
               </Text>
@@ -125,7 +109,6 @@ class ViewScreen extends React.Component {
                 style={[
                   styles.modalText,
                   {
-                    marginBottom: 24,
                     backgroundColor: "#F6F6F6",
                     padding: 16,
                     fontSize: 18,
@@ -136,26 +119,17 @@ class ViewScreen extends React.Component {
                 {grindCheck}
               </Text>
             </View>
-            <View style={{ width: 280 }}>
+            <View style={{ width: 280, marginBottom: 24 }}>
               <Text style={[styles.modalText, { marginBottom: 16 }]}>
                 {recipeCheck == "light"
                   ? "浅煎りコーヒーのレシピ"
                   : "深煎りコーヒーのレシピ"}
               </Text>
-            </View>
-            <Table
-              borderStyle={{
-                borderWidth: 1,
-                borderColor: "#e8e8e8",
-              }}
-              style={{ marginBottom: 24 }}
-            >
-              <Rows
-                data={recipeCheck == "dark" ? unlimitedRecipe : defaultRecipe}
-                textStyle={styles.rowText}
-                style={{ width: 280, backgroundColor: "#F6F6F6" }}
+              <RecipeTable 
+                data={recipeCheck} 
+                currentBeanWeightNumber={BeanWeightNumber}
               />
-            </Table>
+            </View>
             <View>
               <Text style={[styles.modalText, { marginBottom: 16 }]}>
                 味の感想
