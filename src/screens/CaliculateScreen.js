@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import {
   Text,
   ScrollView,
@@ -11,7 +11,7 @@ import {
   Keyboard,
 } from "react-native";
 import styled from "styled-components/native";
-import { Table, Rows } from "react-native-table-component";
+import RecipeTable from "../components/RecipeTable";
 import moment from "moment";
 
 import { isIPhoneX } from "../lib/windowsize";
@@ -61,22 +61,6 @@ class CaliculateScreen extends React.Component {
     });
   }
   render() {
-    const defaultRecipe = [
-      ["蒸らし", "30秒", this.state.currentBeanWeightNumber * 2.5],
-      ["", "1分", this.state.currentBeanWeightNumber * 5.25],
-      ["", "1分30秒", this.state.currentBeanWeightNumber * 8],
-      ["", "2分", this.state.currentBeanWeightNumber * 12],
-      ["", "2分30秒", this.state.currentBeanWeightNumber * 16],
-      ["落ち切り", "3分30秒", this.state.currentBeanWeightNumber * 16],
-    ];
-    const unlimitedRecipe = [
-      ["蒸らし", "30秒", this.state.currentBeanWeightNumber * 2.5],
-      ["", "45秒", this.state.currentBeanWeightNumber * 5.25],
-      ["", "1分", this.state.currentBeanWeightNumber * 8],
-      ["", "1分30秒", this.state.currentBeanWeightNumber * 12],
-      ["", "2分", this.state.currentBeanWeightNumber * 16],
-      ["落ち切り", "3分", this.state.currentBeanWeightNumber * 16],
-    ];
     return (
       <Container>
         <ModalHeadBlock style={isIPhoneX() ? { height: 88 } : { height: 64 }}>
@@ -269,22 +253,10 @@ class CaliculateScreen extends React.Component {
               <Text style={[styles.modalText, { marginBottom: 16 }]}>
                 コーヒーのレシピ
               </Text>
-              <Table
-                borderStyle={{
-                  borderWidth: 1,
-                  borderColor: "#e8e8e8",
-                }}
-              >
-                <Rows
-                  data={
-                    this.state.recipeCheck == "dark"
-                      ? unlimitedRecipe
-                      : defaultRecipe
-                  }
-                  textStyle={styles.rowText}
-                  style={{ width: 280, backgroundColor: "#F6F6F6" }}
-                />
-              </Table>
+              <RecipeTable 
+                data={this.state.recipeCheck} 
+                currentBeanWeightNumber={this.state.currentBeanWeightNumber}
+              />
             </View>
             <View style={{ width: 280, marginBottom: 16 }}>
               <Text style={[styles.modalText, { marginBottom: 16 }]}>
@@ -675,9 +647,6 @@ const styles = StyleSheet.create({
     color: "#252525",
     textAlign: "center",
     fontSize: 16,
-  },
-  rowText: {
-    padding: 8,
   },
   beanWeightText: {
     fontSize: 16,
