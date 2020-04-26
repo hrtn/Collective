@@ -272,7 +272,7 @@ class CopyScreen extends React.Component {
                 コーヒーのレシピ
               </Text>
               <RecipeTable
-                data={this.state.recipeCheck}
+                recipeCheck={this.state.recipeCheck}
                 date={date}
                 currentBeanWeightNumber={this.state.BeanWeightNumber}
               />

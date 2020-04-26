@@ -126,7 +126,7 @@ class ViewScreen extends React.Component {
                   : "深煎りコーヒーのレシピ"}
               </Text>
               <RecipeTable
-                data={recipeCheck}
+                recipeCheck={recipeCheck}
                 date={date}
                 currentBeanWeightNumber={BeanWeightNumber}
               />
