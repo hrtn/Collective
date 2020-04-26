@@ -47,6 +47,7 @@ const TouchableNotification = styled.TouchableOpacity`
 
 const Container = styled.View`
   background-color: white;
+  height: 80px;
   border: 2px solid #d04646;
   border-radius: 15px;
   padding: 16px;
@@ -61,7 +62,6 @@ const IconBox = styled.View`
 `;
 
 const InnnerText = styled.Text`
-  width: 95%;
   font-size: 20px;
   font-weight: bold;
 `;
