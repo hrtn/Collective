@@ -68,6 +68,8 @@ class CopyScreen extends React.Component {
     const _recipeCheck = navigation.getParam("_recipeCheck");
     const _BeanWeightNumber = navigation.getParam("_BeanWeightNumber");
     const _grindCheck = navigation.getParam("_grindCheck");
+    const currentDate = new Date();
+    const date = moment(currentDate).format("YYYY-MM-DD");
     return (
       <Container>
         <NavigationEvents
@@ -269,8 +271,9 @@ class CopyScreen extends React.Component {
               <Text style={[styles.modalText, { marginBottom: 16 }]}>
                 コーヒーのレシピ
               </Text>
-              <RecipeTable 
-                data={this.state.recipeCheck} 
+              <RecipeTable
+                data={this.state.recipeCheck}
+                date={date}
                 currentBeanWeightNumber={this.state.BeanWeightNumber}
               />
             </View>
@@ -421,8 +424,6 @@ class CopyScreen extends React.Component {
             </View>
             <TouchableOpacity
               onPress={() => {
-                const currentDate = new Date();
-                const date = moment(currentDate).format("YYYY-MM-DD");
                 this.saveDiarys(
                   this.state.title,
                   this.state.faceID,

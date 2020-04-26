@@ -61,6 +61,8 @@ class CaliculateScreen extends React.Component {
     });
   }
   render() {
+    const currentDate = new Date();
+    const date = moment(currentDate).format("YYYY-MM-DD");
     return (
       <Container>
         <ModalHeadBlock style={isIPhoneX() ? { height: 88 } : { height: 64 }}>
@@ -253,8 +255,9 @@ class CaliculateScreen extends React.Component {
               <Text style={[styles.modalText, { marginBottom: 16 }]}>
                 コーヒーのレシピ
               </Text>
-              <RecipeTable 
-                data={this.state.recipeCheck} 
+              <RecipeTable
+                data={this.state.recipeCheck}
+                date={date}
                 currentBeanWeightNumber={this.state.currentBeanWeightNumber}
               />
             </View>
@@ -405,8 +408,6 @@ class CaliculateScreen extends React.Component {
             </View>
             <TouchableOpacity
               onPress={() => {
-                const currentDate = new Date();
-                const date = moment(currentDate).format("YYYY-MM-DD");
                 this.saveDiarys(
                   this.state.title,
                   this.state.faceID,
