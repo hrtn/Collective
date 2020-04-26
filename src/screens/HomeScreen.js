@@ -3,6 +3,7 @@ import { Text, ScrollView, View, StyleSheet } from "react-native";
 import styled from "styled-components/native";
 import FAB from "react-native-fab";
 import Card from "../components/Card";
+import Notification from "../components/Notification";
 
 import * as SQLite from "expo-sqlite";
 const db = SQLite.openDatabase("db.sqlite", "ver1.1");
@@ -57,6 +58,13 @@ export default class HomeScreen extends React.Component {
     return (
       <Container>
         <ScrollView>
+          <Notification
+            href={
+              "https://www.notion.so/2020-04-26-fd7c83b6a79c422c86c1146592c7e1fe"
+            }
+            text={"レシピに関するお知らせ"}
+            date={"2020-04-24"}
+          />
           {cards === null || cards.length === 0 ? (
             <View
               style={{
