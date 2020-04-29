@@ -12,6 +12,8 @@ import {
 } from "react-native";
 import styled from "styled-components/native";
 import RecipeTable from "../components/RecipeTable";
+import Timer from "../components/Timer";
+
 import moment from "moment";
 
 import { isIPhoneX } from "../lib/windowsize";
@@ -258,6 +260,15 @@ class CaliculateScreen extends React.Component {
               <RecipeTable
                 recipeCheck={this.state.recipeCheck}
                 date={date}
+                currentBeanWeightNumber={this.state.currentBeanWeightNumber}
+              />
+            </View>
+            <View style={{ width: 280, marginBottom: 24 }}>
+              <Text style={[styles.modalText, { marginBottom: 16 }]}>
+                ドリップタイマー
+              </Text>
+              <Timer
+                recipeCheck={this.state.recipeCheck}
                 currentBeanWeightNumber={this.state.currentBeanWeightNumber}
               />
             </View>
