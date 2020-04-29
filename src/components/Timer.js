@@ -49,7 +49,6 @@ class Timer extends React.Component {
     const time4 = this.props.recipeCheck == "light" ? 120 : 90;
     const time5 = this.props.recipeCheck == "light" ? 150 : 120;
     const time6 = this.props.recipeCheck == "light" ? 180 : 150;
-    const seconds = parseInt(this.state.time % 60, 10);
     return (
       <FlexBox>
         <TimerBox>
@@ -99,12 +98,9 @@ class Timer extends React.Component {
               );
             else if (this.state.time > time5 && this.state.time <= time6)
               return (
-                <MessageText>
-                  現在のお湯の総量 :{this.props.currentBeanWeightNumber * 16}g
-                </MessageText>
+                <MessageText>あとは落ち切りまで待ちましょう！</MessageText>
               );
-            else
-              return <MessageText>あとは落ち切りまで待ちましょう</MessageText>;
+            else return <MessageText>コーヒーが完成しました！</MessageText>;
           })()}
         </TextBox>
         {this.state.isStart ? (

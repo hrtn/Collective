@@ -15,7 +15,7 @@
     ],
     "icon": "./src/img/app_icon.png",
     "ios": {
-      "buildNumber": "1",
+      "buildNumber": "1.1",
       "icon": "./src/img/app_icon.png",
       "bundleIdentifier": "io.github.hrtn.collective"
     },
