@@ -43,11 +43,11 @@ class Timer extends React.Component {
     return ("00" + time).slice(-2);
   }
   render() {
-    const time1 = this.props.recipeCheck == "light" ? 30 : 30;
-    const time2 = this.props.recipeCheck == "light" ? 60 : 45;
-    const time3 = this.props.recipeCheck == "light" ? 90 : 60;
-    const time4 = this.props.recipeCheck == "light" ? 120 : 90;
-    const time5 = this.props.recipeCheck == "light" ? 180 : 150;
+    const time1 = this.props.recipeCheck == "dark" ? 30 : 30;
+    const time2 = this.props.recipeCheck == "dark" ? 45 : 60;
+    const time3 = this.props.recipeCheck == "dark" ? 60 : 90;
+    const time4 = this.props.recipeCheck == "dark" ? 90 : 120;
+    const time5 = this.props.recipeCheck == "dark" ? 150 : 180;
     return (
       <FlexBox>
         <TimerBox>
