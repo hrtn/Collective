@@ -47,8 +47,7 @@ class Timer extends React.Component {
     const time2 = this.props.recipeCheck == "light" ? 60 : 45;
     const time3 = this.props.recipeCheck == "light" ? 90 : 60;
     const time4 = this.props.recipeCheck == "light" ? 120 : 90;
-    const time5 = this.props.recipeCheck == "light" ? 150 : 120;
-    const time6 = this.props.recipeCheck == "light" ? 180 : 150;
+    const time5 = this.props.recipeCheck == "light" ? 180 : 150;
     return (
       <FlexBox>
         <TimerBox>
@@ -66,37 +65,54 @@ class Timer extends React.Component {
           {(() => {
             if (this.state.time == 0)
               return <MessageText>ドリップを開始してください</MessageText>;
-            else if (this.state.time > 0 && this.state.time <= time1)
+            else if (this.state.time > 0 && this.state.time <= 5)
+              return (
+                <MessageText>
+                  {this.props.currentBeanWeightNumber * 2.5}
+                  gのお湯を入れましょう!
+                </MessageText>
+              );
+            else if (this.state.time > 5 && this.state.time <= time1 - 5)
               return (
                 <MessageText>
                   現在のお湯の総量 :{this.props.currentBeanWeightNumber * 2.5}g
                 </MessageText>
               );
-            else if (this.state.time > time1 && this.state.time <= time2)
+            else if (this.state.time > time1 - 5 && this.state.time <= time1)
+              return <MessageText>次のお湯を入れる準備をしよう！</MessageText>;
+            else if (this.state.time > time1 && this.state.time <= time2 - 5)
               return (
                 <MessageText>
                   現在のお湯の総量 :{this.props.currentBeanWeightNumber * 5.25}g
                 </MessageText>
               );
-            else if (this.state.time > time2 && this.state.time <= time3)
+            else if (this.state.time > time2 - 5 && this.state.time <= time2)
+              return <MessageText>次のお湯を入れる準備をしよう！</MessageText>;
+            else if (this.state.time > time2 && this.state.time <= time3 - 5)
               return (
                 <MessageText>
                   現在のお湯の総量 :{this.props.currentBeanWeightNumber * 8}g
                 </MessageText>
               );
-            else if (this.state.time > time3 && this.state.time <= time4)
+            else if (this.state.time > time3 - 5 && this.state.time <= time3)
+              return <MessageText>次のお湯を入れる準備をしよう！</MessageText>;
+            else if (this.state.time > time3 && this.state.time <= time4 - 5)
               return (
                 <MessageText>
                   現在のお湯の総量 :{this.props.currentBeanWeightNumber * 12}g
                 </MessageText>
               );
-            else if (this.state.time > time4 && this.state.time <= time5)
+            else if (this.state.time > time4 - 5 && this.state.time <= time4)
+              return (
+                <MessageText>最後のお湯を入れる準備をしよう！</MessageText>
+              );
+            else if (this.state.time > time4 && this.state.time <= time4 + 5)
               return (
                 <MessageText>
                   現在のお湯の総量 :{this.props.currentBeanWeightNumber * 16}g
                 </MessageText>
               );
-            else if (this.state.time > time5 && this.state.time <= time6)
+            else if (this.state.time > time4 + 5 && this.state.time <= time5)
               return (
                 <MessageText>あとは落ち切りまで待ちましょう！</MessageText>
               );
